@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import * as paper from 'paper';
 
 @Component({
-  selector: 'app-wave.card',
+  selector: 'app-wave-card',
   templateUrl: './wave.card.component.html',
   styleUrls: ['./wave.card.component.scss']
 })
