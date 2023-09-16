@@ -7,12 +7,14 @@ import { AppComponent } from './app.component';
 
 import { PresentationComponent } from './presentation/presentation.component';
 import { WaveCardComponent } from './wave.card/wave.card.component';
+import { LogoComponent } from './logo/logo.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     PresentationComponent,
-    WaveCardComponent
+    WaveCardComponent,
+    LogoComponent
   ],
   imports: [
     BrowserModule,
