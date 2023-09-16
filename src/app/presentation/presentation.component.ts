@@ -53,13 +53,13 @@ export class PresentationComponent {
       if (circle.position.getDistance(finalPosition) < 1) {
         circle.position = finalPosition;
         text.position = circle.position;
-        movementEnded = true
+        movementEnded = true;
       }
 
       if (circle.bounds.width < finalRadius * 2) {
         circle.scale((finalRadius * 2) / circle.bounds.width);
         text.fontSize = 14;
-        resizedEnded = true
+        resizedEnded = true;
       }
 
       if (movementEnded && resizedEnded) {
@@ -67,7 +67,9 @@ export class PresentationComponent {
       }
     }
 
-    const view = paper.view;
-    view.onFrame = onFrame;
+    setTimeout(() => {
+      const view = paper.view;
+      view.onFrame = onFrame;
+    }, 1500);
   }
 }
