@@ -5,16 +5,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { PresentationComponent } from './presentation/presentation.component';
-import { WaveCardComponent } from './wave.card/wave.card.component';
-import { LogoComponent } from './logo/logo.component';
+import { PresentationComponent } from './components/presentation/presentation.component';
+import { WaveCardComponent } from './components/wave.card/wave.card.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     PresentationComponent,
     WaveCardComponent,
-    LogoComponent
   ],
   imports: [
     BrowserModule,

@@ -8,6 +8,10 @@ import * as paper from 'paper';
 })
 export class PresentationComponent {
   ngAfterViewInit() {
+    this.presentationAnimation();
+  }
+
+  presentationAnimation() {
     const canvas = document.getElementById(
       'presentation-canvas'
     ) as HTMLCanvasElement;
@@ -64,6 +68,11 @@ export class PresentationComponent {
 
       if (movementEnded && resizedEnded) {
         paper.view.off('frame', onFrame);
+        canvas.style.display = 'none';
+        const logo = document.getElementById(
+          'logo'
+        ) as HTMLCanvasElement;
+        logo.style.display = "flex";
       }
     }
 
