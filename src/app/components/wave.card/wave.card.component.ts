@@ -7,7 +7,6 @@ import * as paper from 'paper';
   styleUrls: ['./wave.card.component.scss'],
 })
 export class WaveCardComponent {
-  @Input() backgroundColor!: string;
   @ViewChild('canvasElement', { static: true })
   canvasElement!: ElementRef<HTMLCanvasElement>;
 
@@ -16,11 +15,26 @@ export class WaveCardComponent {
   }
 
   waveCardAnimation() {
-    const canvas = this.canvasElement.nativeElement;
-    canvas.style.backgroundColor = this.backgroundColor;
+    paper.setup("wave-card_canvas")
+    var division = document.getElementById('container');
+    division.addEventListener('mousemove', onMouseMove);
 
-    // paper.setup(canvas);
-    // const circle = new paper.Path.Circle(new paper.Point(500, 100), 10);
-    // circle.fillColor = new paper.Color('red');
+    // Define la función onMouseMove
+    function onMouseMove(event) {
+      // Calcula la posición horizontal del mouse dentro del contenedor
+      var mouseX = event.clientX - division.getBoundingClientRect().left;
+      var halfWidth = division.clientWidth / 2;
+
+      // Calcula el desplazamiento vertical basado en la posición horizontal del mouse
+      var offsetY = Math.sin((mouseX / halfWidth) * Math.PI) * 20;
+
+      // Aplica la transformación a las mitades del contenedor
+      document.getElementById(
+        'white-half'
+      ).style.transform = `translateY(${offsetY}px)`;
+      document.getElementById(
+        'black-half'
+      ).style.transform = `translateY(${-offsetY}px)`;
+    }
   }
 }
