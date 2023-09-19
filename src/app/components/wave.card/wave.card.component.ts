@@ -1,22 +1,26 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewChild, ElementRef } from '@angular/core';
 import * as paper from 'paper';
 
 @Component({
   selector: 'app-wave-card',
   templateUrl: './wave.card.component.html',
-  styleUrls: ['./wave.card.component.scss']
+  styleUrls: ['./wave.card.component.scss'],
 })
 export class WaveCardComponent {
   @Input() backgroundColor!: string;
+  @ViewChild('canvasElement', { static: true })
+  canvasElement!: ElementRef<HTMLCanvasElement>;
 
   ngAfterViewInit() {
-    const canvas = document.getElementById(
-      'canvas-wave-card'
-    ) as HTMLCanvasElement;
+    this.waveCardAnimation();
+  }
+
+  waveCardAnimation() {
+    const canvas = this.canvasElement.nativeElement;
     canvas.style.backgroundColor = this.backgroundColor;
 
     // paper.setup(canvas);
-    // var myCircle = new paper.Path.Circle(new paper.Point(100, 70), 50);
-    // myCircle.fillColor = new paper.Color('red');
+    // const circle = new paper.Path.Circle(new paper.Point(500, 100), 10);
+    // circle.fillColor = new paper.Color('red');
   }
 }

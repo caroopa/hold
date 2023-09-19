@@ -7,8 +7,10 @@ import * as paper from 'paper';
   styleUrls: ['./presentation.component.scss'],
 })
 export class PresentationComponent {
+  // imageURL: string = '../../assets/img/logo.jpg';
+
   ngAfterViewInit() {
-    this.presentationAnimation();
+    // this.presentationAnimation();
   }
 
   presentationAnimation() {
@@ -19,6 +21,10 @@ export class PresentationComponent {
 
     // const circle = new paper.Path.Circle(new paper.Point(80, 80), 50);
     // circle.fillColor = new paper.Color('black');
+
+    // var raster = new paper.Raster('logo');
+    // raster.position = paper.view.center;
+    // raster.scale(0.1, 0.1)
 
     const circle = new paper.Path.Circle({
       center: new paper.Point(paper.view.center.x, paper.view.center.y),
@@ -49,7 +55,7 @@ export class PresentationComponent {
       );
 
       if (fontSize > finalFontSize) {
-        fontSize -= 0.1; // Ajusta la velocidad de cambio de tamaño
+        fontSize -= 0.1;
         text.fontSize = fontSize;
       }
       text.position = circle.position;
@@ -69,10 +75,8 @@ export class PresentationComponent {
       if (movementEnded && resizedEnded) {
         paper.view.off('frame', onFrame);
         canvas.style.display = 'none';
-        const logo = document.getElementById(
-          'logo'
-        ) as HTMLCanvasElement;
-        logo.style.display = "flex";
+        const logo = document.getElementById('logo') as HTMLCanvasElement;
+        logo.style.display = 'flex';
       }
     }
 
