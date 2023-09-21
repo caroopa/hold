@@ -1,9 +1,10 @@
 <div class="wave-card">
-  <canvas class="wave-card_canvas" #canvasElement></canvas>
-  <div class="wave-card_content white">
+  <canvas id="whiteCanvas" (mouseenter)="waveCardAnimation('blackCanvas')"></canvas>
+  <canvas id="blackCanvas" (mouseenter)="waveCardAnimation('whiteCanvas')"></canvas>
+  <!-- <div class="wave-card_content white">
     <h1>Hola</h1>
   </div>
   <div class="wave-card_content black">
     <h1>Hola</h1>
-  </div>
+  </div> -->
 </div>

@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, Input, ViewChild, ElementRef, NgZone } from '@angular/core';
 import * as paper from 'paper';
 
 @Component({
@@ -7,34 +7,69 @@ import * as paper from 'paper';
   styleUrls: ['./wave.card.component.scss'],
 })
 export class WaveCardComponent {
-  @ViewChild('canvasElement', { static: true })
-  canvasElement!: ElementRef<HTMLCanvasElement>;
-
   ngAfterViewInit() {
-    this.waveCardAnimation();
+    paper.setup('whiteCanvas');
+    paper.setup('blackCanvas');
   }
 
-  waveCardAnimation() {
-    paper.setup("wave-card_canvas")
-    var division = document.getElementById('container');
-    division.addEventListener('mousemove', onMouseMove);
+  waveCardAnimation(idCanvas: string) {
+    const canvas = document.getElementById(idCanvas) as HTMLCanvasElement;
+    paper.setup(idCanvas);
 
-    // Define la función onMouseMove
-    function onMouseMove(event) {
-      // Calcula la posición horizontal del mouse dentro del contenedor
-      var mouseX = event.clientX - division.getBoundingClientRect().left;
-      var halfWidth = division.clientWidth / 2;
-
-      // Calcula el desplazamiento vertical basado en la posición horizontal del mouse
-      var offsetY = Math.sin((mouseX / halfWidth) * Math.PI) * 20;
-
-      // Aplica la transformación a las mitades del contenedor
-      document.getElementById(
-        'white-half'
-      ).style.transform = `translateY(${offsetY}px)`;
-      document.getElementById(
-        'black-half'
-      ).style.transform = `translateY(${-offsetY}px)`;
+    var points = 8;
+    var smooth = true;
+    if (idCanvas == 'blackCanvas') {
+      var path = new paper.Path({
+        fillColor: 'black',
+      });
+    } else {
+      var path = new paper.Path({
+        fillColor: 'white',
+      });
     }
+
+    const width = paper.view.size.width;
+    const widthRight = width / 8;
+    const widthLeft = width - widthRight;
+    const height = paper.view.size.height;
+    path.segments = [];
+
+    if (idCanvas == 'blackCanvas') {
+      path.add(paper.view.bounds.topLeft);
+      for (var i = 1; i < points; i++) {
+        var point = new paper.Point(widthRight, (height / points) * i);
+        path.add(point);
+      }
+      path.add(paper.view.bounds.bottomLeft);
+    } else {
+      path.add(paper.view.bounds.topRight);
+      for (var i = 1; i < points; i++) {
+        var point = new paper.Point(widthLeft, (height / points) * i);
+        path.add(point);
+      }
+      path.add(paper.view.bounds.bottomRight);
+    }
+
+    paper.view.onFrame = function (event: any) {
+      for (var i = 1; i < points; i++) {
+        var sinSeed = event.time + (i + (i % 10)) * 100;
+        var sinWidth, xPos;
+        if (idCanvas == 'blackCanvas') {
+          sinWidth = Math.sin(sinSeed / 200) * widthRight;
+          xPos = Math.sin(sinSeed / 100) * sinWidth + widthRight;
+        } else {
+          sinWidth = Math.sin(sinSeed / 200) * widthLeft;
+          xPos = Math.sin(sinSeed / 100) * sinWidth + widthLeft;
+        }
+        path.segments[i].point.x = xPos;
+      }
+      if (smooth) {
+        path.smooth({ type: 'continuous' });
+      }
+    };
+
+    setTimeout(() => {
+      paper.project.clear();
+    }, 3000);
   }
 }
