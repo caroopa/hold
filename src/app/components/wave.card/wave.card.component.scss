@@ -1,32 +1,50 @@
 :host,
-.wave-card {
+.wave-card,
+#whiteCanvas,
+#blackCanvas {
   width: 100%;
   height: 100%;
+}
+
+.wave-card {
   position: relative;
+  display: flex;
 }
 
 #whiteCanvas,
 #blackCanvas {
-  width: 50%;
-  height: 100%;
+  position: absolute;
+  top: 0;
+  z-index: 1;
+  opacity: 0;
+}
+
+#whiteCanvas {
+  left: 0;
+}
+
+#blackCanvas {
+  right: 0;
 }
 
 .wave-card_content {
+  position: relative;
   width: 50%;
   height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: aquamarine;
+  color: red;
 }
 
 .white {
-  background-color: white;
+  // background-color: white;
 }
 
 .black {
   background-color: black;
+}
+
+.wave-card_content > * {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 100;
 }

@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild, ElementRef, NgZone } from '@angular/core';
+import { Component } from '@angular/core';
 import * as paper from 'paper';
 
 @Component({
@@ -14,62 +14,89 @@ export class WaveCardComponent {
 
   waveCardAnimation(idCanvas: string) {
     const canvas = document.getElementById(idCanvas) as HTMLCanvasElement;
+    canvas.style.opacity = '1';
     paper.setup(idCanvas);
 
-    var points = 8;
-    var smooth = true;
-    if (idCanvas == 'blackCanvas') {
-      var path = new paper.Path({
-        fillColor: 'black',
-      });
-    } else {
-      var path = new paper.Path({
-        fillColor: 'white',
-      });
-    }
-
     const width = paper.view.size.width;
-    const widthRight = width / 8;
-    const widthLeft = width - widthRight;
+    const middle = width / 2;
+    const widthWave = 25;
+    const startWhite = middle - widthWave;
+    const widthWhite = middle + widthWave;
+    const startBlack = middle + widthWave;
+    const widthBlack = middle - widthWave;
     const height = paper.view.size.height;
-    path.segments = [];
 
-    if (idCanvas == 'blackCanvas') {
-      path.add(paper.view.bounds.topLeft);
+    var rect = new paper.Path.Rectangle({
+      point: paper.view.bounds.topLeft,
+      size: [middle, height],
+      fillColor: 'white',
+    });
+
+    const points = 5;
+    const smooth = true;
+    // if (idCanvas == 'blackCanvas') {
+    //   var path = new paper.Path({
+    //     fillColor: 'black',
+    //   });
+    // } else {
+    //   var path = new paper.Path({
+    //     fillColor: 'white',
+    //   });
+    // }
+    var path = new paper.Path({
+      fillColor: 'white',
+    });
+    path.segments = [];
+    
+    if (idCanvas == 'whiteCanvas') {
+      path.add([middle, 0]);
       for (var i = 1; i < points; i++) {
-        var point = new paper.Point(widthRight, (height / points) * i);
+        const point = new paper.Point(widthWhite, (height / points) * i);
         path.add(point);
       }
-      path.add(paper.view.bounds.bottomLeft);
+      path.add([middle, height]);
     } else {
-      path.add(paper.view.bounds.topRight);
+      path.add([middle, 0]);
       for (var i = 1; i < points; i++) {
-        var point = new paper.Point(widthLeft, (height / points) * i);
+        const point = new paper.Point(widthBlack, (height / points) * i);
         path.add(point);
       }
-      path.add(paper.view.bounds.bottomRight);
+      path.add([middle, height]);
     }
 
-    paper.view.onFrame = function (event: any) {
+    function onFrame(event: any) {
+      rect.bounds.size = new paper.Size(middle, height)
+
       for (var i = 1; i < points; i++) {
-        var sinSeed = event.time + (i + (i % 10)) * 100;
-        var sinWidth, xPos;
-        if (idCanvas == 'blackCanvas') {
-          sinWidth = Math.sin(sinSeed / 200) * widthRight;
-          xPos = Math.sin(sinSeed / 100) * sinWidth + widthRight;
+        const sinSeed = event.count + (i + (i % 10)) * 100;
+        const sinWidth = Math.sin(sinSeed / 200) * 100;
+        const xPos = Math.sin(sinSeed / 100) * sinWidth + widthWave * 2;
+        
+        if (idCanvas == 'whiteCanvas') {
+          path.segments[i].point.x = startWhite + xPos;
         } else {
-          sinWidth = Math.sin(sinSeed / 200) * widthLeft;
-          xPos = Math.sin(sinSeed / 100) * sinWidth + widthLeft;
+          path.segments[i].point.x = startBlack - xPos;
         }
-        path.segments[i].point.x = xPos;
       }
-      if (smooth) {
-        path.smooth({ type: 'continuous' });
+
+      const union = rect.unite(path);
+      const intersection = rect.intersect(path);
+      if (intersection) {
+        const result = union.subtract(intersection);
+        rect.remove()
+        path.remove()
+        result.smooth({ type: 'continuous' });
+        paper.project.activeLayer.removeChildren();
+        paper.project.activeLayer.addChild(result);
       }
-    };
+    }
+
+    const view = paper.view;
+    view.onFrame = onFrame;
 
     setTimeout(() => {
       paper.project.clear();
+      canvas.style.opacity = '0';
     }, 3000);
   }
 }
