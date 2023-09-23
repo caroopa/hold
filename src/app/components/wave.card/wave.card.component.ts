@@ -12,9 +12,11 @@ export class WaveCardComponent {
   }
 
   waveCardAnimation() {
-    const canvas = document.getElementById('whiteCanvas') as HTMLCanvasElement;
+    const canvas = document.getElementById(
+      'wave-card-canvas'
+    ) as HTMLCanvasElement;
     canvas.style.opacity = '1';
-    paper.setup('whiteCanvas');
+    paper.setup('wave-card-canvas');
 
     const width = paper.view.size.width;
     const middle = width / 2;
@@ -22,7 +24,7 @@ export class WaveCardComponent {
     const startWhite = middle - widthWave;
     const widthWhite = middle + widthWave;
     const height = paper.view.size.height;
-    var mousePos
+    var mousePos;
 
     var rectBlack = new paper.Path.Rectangle({
       point: paper.view.bounds.topLeft,
@@ -52,13 +54,8 @@ export class WaveCardComponent {
     }, 2000);
 
     // ------- ONFRAME -------
-    const targetPos = new paper.Point(middle, height / 2);
-    // ------
-    const punto1 = new paper.Path.Circle(targetPos, 5);
-    punto1.fillColor = new paper.Color('red');
-    paper.project.activeLayer.addChild(punto1);
-    // ------
 
+    const targetPos = new paper.Point(middle, height / 2);
     function onFrame() {
       if (!isFollowingMouse) {
         const distance = targetPos.subtract(path.segments[1].point);
@@ -95,11 +92,6 @@ export class WaveCardComponent {
         const result = union.subtract(intersection);
         paper.project.activeLayer.addChild(result);
       }
-      // ------
-      const punto2 = new paper.Path.Circle(path.segments[1].point, 5);
-      paper.project.activeLayer.addChild(punto1);
-      paper.project.activeLayer.addChild(punto2);
-      // ------
     }
 
     paper.view.onMouseMove = onMouseMove;
