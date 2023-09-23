@@ -8,23 +8,28 @@ import * as paper from 'paper';
 })
 export class WaveCardComponent {
   ngAfterViewInit() {
-    paper.setup('whiteCanvas');
-    paper.setup('blackCanvas');
+    this.waveCardAnimation();
   }
 
-  waveCardAnimation(idCanvas: string) {
-    const canvas = document.getElementById(idCanvas) as HTMLCanvasElement;
+  waveCardAnimation() {
+    const canvas = document.getElementById('whiteCanvas') as HTMLCanvasElement;
     canvas.style.opacity = '1';
-    paper.setup(idCanvas);
+    paper.setup('whiteCanvas');
 
     const width = paper.view.size.width;
     const middle = width / 2;
     const widthWave = 25;
     const startWhite = middle - widthWave;
     const widthWhite = middle + widthWave;
-    const startBlack = middle + widthWave;
-    const widthBlack = middle - widthWave;
     const height = paper.view.size.height;
+    var mousePos
+
+    var rectBlack = new paper.Path.Rectangle({
+      point: paper.view.bounds.topLeft,
+      size: paper.view.bounds.bottomRight,
+      fillColor: 'black',
+    });
+    paper.project.activeLayer.addChild(rectBlack);
 
     var rect = new paper.Path.Rectangle({
       point: paper.view.bounds.topLeft,
@@ -32,71 +37,72 @@ export class WaveCardComponent {
       fillColor: 'white',
     });
 
-    const points = 5;
-    const smooth = true;
-    // if (idCanvas == 'blackCanvas') {
-    //   var path = new paper.Path({
-    //     fillColor: 'black',
-    //   });
-    // } else {
-    //   var path = new paper.Path({
-    //     fillColor: 'white',
-    //   });
-    // }
     var path = new paper.Path({
       fillColor: 'white',
     });
-    path.segments = [];
-    
-    if (idCanvas == 'whiteCanvas') {
-      path.add([middle, 0]);
-      for (var i = 1; i < points; i++) {
-        const point = new paper.Point(widthWhite, (height / points) * i);
-        path.add(point);
+    path.add([middle, 0]);
+    const point = new paper.Point(widthWhite, height / 2);
+    path.add(point);
+    path.add([middle, height]);
+    path.smooth({ type: 'continuous' });
+
+    var isFollowingMouse = true;
+    setTimeout(function () {
+      isFollowingMouse = false;
+    }, 2000);
+
+    // ------- ONFRAME -------
+    const targetPos = new paper.Point(middle, height / 2);
+    // ------
+    const punto1 = new paper.Path.Circle(targetPos, 5);
+    punto1.fillColor = new paper.Color('red');
+    paper.project.activeLayer.addChild(punto1);
+    // ------
+
+    function onFrame() {
+      if (!isFollowingMouse) {
+        const distance = targetPos.subtract(path.segments[1].point);
+        const speed = 50;
+        if (distance.length > 1) {
+          path.segments[1].point.x += distance.x / speed;
+        }
+        reanimate();
       }
-      path.add([middle, height]);
-    } else {
-      path.add([middle, 0]);
-      for (var i = 1; i < points; i++) {
-        const point = new paper.Point(widthBlack, (height / points) * i);
-        path.add(point);
-      }
-      path.add([middle, height]);
     }
 
-    function onFrame(event: any) {
-      rect.bounds.size = new paper.Size(middle, height)
+    // ------- ONMOUSEMOVE -------
 
-      for (var i = 1; i < points; i++) {
-        const sinSeed = event.count + (i + (i % 10)) * 100;
-        const sinWidth = Math.sin(sinSeed / 200) * 100;
-        const xPos = Math.sin(sinSeed / 100) * sinWidth + widthWave * 2;
-        
-        if (idCanvas == 'whiteCanvas') {
-          path.segments[i].point.x = startWhite + xPos;
-        } else {
-          path.segments[i].point.x = startBlack - xPos;
-        }
+    function onMouseMove(event: any) {
+      if (isFollowingMouse) {
+        const mousePos = event.point;
+        path.segments[1].point.x +=
+          (mousePos.x - path.segments[1].point.x) / 50;
+        path.segments[1].point.y +=
+          (mousePos.y - path.segments[1].point.y) / 50;
+        reanimate();
       }
+    }
 
+    // ------- REANIMATE -------
+
+    function reanimate() {
+      rect.bounds.size = new paper.Size(middle, height);
       const union = rect.unite(path);
       const intersection = rect.intersect(path);
+      paper.project.activeLayer.removeChildren();
+      paper.project.activeLayer.addChild(rectBlack);
       if (intersection) {
         const result = union.subtract(intersection);
-        rect.remove()
-        path.remove()
-        result.smooth({ type: 'continuous' });
-        paper.project.activeLayer.removeChildren();
         paper.project.activeLayer.addChild(result);
       }
+      // ------
+      const punto2 = new paper.Path.Circle(path.segments[1].point, 5);
+      paper.project.activeLayer.addChild(punto1);
+      paper.project.activeLayer.addChild(punto2);
+      // ------
     }
 
-    const view = paper.view;
-    view.onFrame = onFrame;
-
-    setTimeout(() => {
-      paper.project.clear();
-      canvas.style.opacity = '0';
-    }, 3000);
+    paper.view.onMouseMove = onMouseMove;
+    paper.view.onFrame = onFrame;
   }
 }
