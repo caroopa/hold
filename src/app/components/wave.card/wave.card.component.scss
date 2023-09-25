@@ -7,27 +7,19 @@
 
 .wave-card {
   position: relative;
-  display: flex;
 }
 
-#wave-card-canvas {
+.wave-card_content-right,
+.wave-card_content-left {
   position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 1;
-  opacity: 1;
-}
-
-.wave-card_content {
-  position: relative;
-  width: 50%;
-  height: 100%;
+  top: 50%;
   color: red;
 }
 
-.wave-card_content > * {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  z-index: 100;
+.wave-card_content-right {
+  left: 25%;
+}
+
+.wave-card_content-left {
+  right: 25%;
 }

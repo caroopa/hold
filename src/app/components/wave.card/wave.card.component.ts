@@ -20,11 +20,10 @@ export class WaveCardComponent {
 
     const width = paper.view.size.width;
     const middle = width / 2;
-    const widthWave = 25;
+    const widthWave = 100;
     const startWhite = middle - widthWave;
     const widthWhite = middle + widthWave;
     const height = paper.view.size.height;
-    var mousePos;
 
     var rectBlack = new paper.Path.Rectangle({
       point: paper.view.bounds.topLeft,
@@ -41,27 +40,33 @@ export class WaveCardComponent {
 
     var path = new paper.Path({
       fillColor: 'white',
+      strokeColor: 'white',
+      strokeWidth: 2,
     });
     path.add([middle, 0]);
-    const point = new paper.Point(widthWhite, height / 2);
+    const point = new paper.Point(middle + 1, height / 2);
     path.add(point);
     path.add([middle, height]);
     path.smooth({ type: 'continuous' });
 
     var isFollowingMouse = true;
-    setTimeout(function () {
-      isFollowingMouse = false;
-    }, 2000);
+    var isMouseInside = false;
+    const speed = 10;    
 
     // ------- ONFRAME -------
 
     const targetPos = new paper.Point(middle, height / 2);
-    function onFrame() {
+    function onFrameWaveCardAnimation() {
+      console.log("AAA");
+      
       if (!isFollowingMouse) {
+        console.log("HOLAA");
+        
         const distance = targetPos.subtract(path.segments[1].point);
-        const speed = 50;
         if (distance.length > 1) {
           path.segments[1].point.x += distance.x / speed;
+        } else {
+          isFollowingMouse = true;
         }
         reanimate();
       }
@@ -69,13 +74,39 @@ export class WaveCardComponent {
 
     // ------- ONMOUSEMOVE -------
 
-    function onMouseMove(event: any) {
-      if (isFollowingMouse) {
-        const mousePos = event.point;
-        path.segments[1].point.x +=
-          (mousePos.x - path.segments[1].point.x) / 50;
-        path.segments[1].point.y +=
-          (mousePos.y - path.segments[1].point.y) / 50;
+    function onMouseMoveWaveCardAnimation(event: any) {
+      console.log("BBB");
+      
+      const mousePos = event.point;      
+      var isLeft;
+      if (
+        !isMouseInside &&
+        mousePos.x < middle + 10 &&
+        mousePos.x > middle - 10
+      ) {
+        isMouseInside = true;
+        isLeft = mousePos.x < middle;
+      }
+      
+      const isWaveInside =
+        path.segments[1].point.x < widthWhite &&
+        path.segments[1].point.x > startWhite;
+
+      if (isFollowingMouse && isMouseInside) {
+        isMouseInside = true;
+
+        if (isWaveInside) {          
+          if (isLeft) {
+            path.segments[1].point.x -=
+              (mousePos.x - path.segments[1].point.x) / 25;
+          } else {
+            path.segments[1].point.x +=
+              (mousePos.x - path.segments[1].point.x) / 25;
+          }
+        } else {
+          isFollowingMouse = false;
+          isMouseInside = false;
+        }
         reanimate();
       }
     }
@@ -94,7 +125,7 @@ export class WaveCardComponent {
       }
     }
 
-    paper.view.onMouseMove = onMouseMove;
-    paper.view.onFrame = onFrame;
+    paper.view.onMouseMove = onMouseMoveWaveCardAnimation;
+    paper.view.onFrame = onFrameWaveCardAnimation;
   }
 }

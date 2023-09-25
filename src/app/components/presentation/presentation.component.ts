@@ -10,7 +10,7 @@ export class PresentationComponent {
   // imageURL: string = '../../assets/img/logo.jpg';
 
   ngAfterViewInit() {
-    // this.presentationAnimation();
+    this.presentationAnimation();
   }
 
   presentationAnimation() {
@@ -48,41 +48,44 @@ export class PresentationComponent {
     let movementEnded = false;
     let resizedEnded = false;
 
-    function onFrame() {
-      circle.scale(0.975);
-      circle.position = circle.position.add(
-        finalPosition.subtract(circle.position).divide(30)
-      );
+    var startedAnimation = false;
+    function onFramePresentationAnimation() {
+      if (startedAnimation) {
+        circle.scale(0.975);
+        circle.position = circle.position.add(
+          finalPosition.subtract(circle.position).divide(30)
+        );
 
-      if (fontSize > finalFontSize) {
-        fontSize -= 0.1;
-        text.fontSize = fontSize;
-      }
-      text.position = circle.position;
-
-      if (circle.position.getDistance(finalPosition) < 1) {
-        circle.position = finalPosition;
+        if (fontSize > finalFontSize) {
+          fontSize -= 0.1;
+          text.fontSize = fontSize;
+        }
         text.position = circle.position;
-        movementEnded = true;
-      }
 
-      if (circle.bounds.width < finalRadius * 2) {
-        circle.scale((finalRadius * 2) / circle.bounds.width);
-        text.fontSize = 14;
-        resizedEnded = true;
-      }
+        if (circle.position.getDistance(finalPosition) < 1) {
+          circle.position = finalPosition;
+          text.position = circle.position;
+          movementEnded = true;
+        }
 
-      if (movementEnded && resizedEnded) {
-        paper.view.off('frame', onFrame);
-        canvas.style.display = 'none';
-        const logo = document.getElementById('logo') as HTMLCanvasElement;
-        logo.style.display = 'flex';
+        if (circle.bounds.width < finalRadius * 2) {
+          circle.scale((finalRadius * 2) / circle.bounds.width);
+          text.fontSize = 14;
+          resizedEnded = true;
+        }
+
+        if (movementEnded && resizedEnded) {
+          paper.view.off('frame', onFramePresentationAnimation);
+          canvas.style.display = 'none';
+          const logo = document.getElementById('logo') as HTMLCanvasElement;
+          logo.style.display = 'flex';
+        }
       }
     }
 
-    setTimeout(() => {
-      const view = paper.view;
-      view.onFrame = onFrame;
+    paper.view.onFrame = onFramePresentationAnimation;
+    setTimeout(function () {
+      startedAnimation = true;
     }, 1500);
   }
 }
