@@ -3,8 +3,8 @@ import * as paper from 'paper';
 
 @Component({
   selector: 'app-wave-card',
-  templateUrl: './wave.card.component.html',
-  styleUrls: ['./wave.card.component.scss'],
+  templateUrl: './wave-card.component.html',
+  styleUrls: ['./wave-card.component.scss'],
 })
 export class WaveCardComponent {
   ngAfterViewInit() {

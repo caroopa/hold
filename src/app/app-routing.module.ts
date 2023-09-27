@@ -1,13 +1,17 @@
+import { MenuComponent } from './pages/menu/menu.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { WaveCardComponent } from './components/wave.card/wave.card.component';
+import { HomePresentationComponent } from './pages/home-presentation/home-presentation.component';
+import { HomeComponent } from './pages/home/home.component';
 
 const routes: Routes = [
-  { path: 'cards', component: WaveCardComponent },
+  { path: '', component: HomePresentationComponent },
+  { path: 'home', component: HomeComponent },
+  { path: 'menu', component: MenuComponent },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

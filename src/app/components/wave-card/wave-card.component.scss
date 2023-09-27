@@ -12,14 +12,23 @@
 .wave-card_content-right,
 .wave-card_content-left {
   position: absolute;
-  top: 50%;
-  color: red;
+  z-index: 1;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: grey;
+  font-size: 50px;
+  text-align: center;
+  pointer-events: none;
 }
 
 .wave-card_content-right {
-  left: 25%;
+  right: 0;
 }
 
 .wave-card_content-left {
-  right: 25%;
+  left: 0;
 }
