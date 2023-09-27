@@ -9,8 +9,8 @@ import { PresentationComponent } from './components/presentation/presentation.co
 import { WaveCardComponent } from './components/wave-card/wave-card.component';
 import { HomeComponent } from './pages/home/home.component';
 import { HomePresentationComponent } from './pages/home-presentation/home-presentation.component';
-import { MenuComponent } from './pages/menu/menu.component';
-import { MenuBtnComponent } from './components/menu-btn/menu-btn.component';
+import { MenuComponent } from './components/menu/menu.component';
+import { LogoComponent } from './components/logo/logo.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +20,7 @@ import { MenuBtnComponent } from './components/menu-btn/menu-btn.component';
     HomeComponent,
     HomePresentationComponent,
     MenuComponent,
-    MenuBtnComponent,
+    LogoComponent,
   ],
   imports: [
     BrowserModule,

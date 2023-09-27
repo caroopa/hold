@@ -1,0 +1,32 @@
+app-wave-card {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.home-content {
+  color: grey;
+  font-size: 50px;
+  text-align: center;
+}
+
+.wave-card_content-left,
+.wave-card_content-right {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+}
+
+.wave-card_content-left {
+  left: 0;
+}
+
+.wave-card_content-right {
+  right: 0;
+}
