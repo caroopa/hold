@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home-presentation',
@@ -6,5 +7,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./home-presentation.component.scss']
 })
 export class HomePresentationComponent {
+  constructor(private router: Router) { }
 
+  goToMenuSec() {
+    this.router.navigate(['/menu-sec']);
+  }
 }

@@ -7,7 +7,11 @@ import * as paper from 'paper';
   styleUrls: ['./wave-card.component.scss'],
 })
 export class WaveCardComponent {
-  ngAfterViewInit() {
+  // ngOnDestroy() {
+  //   paper.view.remove();
+  // }
+
+  ngOnInit() {
     this.waveCardAnimation();
   }
 
@@ -57,6 +61,8 @@ export class WaveCardComponent {
 
     const targetPos = new paper.Point(middle, height / 2);
     function onFrameWaveCardAnimation() {
+      console.log("AAAA");
+      
       if (!isFollowingMouse) {
         const distance = targetPos.subtract(path.segments[1].point);
         if (distance.length > 1) {

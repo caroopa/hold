@@ -9,7 +9,11 @@ import * as paper from 'paper';
 export class PresentationComponent {
   // imageURL: string = '../../assets/img/logo.jpg';
 
-  ngAfterViewInit() {
+  // ngOnDestroy() {
+  //   paper.view.remove();
+  // }
+
+  ngOnInit() {
     this.presentationAnimation();
   }
 

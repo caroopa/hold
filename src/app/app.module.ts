@@ -11,6 +11,8 @@ import { HomeComponent } from './pages/home/home.component';
 import { HomePresentationComponent } from './pages/home-presentation/home-presentation.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { LogoComponent } from './components/logo/logo.component';
+import { MenuSecComponent } from './components/menu-sec/menu-sec.component';
+import { MenuPageComponent } from './pages/menu-page/menu-page.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +23,8 @@ import { LogoComponent } from './components/logo/logo.component';
     HomePresentationComponent,
     MenuComponent,
     LogoComponent,
+    MenuSecComponent,
+    MenuPageComponent,
   ],
   imports: [
     BrowserModule,
