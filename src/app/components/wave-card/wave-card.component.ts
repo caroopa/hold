@@ -57,11 +57,7 @@ export class WaveCardComponent {
 
     const targetPos = new paper.Point(middle, height / 2);
     function onFrameWaveCardAnimation() {
-      console.log("AAA");
-      
       if (!isFollowingMouse) {
-        console.log("HOLAA");
-        
         const distance = targetPos.subtract(path.segments[1].point);
         if (distance.length > 1) {
           path.segments[1].point.x += distance.x / speed;
@@ -75,8 +71,6 @@ export class WaveCardComponent {
     // ------- ONMOUSEMOVE -------
 
     function onMouseMoveWaveCardAnimation(event: any) {
-      console.log("BBB");
-      
       const mousePos = event.point;      
       var isLeft;
       if (

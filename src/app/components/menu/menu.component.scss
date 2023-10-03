@@ -16,36 +16,25 @@
   display: none;
 }
 
-.wave-card_content-left,
-.wave-card_content-right {
+#left-card,
+#right-card {
+  gap: 1rem;
   position: absolute;
   z-index: 2;
   top: 0;
-  width: 50%;
+  width: 0;
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
   pointer-events: none;
-}
-
-.wave-card_content-left {
-  left: 0;
-}
-
-.wave-card_content-right {
-  right: 0;
-}
-
-#left-card,
-#right-card {
   color: white;
   text-align: start;
-  flex-direction: column;
-  gap: 1rem;
 }
 
 #left-card {
+<<<<<<< Updated upstream
   background-color: fuchsia;
   transform: translateX(-100%);
 }
@@ -53,41 +42,51 @@
 #right-card {
   background-color: pink;
   transform: translateX(100%);
+=======
+  background-color: #ef6fa5;
+  right: 50%;
 }
 
-.animateLeftEnter {
-  animation: slideLeftEnter 1.7s ease-out forwards;
+#right-card {
+  background-color: #ee4e91;
+  left: 50%;
+>>>>>>> Stashed changes
 }
 
-.animateRightEnter {
-  animation: slideRightEnter 1.7s ease-out forwards;
+.wave-card-left_content,
+.wave-card-right_content {
+  opacity: 0;
 }
 
-.animateLeftOut {
-  animation: slideLeftOut 1.7s ease-out forwards;
+.animateOpacity {
+  transition: opacity 1s ease;
 }
 
-.animateRightOut {
-  animation: slideRightOut 1.7s ease-out forwards;
+.animateEnter {
+  animation: slideEnter 1.7s ease-out forwards;
 }
 
+.animateOut {
+  animation: slideOut 1.7s ease-out forwards;
+}
 
-@keyframes slideLeftEnter {
+@keyframes slideEnter {
   0% {
-    transform: translateX(-100%);
+    width: 0;
   }
   100% {
-    transform: translateX(0);
+    width: 50%;
   }
 }
 
-@keyframes slideRightEnter {
+@keyframes slideOut {
   0% {
-    transform: translateX(100%);
+    width: 50%;
   }
   100% {
-    transform: translateX(0);
+    width: 0;
   }
+<<<<<<< Updated upstream
 }
 
 @keyframes slideLeftOut {
@@ -106,4 +105,6 @@
   100% {
     transform: translateX(100%);
   }
+=======
+>>>>>>> Stashed changes
 }
