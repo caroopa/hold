@@ -34,23 +34,13 @@
 }
 
 #left-card {
-<<<<<<< Updated upstream
-  background-color: fuchsia;
-  transform: translateX(-100%);
-}
-
-#right-card {
-  background-color: pink;
-  transform: translateX(100%);
-=======
-  background-color: #ef6fa5;
+  background-color: #EF6FA5;
   right: 50%;
 }
 
 #right-card {
-  background-color: #ee4e91;
+  background-color: #EE4E91;
   left: 50%;
->>>>>>> Stashed changes
 }
 
 .wave-card-left_content,
@@ -86,25 +76,4 @@
   100% {
     width: 0;
   }
-<<<<<<< Updated upstream
-}
-
-@keyframes slideLeftOut {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-100%);
-  }
-}
-
-@keyframes slideRightOut {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(100%);
-  }
-=======
->>>>>>> Stashed changes
 }
