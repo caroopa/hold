@@ -7,11 +7,7 @@ import * as paper from 'paper';
   styleUrls: ['./wave-card.component.scss'],
 })
 export class WaveCardComponent {
-  // ngOnDestroy() {
-  //   paper.view.remove();
-  // }
-
-  ngOnInit() {
+  ngAfterViewInit() {
     this.waveCardAnimation();
   }
 
@@ -19,8 +15,9 @@ export class WaveCardComponent {
     const canvas = document.getElementById(
       'wave-card-canvas'
     ) as HTMLCanvasElement;
-    canvas.style.opacity = '1';
-    paper.setup('wave-card-canvas');
+    
+    paper.setup(canvas);
+    console.log(paper.project);    
 
     const width = paper.view.size.width;
     const middle = width / 2;
@@ -54,14 +51,14 @@ export class WaveCardComponent {
     path.smooth({ type: 'continuous' });
 
     var isFollowingMouse = true;
-    var isMouseInside = false;
+    var isMouseInside = false;    
     const speed = 10;    
 
     // ------- ONFRAME -------
 
     const targetPos = new paper.Point(middle, height / 2);
     function onFrameWaveCardAnimation() {
-      console.log("AAAA");
+      // console.log("AAAA");
       
       if (!isFollowingMouse) {
         const distance = targetPos.subtract(path.segments[1].point);
@@ -128,4 +125,8 @@ export class WaveCardComponent {
     paper.view.onMouseMove = onMouseMoveWaveCardAnimation;
     paper.view.onFrame = onFrameWaveCardAnimation;
   }
+
+  // ngOnDestroy() {
+  //   paper.project.remove();
+  // }
 }

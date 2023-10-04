@@ -30,3 +30,17 @@ app-wave-card {
 .wave-card_content-right {
   right: 0;
 }
+
+.link {
+  position: fixed;
+  top: 4rem;
+  left: 50%;
+  z-index: 5;
+  color: yellowgreen;
+  font-size: 3rem;
+}
+
+.link button {
+  width: 200px;
+  height: 50px;
+}

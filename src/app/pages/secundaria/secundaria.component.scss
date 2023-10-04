@@ -1,0 +1,19 @@
+.hola {
+  width: 100%;
+  height: 100%;
+  background-color: violet;
+}
+
+.link {
+  position: fixed;
+  top: 4rem;
+  left: 50%;
+  z-index: 5;
+  color: yellowgreen;
+  font-size: 3rem;
+}
+
+.link button {
+  width: 200px;
+  height: 50px;
+}
