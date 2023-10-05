@@ -21,6 +21,11 @@ export class MenuComponent {
     this.rootURL = this.location.path();
   }
 
+  navigate(root: string) {
+    this.router.navigate([root]);
+    this.toggleMenu();
+  }
+
   private getRootURL(url: string): string {
     const parts = url.split('/');
     return parts[1];
@@ -33,9 +38,20 @@ export class MenuComponent {
     leftContent: HTMLElement,
     rightContent: HTMLElement
   ): AnimationElement {
-    // if (this.rootURL == "" || this.rootURL == "home") {
-    return new Menu(leftCard, rightCard, icon, leftContent, rightContent);
-    // }
+    if (this.rootURL == '') {
+      return new Home(leftCard, rightCard, icon, leftContent, rightContent);
+    } else if (this.rootURL == 'secundaria') {
+      return new FullScreen(
+        leftCard,
+        rightCard,
+        icon,
+        leftContent,
+        rightContent
+      );
+    } else {
+      // CAMBIAR
+      return new Home(leftCard, rightCard, icon, leftContent, rightContent);
+    }
   }
 
   toggleMenu() {
@@ -74,7 +90,8 @@ abstract class AnimationElement {
     this.rightCard.classList.add('animateEnter');
     this.leftContent.classList.add('animateOpacity');
     this.rightContent.classList.add('animateOpacity');
-
+    this.leftCard.style.pointerEvents = 'all';
+    this.rightCard.style.pointerEvents = 'all';
     this.icon.innerHTML = '<i class="fa-solid fa-xmark"></i>';
 
     this.leftCard.addEventListener('animationend', () => {
@@ -90,7 +107,13 @@ abstract class AnimationElement {
     });
   }
 
-  abstract animationOut(): void;
+  animationOut() {
+    this.leftCard.style.pointerEvents = 'none';
+    this.rightCard.style.pointerEvents = 'none';
+    this.animationOutSpecific();
+  }
+
+  abstract animationOutSpecific(): void;
 
   whichAnimationDo(): void {
     if (
@@ -99,12 +122,12 @@ abstract class AnimationElement {
     ) {
       this.animationIn();
     } else {
-      this.animationOut();
+      this.animationOutSpecific();
     }
   }
 }
 
-class Menu extends AnimationElement {
+class Home extends AnimationElement {
   constructor(
     leftCard: HTMLElement,
     rightCard: HTMLElement,
@@ -115,25 +138,25 @@ class Menu extends AnimationElement {
     super(leftCard, rightCard, icon, leftContent, rightContent);
   }
 
-  animationOut(): void {
+  animationOutSpecific(): void {
     this.icon.innerHTML = '<i class="fa-solid fa-bars"></i>';
 
-    const leftMenuCard = document.createElement('div')
-    leftMenuCard.classList.add("cardmenu-left")
-    leftMenuCard.classList.add("animateEnter")
+    const leftMenuCard = document.createElement('div');
+    leftMenuCard.classList.add('cardmenu-left');
+    leftMenuCard.classList.add('animateEnter');
     this.leftCard.appendChild(leftMenuCard);
 
     const rightMenuCard = document.createElement('div');
     rightMenuCard.classList.add('cardmenu-right');
-    rightMenuCard.classList.add("animateEnter")
+    rightMenuCard.classList.add('animateEnter');
     this.rightCard.appendChild(rightMenuCard);
 
     leftMenuCard.addEventListener('animationend', () => {
       if (leftMenuCard.classList.contains('animateEnter')) {
         this.leftCard.classList.remove('animateEnter');
         this.leftContent.classList.remove('animateOpacity');
-        this.leftContent.style.opacity = "0";
-        leftMenuCard.classList.add('animateOpacity')
+        this.leftContent.style.opacity = '0';
+        leftMenuCard.classList.add('animateOpacity');
         leftMenuCard.style.opacity = '0';
       }
     });
@@ -142,8 +165,70 @@ class Menu extends AnimationElement {
       if (rightMenuCard.classList.contains('animateEnter')) {
         this.rightCard.classList.remove('animateEnter');
         this.rightContent.classList.remove('animateOpacity');
-        this.rightContent.style.opacity = "0";
-        rightMenuCard.classList.add('animateOpacity')
+        this.rightContent.style.opacity = '0';
+        rightMenuCard.classList.add('animateOpacity');
+        rightMenuCard.style.opacity = '0';
+      }
+    });
+
+    leftMenuCard.addEventListener('transitionend', () => {
+      if (leftMenuCard.classList.contains('animateOpacity')) {
+        this.leftCard.removeChild(leftMenuCard);
+      }
+    });
+
+    rightMenuCard.addEventListener('transitionend', () => {
+      if (rightMenuCard.classList.contains('animateOpacity')) {
+        this.rightCard.removeChild(rightMenuCard);
+      }
+    });
+  }
+}
+
+class FullScreen extends AnimationElement {
+  constructor(
+    leftCard: HTMLElement,
+    rightCard: HTMLElement,
+    icon: HTMLElement,
+    leftContent: HTMLElement,
+    rightContent: HTMLElement
+  ) {
+    super(leftCard, rightCard, icon, leftContent, rightContent);
+  }
+
+  animationOutSpecific(): void {
+    this.icon.innerHTML = '<i class="fa-solid fa-bars"></i>';
+
+    const leftMenuCard = document.createElement('div');
+    leftMenuCard.classList.add('fullscreen');
+    leftMenuCard.style.right = '50%';
+    leftMenuCard.style.backgroundColor = 'violet';
+    leftMenuCard.classList.add('animateEnter');
+    this.leftCard.appendChild(leftMenuCard);
+
+    const rightMenuCard = document.createElement('div');
+    rightMenuCard.classList.add('fullscreen');
+    rightMenuCard.style.left = '50%';
+    rightMenuCard.style.backgroundColor = 'violet'
+    rightMenuCard.classList.add('animateEnter');
+    this.rightCard.appendChild(rightMenuCard);
+
+    leftMenuCard.addEventListener('animationend', () => {
+      if (leftMenuCard.classList.contains('animateEnter')) {
+        this.leftCard.classList.remove('animateEnter');
+        this.leftContent.classList.remove('animateOpacity');
+        this.leftContent.style.opacity = '0';
+        leftMenuCard.classList.add('animateOpacity');
+        leftMenuCard.style.opacity = '0';
+      }
+    });
+
+    rightMenuCard.addEventListener('animationend', () => {
+      if (rightMenuCard.classList.contains('animateEnter')) {
+        this.rightCard.classList.remove('animateEnter');
+        this.rightContent.classList.remove('animateOpacity');
+        this.rightContent.style.opacity = '0';
+        rightMenuCard.classList.add('animateOpacity');
         rightMenuCard.style.opacity = '0';
       }
     });
