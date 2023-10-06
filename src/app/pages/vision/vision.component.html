@@ -53,4 +53,7 @@
       </p>
     </section>
   </div>
+  <div class="markers">
+    <span *ngFor="let i of markers; let index = index" [ngClass]="markerType(index)"></span>
+  </div>
 </main>
