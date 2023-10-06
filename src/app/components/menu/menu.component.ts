@@ -40,7 +40,7 @@ export class MenuComponent {
   ): AnimationElement {
     if (this.rootURL == '') {
       return new Home(leftCard, rightCard, icon, leftContent, rightContent);
-    } else if (this.rootURL == 'secundaria') {
+    } else if (this.rootURL == 'vision' || this.rootURL == 'process') {
       return new FullScreen(
         leftCard,
         rightCard,
@@ -209,7 +209,7 @@ class FullScreen extends AnimationElement {
     const rightMenuCard = document.createElement('div');
     rightMenuCard.classList.add('fullscreen');
     rightMenuCard.style.left = '50%';
-    rightMenuCard.style.backgroundColor = 'violet'
+    rightMenuCard.style.backgroundColor = 'violet';
     rightMenuCard.classList.add('animateEnter');
     this.rightCard.appendChild(rightMenuCard);
 

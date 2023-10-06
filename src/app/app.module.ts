@@ -12,7 +12,8 @@ import { LogoComponent } from './components/logo/logo.component';
 
 // PÁGINAS
 import { HomeComponent } from './pages/home/home.component';
-import { SecundariaComponent } from './pages/secundaria/secundaria.component';
+import { VisionComponent } from './pages/vision/vision.component';
+import { ProcessComponent } from './pages/process/process.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { SecundariaComponent } from './pages/secundaria/secundaria.component';
     HomeComponent,
     MenuComponent,
     LogoComponent,
-    SecundariaComponent,
+    VisionComponent,
+    ProcessComponent,
   ],
   imports: [
     BrowserModule,

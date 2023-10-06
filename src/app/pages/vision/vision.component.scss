@@ -1,0 +1,38 @@
+.vision-body {
+  width: 100%;
+  height: 100%;
+  background-color: violet;
+}
+
+.vision-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.vision-content {
+  width: 70%;
+  height: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.vision-content h1 {
+  font-size: 3rem;
+}
+
+.vision-content p {
+  font-size: 2rem;
+  text-align: center;
+}
+
+.hidden {
+  opacity: 0;
+}
