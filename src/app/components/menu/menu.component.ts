@@ -202,14 +202,14 @@ class FullScreen extends AnimationElement {
     const leftMenuCard = document.createElement('div');
     leftMenuCard.classList.add('fullscreen');
     leftMenuCard.style.right = '50%';
-    leftMenuCard.style.backgroundColor = 'violet';
+    leftMenuCard.style.backgroundColor = '#82A0D8';
     leftMenuCard.classList.add('animateEnter');
     this.leftCard.appendChild(leftMenuCard);
 
     const rightMenuCard = document.createElement('div');
     rightMenuCard.classList.add('fullscreen');
     rightMenuCard.style.left = '50%';
-    rightMenuCard.style.backgroundColor = 'violet';
+    rightMenuCard.style.backgroundColor = '#82A0D8';
     rightMenuCard.classList.add('animateEnter');
     this.rightCard.appendChild(rightMenuCard);
 

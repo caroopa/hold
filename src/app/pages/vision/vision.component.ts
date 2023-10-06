@@ -6,18 +6,21 @@ import { Component, HostListener } from '@angular/core';
   styleUrls: ['./vision.component.scss'],
 })
 export class VisionComponent {
-  index!: number
-  container!: any
-  markers!: number[]
-  isAnimating!: boolean
-  isTransitioning!: boolean
+  index!: number;
+  container!: any;
+  markers!: number[];
+  isAnimating!: boolean;
+  isTransitioning!: boolean;
+  body!: any;
+  colors = ['#82A0D8', '#8DDFCB', '#EDB7ED', '#ECEE81'];
 
   ngOnInit() {
     this.index = 0;
     this.container = document.querySelectorAll('.vision-container');
     this.markers = new Array(this.container.length);
     this.isAnimating = false;
-    this.isTransitioning = false;  
+    this.isTransitioning = false;
+    this.body = document.querySelector('.vision-body');
   }
 
   @HostListener('window:wheel', ['$event'])
@@ -46,6 +49,7 @@ export class VisionComponent {
         currentContainer.classList.add('animateScroll');
         currentContainer.style.opacity = '0';
         currentMarker.classList.remove('current-marker');
+        this.body.style.backgroundColor = this.colors[nextIndex];
 
         currentContainer.addEventListener('transitionend', () => {
           currentContainer.classList.remove('animateScroll');
