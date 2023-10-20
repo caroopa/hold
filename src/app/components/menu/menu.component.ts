@@ -50,7 +50,7 @@ export class MenuComponent {
       );
     } else {
       // CAMBIAR
-      return new Home(leftCard, rightCard, icon, leftContent, rightContent);
+      return new Nothing(leftCard, rightCard, icon, leftContent, rightContent);
     }
   }
 
@@ -244,5 +244,21 @@ class FullScreen extends AnimationElement {
         this.rightCard.removeChild(rightMenuCard);
       }
     });
+  }
+}
+
+class Nothing extends AnimationElement {
+  constructor(
+    leftCard: HTMLElement,
+    rightCard: HTMLElement,
+    icon: HTMLElement,
+    leftContent: HTMLElement,
+    rightContent: HTMLElement
+  ) {
+    super(leftCard, rightCard, icon, leftContent, rightContent);
+  }
+
+  animationOutSpecific(): void {
+    return
   }
 }

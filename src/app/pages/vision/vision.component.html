@@ -20,7 +20,7 @@
   <div class="vision-container hidden">
     <section class="vision-content">
       <h1>Hola qué tal</h1>
-      <br>
+      <br />
       <p>
         Lorem ipsum dolor sit amet consectetur. Egestas euismod nec sit sed
         massa turpis in. Sit praesent arcu leo lectus pellentesque. Ornare elit
@@ -38,7 +38,7 @@
   <div class="vision-container hidden">
     <section class="vision-content">
       <h1>Buen día</h1>
-      <br>
+      <br />
       <p>
         Lorem ipsum dolor sit amet consectetur. Egestas euismod nec sit sed
         massa turpis in. Sit praesent arcu leo lectus pellentesque. Ornare elit
@@ -56,7 +56,7 @@
   <div class="vision-container hidden">
     <section class="vision-content">
       <h1>Hasta luego</h1>
-      <br>
+      <br />
       <p>
         Lorem ipsum dolor sit amet consectetur. Egestas euismod nec sit sed
         massa turpis in. Sit praesent arcu leo lectus pellentesque. Ornare elit
@@ -72,6 +72,11 @@
     </section>
   </div>
   <div class="markers">
-    <span *ngFor="let i of markers; let index = index" [ngClass]="markerType(index)"></span>
+    <span
+      *ngFor="let i of markers; let index = index"
+      class="marker"
+      [ngClass]="currentClass(index)"
+      (click)="onClick(index)"
+    ></span>
   </div>
 </main>

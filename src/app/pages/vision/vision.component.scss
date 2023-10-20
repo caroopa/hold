@@ -56,6 +56,7 @@
   width: 30px !important;
   height: 6px;
   background-color: white !important;
+  cursor: default !important;
 }
 
 .marker {
@@ -63,4 +64,5 @@
   height: 6px;
   background-color: rgba(255, 255, 255, 0.5);
   transition: 0.5s ease;
+  cursor: pointer;
 }

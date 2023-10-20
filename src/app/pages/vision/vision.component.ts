@@ -35,50 +35,56 @@ export class VisionComponent {
       }
 
       if (nextIndex >= 0 && nextIndex < this.container.length) {
-        const currentContainer = this.container[this.index] as HTMLElement;
-        const nextContainer = this.container[nextIndex] as HTMLElement;
-        const markers = document.querySelectorAll('.marker');
-        const currentMarker = document.querySelector(
-          '.current-marker'
-        ) as HTMLElement;
-
-        const nextMarker = markers[nextIndex] as HTMLElement;
-        this.isAnimating = true;
-        this.isTransitioning = true;
-
-        currentContainer.classList.add('animateScroll');
-        currentContainer.style.opacity = '0';
-        currentMarker.classList.remove('current-marker');
-        this.body.style.backgroundColor = this.colors[nextIndex];
-
-        currentContainer.addEventListener('transitionend', () => {
-          currentContainer.classList.remove('animateScroll');
-          currentContainer.classList.add('hidden');
-          this.isTransitioning = false;
-        });
-
-        setTimeout(() => {
-          nextContainer.classList.remove('hidden');
-          nextContainer.classList.add('animateScroll');
-          nextContainer.style.opacity = '1';
-          nextMarker.classList.add('current-marker');
-
-          nextContainer.addEventListener('transitionend', () => {
-            nextContainer.classList.remove('animateScroll');
-            this.isAnimating = false;
-          });
-        }, 700);
-
-        this.index = nextIndex;
+        this.changeSection(nextIndex);
       }
     }
   }
 
-  markerType(N: number) {
-    if (N == 0) {
-      return 'current-marker marker';
-    } else {
-      return 'marker';
+  onClick(index: number) {
+    if (this.index != index) {
+      this.changeSection(index);
     }
+  }
+
+  changeSection(nextIndex: number) {
+    const currentContainer = this.container[this.index] as HTMLElement;
+    const nextContainer = this.container[nextIndex] as HTMLElement;
+    const markers = document.querySelectorAll('.marker');
+    const currentMarker = document.querySelector(
+      '.current-marker'
+    ) as HTMLElement;
+
+    const nextMarker = markers[nextIndex] as HTMLElement;
+    this.isAnimating = true;
+    this.isTransitioning = true;
+
+    currentContainer.classList.add('animateScroll');
+    currentContainer.style.opacity = '0';
+    currentMarker.classList.remove('current-marker');
+    this.body.style.backgroundColor = this.colors[nextIndex];
+
+    currentContainer.addEventListener('transitionend', () => {
+      currentContainer.classList.remove('animateScroll');
+      currentContainer.classList.add('hidden');
+      this.isTransitioning = false;
+    });
+
+    setTimeout(() => {
+      nextContainer.classList.remove('hidden');
+      nextContainer.classList.add('animateScroll');
+      nextContainer.style.opacity = '1';
+      nextMarker.classList.add('current-marker');
+
+      nextContainer.addEventListener('transitionend', () => {
+        nextContainer.classList.remove('animateScroll');
+        this.isAnimating = false;
+      });
+    }, 700);
+
+    this.index = nextIndex;
+  }
+
+  currentClass(N: number) {
+    return N === 0 ? 'current-marker' : '';
   }
 }
