@@ -30,3 +30,9 @@ app-wave-card {
 .wave-card_content-right {
   right: 0;
 }
+
+.wave-card_content-left h1, 
+.wave-card_content-left h2 {
+  pointer-events: all;
+  cursor: pointer;
+}
