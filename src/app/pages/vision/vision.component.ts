@@ -9,7 +9,6 @@ export class VisionComponent {
   index!: number;
   container!: any;
   markers!: number[];
-  isAnimating!: boolean;
   isTransitioning!: boolean;
   body!: any;
   colors = ['#82A0D8', '#8DDFCB', '#EDB7ED', '#ECEE81'];
@@ -18,14 +17,15 @@ export class VisionComponent {
     this.index = 0;
     this.container = document.querySelectorAll('.vision-container');
     this.markers = new Array(this.container.length);
-    this.isAnimating = false;
     this.isTransitioning = false;
     this.body = document.querySelector('.vision-body');
   }
 
   @HostListener('window:wheel', ['$event'])
   onWheel(e: WheelEvent) {
-    if (!this.isAnimating && !this.isTransitioning) {
+    if (!this.isTransitioning) {
+      console.log('qué onda');
+
       let nextIndex!: number;
 
       if (e.deltaY > 0) {
@@ -55,7 +55,6 @@ export class VisionComponent {
     ) as HTMLElement;
 
     const nextMarker = markers[nextIndex] as HTMLElement;
-    this.isAnimating = true;
     this.isTransitioning = true;
 
     currentContainer.classList.add('animateScroll');
@@ -63,25 +62,43 @@ export class VisionComponent {
     currentMarker.classList.remove('current-marker');
     this.body.style.backgroundColor = this.colors[nextIndex];
 
-    currentContainer.addEventListener('transitionend', () => {
+    const onCurrentContainerTransitionEnd = () => {
+      currentContainer.removeEventListener(
+        'transitionend',
+        onCurrentContainerTransitionEnd
+      );
+
       currentContainer.classList.remove('animateScroll');
       currentContainer.classList.add('hidden');
-      this.isTransitioning = false;
-    });
 
-    setTimeout(() => {
       nextContainer.classList.remove('hidden');
       nextContainer.classList.add('animateScroll');
       nextContainer.style.opacity = '1';
       nextMarker.classList.add('current-marker');
+    };
 
-      nextContainer.addEventListener('transitionend', () => {
-        nextContainer.classList.remove('animateScroll');
-        this.isAnimating = false;
-      });
-    }, 700);
+    currentContainer.addEventListener(
+      'transitionend',
+      onCurrentContainerTransitionEnd
+    );
 
-    this.index = nextIndex;
+    const onNextContainerTransitionEnd = () => {
+      console.log(nextContainer.innerHTML);
+      nextContainer.removeEventListener(
+        'transitionend',
+        onNextContainerTransitionEnd
+      );
+
+      nextContainer.classList.remove('animateScroll');
+
+      this.isTransitioning = false;
+      this.index = nextIndex;
+    };
+
+    nextContainer.addEventListener(
+      'transitionend',
+      onNextContainerTransitionEnd
+    );
   }
 
   currentClass(N: number) {
