@@ -17,7 +17,6 @@ export class WaveCardComponent {
     ) as HTMLCanvasElement;
     
     paper.setup(canvas);
-    console.log(paper.project);    
 
     const width = paper.view.size.width;
     const middle = width / 2;
