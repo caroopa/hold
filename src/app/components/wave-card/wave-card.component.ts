@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import * as paper from 'paper';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-wave-card',
@@ -7,11 +8,14 @@ import * as paper from 'paper';
   styleUrls: ['./wave-card.component.scss'],
 })
 export class WaveCardComponent {
+
+  constructor(private router: Router) {}
+
   ngAfterViewInit() {
-    this.waveCardAnimation();
+    this.waveCardAnimation(this.router);
   }
 
-  waveCardAnimation() {
+  waveCardAnimation(router: Router) {
     const canvas = document.getElementById(
       'wave-card-canvas'
     ) as HTMLCanvasElement;
@@ -30,13 +34,36 @@ export class WaveCardComponent {
       size: paper.view.bounds.bottomRight,
       fillColor: 'black',
     });
+
+    var textBlack = new paper.PointText({
+      point: [width * 0.75, height / 2],
+      content: 'Servicios',
+      fillColor: '#ffffff',
+      justification: 'center',
+      fontSize: 70,
+      font: 'Poppins, sans-serif',
+      letterSpacing: 2,
+      fontWeight: 'bold',
+    });
     paper.project.activeLayer.addChild(rectBlack);
+    paper.project.activeLayer.addChild(textBlack);
 
     var rect = new paper.Path.Rectangle({
       point: paper.view.bounds.topLeft,
       size: [middle, height],
       fillColor: 'white',
     });
+    var textWhite = new paper.PointText({
+      point: rect.position,
+      content: 'Visión',
+      fillColor: '#000002',
+      justification: 'center',
+      fontSize: 70,
+      font: 'Poppins, sans-serif',
+      letterSpacing: 2,
+      fontWeight: 'bold',
+    });
+    paper.project.activeLayer.addChild(textWhite);
 
     var path = new paper.Path({
       fillColor: 'white',
@@ -113,9 +140,11 @@ export class WaveCardComponent {
       const intersection = rect.intersect(path);
       paper.project.activeLayer.removeChildren();
       paper.project.activeLayer.addChild(rectBlack);
+      paper.project.activeLayer.addChild(textBlack);
       if (intersection) {
         const result = union.subtract(intersection);
         paper.project.activeLayer.addChild(result);
+        paper.project.activeLayer.addChild(textWhite);
       }
     }
 
@@ -124,6 +153,13 @@ export class WaveCardComponent {
     function onMouseLeaveWaveCardAnimation() {
       isFollowingMouse = false;
     }
+
+    textBlack.onClick = function() {
+      router.navigate(['/servicios']);
+    };
+    textWhite.onClick = function() {
+      router.navigate(['/vision']);
+    };
 
     paper.view.onMouseMove = onMouseMoveWaveCardAnimation;
     paper.view.onMouseLeave = onMouseLeaveWaveCardAnimation;
