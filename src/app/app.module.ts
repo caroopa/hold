@@ -13,7 +13,7 @@ import { LogoComponent } from './components/logo/logo.component';
 // PÁGINAS
 import { HomeComponent } from './pages/home/home.component';
 import { VisionComponent } from './pages/vision/vision.component';
-import { ProcessComponent } from './pages/process/process.component';
+import { ServiciosComponent } from './pages/servicios/servicios.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +23,7 @@ import { ProcessComponent } from './pages/process/process.component';
     MenuComponent,
     LogoComponent,
     VisionComponent,
-    ProcessComponent,
+    ServiciosComponent,
   ],
   imports: [
     BrowserModule,

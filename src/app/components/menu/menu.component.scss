@@ -32,12 +32,12 @@
 }
 
 #left-card {
-  background-color: #ef6fa5;
+  background-color: white;
   right: 50%;
 }
 
 #right-card {
-  background-color: #ee4e91;
+  background-color: black;
   left: 50%;
 }
 
@@ -66,17 +66,53 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
   gap: 1.5rem;
+  font-size: 1.4rem;
 }
 
+// LEFT
+
+.wave-card-left_content * {
+  color: black;
+}
+
+.wave-card-left_content h2 {
+  text-transform: uppercase;
+  font-size: 1.8em;
+}
+
+.wave-card-left_content h1 {
+  font-size: 4em;
+  margin-top: -0.2em;
+}
+
+.wave-card-left_content p {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-top: -0.5em;
+  letter-spacing: 0.1em;
+}
+
+// RIGHT
+
 .wave-card-right_content h1 {
-  font-size: 3.5rem;
+  font-size: 2em;
+  text-transform: uppercase;
+  text-align: center;
 }
 
 .wave-card-right_content h2 {
-  font-size: 2.2rem;
+  font-size: 4.6em;
   cursor: pointer;
+  letter-spacing: 2px;
+}
+
+.vision-title {
+  margin-top: 10px;
+}
+
+.servicios-title {
+  margin-top: -16px;
 }
 
 // -------- HOME --------
@@ -181,4 +217,15 @@
   top: var(--dist);
   width: 0%;
   left: 50%;
+}
+
+// -------- CANVAS --------
+
+#c {
+  opacity: 0;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
 }

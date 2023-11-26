@@ -40,7 +40,7 @@ export class MenuComponent {
   ): AnimationElement {
     if (this.rootURL == '') {
       return new Home(leftCard, rightCard, icon, leftContent, rightContent);
-    } else if (this.rootURL == 'vision' || this.rootURL == 'process') {
+    } else if (this.rootURL == 'vision' || this.rootURL == 'servicios') {
       return new FullScreen(
         leftCard,
         rightCard,
