@@ -51,7 +51,7 @@ export class WaveCardComponent {
 
     var isFollowingMouse = true;
     var isMouseInside = false;
-    const speed = 5;
+    const speed = 6;
 
     // ------- ONFRAME -------
 
@@ -71,8 +71,7 @@ export class WaveCardComponent {
     // ------- MOUSE MOVE -------
 
     function onMouseMoveWaveCardAnimation(event: any) {
-      const delta = event.delta;
-      const mousePos = path.segments[1].point.add(delta);
+      const mousePos = event.point;
       var isLeft;
       if (
         !isMouseInside &&
@@ -126,9 +125,7 @@ export class WaveCardComponent {
       isFollowingMouse = false;
     }
 
-    paper.view.onMouseMove = (event: any) => {
-      onMouseMoveWaveCardAnimation(event);
-    };
+    paper.view.onMouseMove = onMouseMoveWaveCardAnimation;
     paper.view.onMouseLeave = onMouseLeaveWaveCardAnimation;
     paper.view.onFrame = onFrameWaveCardAnimation;
   }
