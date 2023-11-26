@@ -15,7 +15,7 @@ export class WaveCardComponent {
     const canvas = document.getElementById(
       'wave-card-canvas'
     ) as HTMLCanvasElement;
-    
+
     paper.setup(canvas);
 
     const width = paper.view.size.width;
@@ -50,15 +50,13 @@ export class WaveCardComponent {
     path.smooth({ type: 'continuous' });
 
     var isFollowingMouse = true;
-    var isMouseInside = false;    
-    const speed = 10;    
+    var isMouseInside = false;
+    const speed = 5;
 
     // ------- ONFRAME -------
 
     const targetPos = new paper.Point(middle, height / 2);
     function onFrameWaveCardAnimation() {
-      // console.log("AAAA");
-      
       if (!isFollowingMouse) {
         const distance = targetPos.subtract(path.segments[1].point);
         if (distance.length > 1) {
@@ -70,10 +68,11 @@ export class WaveCardComponent {
       }
     }
 
-    // ------- ONMOUSEMOVE -------
+    // ------- MOUSE MOVE -------
 
     function onMouseMoveWaveCardAnimation(event: any) {
-      const mousePos = event.point;      
+      const delta = event.delta;
+      const mousePos = path.segments[1].point.add(delta);
       var isLeft;
       if (
         !isMouseInside &&
@@ -83,7 +82,7 @@ export class WaveCardComponent {
         isMouseInside = true;
         isLeft = mousePos.x < middle;
       }
-      
+
       const isWaveInside =
         path.segments[1].point.x < widthWhite &&
         path.segments[1].point.x > startWhite;
@@ -91,7 +90,7 @@ export class WaveCardComponent {
       if (isFollowingMouse && isMouseInside) {
         isMouseInside = true;
 
-        if (isWaveInside) {          
+        if (isWaveInside) {
           if (isLeft) {
             path.segments[1].point.x -=
               (mousePos.x - path.segments[1].point.x) / 25;
@@ -121,7 +120,16 @@ export class WaveCardComponent {
       }
     }
 
-    paper.view.onMouseMove = onMouseMoveWaveCardAnimation;
+    // ------- MOUSE LEAVE -------
+
+    function onMouseLeaveWaveCardAnimation() {
+      isFollowingMouse = false;
+    }
+
+    paper.view.onMouseMove = (event: any) => {
+      onMouseMoveWaveCardAnimation(event);
+    };
+    paper.view.onMouseLeave = onMouseLeaveWaveCardAnimation;
     paper.view.onFrame = onFrameWaveCardAnimation;
   }
 
