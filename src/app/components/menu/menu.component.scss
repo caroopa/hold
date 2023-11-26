@@ -32,12 +32,12 @@
 }
 
 #left-card {
-  background-color: white;
+  background-color: var(--primary-light);
   right: 50%;
 }
 
 #right-card {
-  background-color: black;
+  background-color: var(--primary-dark);
   left: 50%;
 }
 
@@ -68,12 +68,13 @@
   justify-content: center;
   gap: 1.5rem;
   font-size: 1.4rem;
+  margin-top: -4.5em;
 }
 
 // LEFT
 
 .wave-card-left_content * {
-  color: black;
+  color: var(--primary-dark);
 }
 
 .wave-card-left_content h2 {
@@ -83,17 +84,21 @@
 
 .wave-card-left_content h1 {
   font-size: 4em;
-  margin-top: -0.2em;
+  margin-top: -0.5em;
 }
 
 .wave-card-left_content p {
   font-size: 1.5em;
   font-weight: bold;
-  margin-top: -0.5em;
+  margin-top: -1.2em;
   letter-spacing: 0.1em;
 }
 
 // RIGHT
+
+.wave-card-right_content * {
+  color: var(--primary-light);
+}
 
 .wave-card-right_content h1 {
   font-size: 2em;
@@ -108,11 +113,11 @@
 }
 
 .vision-title {
-  margin-top: 10px;
+  margin-top: 0.2em;
 }
 
 .servicios-title {
-  margin-top: -16px;
+  margin-top: -0.6em;
 }
 
 // -------- HOME --------
@@ -128,12 +133,12 @@
 }
 
 .cardmenu-left {
-  background-color: white;
+  background-color: var(--primary-light);
   right: 50%;
 }
 
 .cardmenu-right {
-  background-color: black;
+  background-color: var(--primary-dark);
   left: 50%;
 }
 
@@ -162,7 +167,7 @@
   position: absolute;
   height: 0.5rem;
   width: 100%;
-  background: white;
+  background: var(--primary-light);
   border-radius: 9px;
   opacity: 1;
   left: 0;
@@ -223,9 +228,19 @@
 
 #c {
   opacity: 0;
-  position: absolute;
+  position: fixed;
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
+}
+
+// -------- WHATSAPP --------
+
+.whatsapp {
+  position: absolute;
+  z-index: 4;
+  left: 4rem;
+  bottom: 4rem;
+  height: 9rem;
 }

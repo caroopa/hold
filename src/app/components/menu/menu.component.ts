@@ -11,6 +11,7 @@ import { Location } from '@angular/common';
 export class MenuComponent {
   rootURL!: string;
   animationElement!: AnimationElement;
+  whatsapp: string = 'assets/img/whatsapp.svg';
 
   constructor(private router: Router, private location: Location) {
     this.router.events.subscribe((event) => {

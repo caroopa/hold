@@ -6,14 +6,18 @@ app-wave-card {
 
 .home-content h1 {
   color: grey;
-  font-size: 50px;
+  font-size: 7rem;
   text-align: center;
+  letter-spacing: 2px;
+  pointer-events: all;
+  cursor: pointer;
+  font-weight: bold;
 }
 
 .wave-card_content-left,
 .wave-card_content-right {
   position: absolute;
-  z-index: 1;
+  z-index: 2;
   top: 0;
   width: 50%;
   height: 100%;
@@ -31,10 +35,32 @@ app-wave-card {
   right: 0;
 }
 
-.wave-card_content-left h1, 
+.wave-card_content-left h1 {
+  color: var(--primary-dark);
+}
+
 .wave-card_content-right h1 {
-  pointer-events: all;
-  cursor: pointer;
-  font-weight: bold;
-  letter-spacing: 1px;
+  color: var(--primary-light);
+}
+
+.links {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 5rem;
+  font-size: 2.5rem;
+}
+
+.follow-title {
+  color: var(--primary-dark);
+}
+
+.hello-title {
+  color: var(--primary-light);
 }
