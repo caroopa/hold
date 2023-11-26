@@ -92,7 +92,7 @@ abstract class AnimationElement {
     this.rightContent.classList.add('animateOpacity');
     this.leftCard.style.pointerEvents = 'all';
     this.rightCard.style.pointerEvents = 'all';
-    this.icon.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+    this.icon.classList.toggle('open');
 
     this.leftCard.addEventListener('animationend', () => {
       if (this.leftCard.classList.contains('animateEnter')) {
@@ -139,7 +139,7 @@ class Home extends AnimationElement {
   }
 
   animationOutSpecific(): void {
-    this.icon.innerHTML = '<i class="fa-solid fa-bars"></i>';
+    this.icon.classList.toggle('open');
 
     const leftMenuCard = document.createElement('div');
     leftMenuCard.classList.add('cardmenu-left');
@@ -197,7 +197,7 @@ class FullScreen extends AnimationElement {
   }
 
   animationOutSpecific(): void {
-    this.icon.innerHTML = '<i class="fa-solid fa-bars"></i>';
+    this.icon.classList.toggle('open');
 
     const leftMenuCard = document.createElement('div');
     leftMenuCard.classList.add('fullscreen');
@@ -259,6 +259,6 @@ class Nothing extends AnimationElement {
   }
 
   animationOutSpecific(): void {
-    return
+    return;
   }
 }
