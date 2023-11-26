@@ -55,12 +55,17 @@ app-wave-card {
   align-items: flex-end;
   padding: 5rem;
   font-size: 2.5rem;
+  pointer-events: none;
 }
 
 .follow-title {
   color: var(--primary-dark);
+  pointer-events: all;
+  cursor: pointer;
 }
 
 .hello-title {
   color: var(--primary-light);
+  pointer-events: all;
+  cursor: pointer;
 }
