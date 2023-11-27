@@ -5,13 +5,28 @@ app-wave-card {
 }
 
 .home-content h1 {
-  color: grey;
   font-size: 7rem;
   text-align: center;
   letter-spacing: 2px;
   pointer-events: all;
   cursor: pointer;
   font-weight: bold;
+}
+
+.wave-card-left,
+.wave-card-right {
+  position: absolute;
+  top: 0;
+  width: 43%;
+  height: 100%;
+}
+
+.wave-card-left {
+  background-color: var(--primary-light);
+}
+
+.wave-card-right {
+  background-color: var(--primary-dark);
 }
 
 .wave-card_content-left,
@@ -27,10 +42,12 @@ app-wave-card {
   pointer-events: none;
 }
 
+.wave-card-left,
 .wave-card_content-left {
   left: 0;
 }
 
+.wave-card-right,
 .wave-card_content-right {
   right: 0;
 }

@@ -1,4 +1,12 @@
-#wave-card-canvas {
+.canvas-container {
   width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#wave-card-canvas {
+  width: 14%;
   height: 100%;
 }

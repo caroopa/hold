@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import * as paper from 'paper';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-wave-card',
@@ -8,14 +7,11 @@ import { Router } from '@angular/router';
   styleUrls: ['./wave-card.component.scss'],
 })
 export class WaveCardComponent {
-
-  constructor(private router: Router) {}
-
   ngAfterViewInit() {
-    this.waveCardAnimation(this.router);
+    this.waveCardAnimation();
   }
 
-  waveCardAnimation(router: Router) {
+  waveCardAnimation() {
     const canvas = document.getElementById(
       'wave-card-canvas'
     ) as HTMLCanvasElement;
@@ -24,52 +20,26 @@ export class WaveCardComponent {
 
     const width = paper.view.size.width;
     const middle = width / 2;
-    const widthWave = 100;
-    const startWhite = middle - widthWave;
-    const widthWhite = middle + widthWave;
     const height = paper.view.size.height;
 
-    var rectBlack = new paper.Path.Rectangle({
-      point: paper.view.bounds.topLeft,
-      size: paper.view.bounds.bottomRight,
-      fillColor: 'black',
-    });
-
-    var textBlack = new paper.PointText({
-      point: [width * 0.75, height / 2],
-      content: 'Servicios',
-      fillColor: '#ffffff',
-      justification: 'center',
-      fontSize: 70,
-      font: 'Poppins, sans-serif',
-      letterSpacing: 2,
-      fontWeight: 'bold',
-    });
-    paper.project.activeLayer.addChild(rectBlack);
-    paper.project.activeLayer.addChild(textBlack);
-
-    var rect = new paper.Path.Rectangle({
-      point: paper.view.bounds.topLeft,
+    var white = new paper.Path.Rectangle({
+      point: [0, 0],
       size: [middle, height],
-      fillColor: 'white',
+      fillColor: '#ffffff',
     });
-    var textWhite = new paper.PointText({
-      point: rect.position,
-      content: 'Visión',
+
+    var black = new paper.Path.Rectangle({
+      point: [middle, 0],
+      size: [width, height],
       fillColor: '#000002',
-      justification: 'center',
-      fontSize: 70,
-      font: 'Poppins, sans-serif',
-      letterSpacing: 2,
-      fontWeight: 'bold',
     });
-    paper.project.activeLayer.addChild(textWhite);
 
     var path = new paper.Path({
-      fillColor: 'white',
-      strokeColor: 'white',
+      fillColor: '#ffffff',
+      strokeColor: '#ffffff',
       strokeWidth: 2,
     });
+
     path.add([middle, 0]);
     const point = new paper.Point(middle + 1, height / 2);
     path.add(point);
@@ -78,11 +48,11 @@ export class WaveCardComponent {
 
     var isFollowingMouse = true;
     var isMouseInside = false;
-    const speed = 6;
+    const targetPos = new paper.Point(middle, height / 2);
+    const speed = 10;
 
     // ------- ONFRAME -------
 
-    const targetPos = new paper.Point(middle, height / 2);
     function onFrameWaveCardAnimation() {
       if (!isFollowingMouse) {
         const distance = targetPos.subtract(path.segments[1].point);
@@ -95,23 +65,18 @@ export class WaveCardComponent {
       }
     }
 
-    // ------- MOUSE MOVE -------
+    // ------- MOUSEMOVE -------
 
     function onMouseMoveWaveCardAnimation(event: any) {
       const mousePos = event.point;
       var isLeft;
-      if (
-        !isMouseInside &&
-        mousePos.x < middle + 10 &&
-        mousePos.x > middle - 10
-      ) {
+      if (!isMouseInside && mousePos.x < width && mousePos.x > 0) {
         isMouseInside = true;
         isLeft = mousePos.x < middle;
       }
 
       const isWaveInside =
-        path.segments[1].point.x < widthWhite &&
-        path.segments[1].point.x > startWhite;
+        path.segments[1].point.x < width && path.segments[1].point.x > 0;
 
       if (isFollowingMouse && isMouseInside) {
         isMouseInside = true;
@@ -119,10 +84,10 @@ export class WaveCardComponent {
         if (isWaveInside) {
           if (isLeft) {
             path.segments[1].point.x -=
-              (mousePos.x - path.segments[1].point.x) / 25;
+              (mousePos.x - path.segments[1].point.x) / 10;
           } else {
             path.segments[1].point.x +=
-              (mousePos.x - path.segments[1].point.x) / 25;
+              (mousePos.x - path.segments[1].point.x) / 10;
           }
         } else {
           isFollowingMouse = false;
@@ -135,38 +100,24 @@ export class WaveCardComponent {
     // ------- REANIMATE -------
 
     function reanimate() {
-      rect.bounds.size = new paper.Size(middle, height);
-      const union = rect.unite(path);
-      const intersection = rect.intersect(path);
+      white.bounds.size = new paper.Size(middle, height);
+      const union = white.unite(path);
+      const intersection = white.intersect(path);
       paper.project.activeLayer.removeChildren();
-      paper.project.activeLayer.addChild(rectBlack);
-      paper.project.activeLayer.addChild(textBlack);
+      paper.project.activeLayer.addChild(black);
       if (intersection) {
         const result = union.subtract(intersection);
         paper.project.activeLayer.addChild(result);
-        paper.project.activeLayer.addChild(textWhite);
       }
     }
 
-    // ------- MOUSE LEAVE -------
+    // ------- MOUSELEAVE -------
 
-    function onMouseLeaveWaveCardAnimation() {
+    canvas.addEventListener('mouseleave', () => {
       isFollowingMouse = false;
-    }
-
-    textBlack.onClick = function() {
-      router.navigate(['/servicios']);
-    };
-    textWhite.onClick = function() {
-      router.navigate(['/vision']);
-    };
+    });
 
     paper.view.onMouseMove = onMouseMoveWaveCardAnimation;
-    paper.view.onMouseLeave = onMouseLeaveWaveCardAnimation;
     paper.view.onFrame = onFrameWaveCardAnimation;
   }
-
-  // ngOnDestroy() {
-  //   paper.project.remove();
-  // }
 }
