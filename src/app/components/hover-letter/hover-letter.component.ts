@@ -1,12 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import gsap from 'gsap';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  selector: 'app-hover-letter',
+  templateUrl: './hover-letter.component.html',
+  styleUrls: ['./hover-letter.component.scss'],
 })
-export class HomeComponent {
-  
+export class HoverLetterComponent {
+  // @Input() text!: string;
+  // @Input() color!: string;
+
   ngAfterViewInit() {
     this.hoverLetterAnimation();
   }

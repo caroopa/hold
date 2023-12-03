@@ -16,7 +16,13 @@ html,
 body {
   width: 100vw;
   height: 100vh;
-  background-color: var(--primary-dark);
+  background: linear-gradient(
+    to right,
+    var(--primary-dark) 0%,
+    var(--primary-dark) 50%,
+    var(--primary-light) 50%,
+    var(--primary-light) 100%
+  );
   overflow: hidden;
 }
 

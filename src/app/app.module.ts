@@ -14,6 +14,7 @@ import { LogoComponent } from './components/logo/logo.component';
 import { HomeComponent } from './pages/home/home.component';
 import { VisionComponent } from './pages/vision/vision.component';
 import { ServiciosComponent } from './pages/servicios/servicios.component';
+import { HoverLetterComponent } from './components/hover-letter/hover-letter.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { ServiciosComponent } from './pages/servicios/servicios.component';
     LogoComponent,
     VisionComponent,
     ServiciosComponent,
+    HoverLetterComponent,
   ],
   imports: [
     BrowserModule,
