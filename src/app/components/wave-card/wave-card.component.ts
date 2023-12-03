@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import * as paper from 'paper';
 
 @Component({
@@ -10,6 +10,12 @@ export class WaveCardComponent {
   ngAfterViewInit() {
     this.waveCardAnimation();
   }
+
+  // @HostListener('window:resize', ['$event'])
+  // onResize(): void {
+  //   paper.project.clear();
+  //   this.waveCardAnimation();
+  // }
 
   waveCardAnimation() {
     const canvas = document.getElementById(
@@ -25,18 +31,18 @@ export class WaveCardComponent {
     var white = new paper.Path.Rectangle({
       point: [0, 0],
       size: [middle, height],
-      fillColor: '#ffffff',
+      fillColor: '#FFFAF3',
     });
 
     var black = new paper.Path.Rectangle({
       point: [middle, 0],
       size: [width, height],
-      fillColor: '#000002',
+      fillColor: '#030202',
     });
 
     var path = new paper.Path({
-      fillColor: '#ffffff',
-      strokeColor: '#ffffff',
+      fillColor: '#FFFAF3',
+      strokeColor: '#FFFAF3',
       strokeWidth: 2,
     });
 

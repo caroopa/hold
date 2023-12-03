@@ -7,6 +7,8 @@ import gsap from 'gsap';
   styleUrls: ['./hover-letter.component.scss'],
 })
 export class HoverLetterComponent {
+  secondShadeColor!: string
+
   ngAfterViewInit() {
     this.hoverLetterAnimation();
   }
@@ -21,6 +23,13 @@ export class HoverLetterComponent {
         y: mouseY,
         stagger: -0.07,
       });
+
+      var windowWidth = window.innerWidth;
+      if (mouseX > windowWidth / 2) {
+        this.secondShadeColor = 'var(--esmerald)';
+      } else {
+        this.secondShadeColor = 'var(--rose)';
+      }
     });
   }
 }
