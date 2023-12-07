@@ -123,7 +123,7 @@ abstract class AnimationElement {
     ) {
       this.animationIn();
     } else {
-      this.animationOutSpecific();
+      this.animationOut();
     }
   }
 }
