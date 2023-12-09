@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnDestroy } from '@angular/core';
+import { ColorTransitionService } from './../../services/color-transition.service';
 import gsap from 'gsap';
 
 @Component({
@@ -6,30 +7,43 @@ import gsap from 'gsap';
   templateUrl: './hover-letter.component.html',
   styleUrls: ['./hover-letter.component.scss'],
 })
-export class HoverLetterComponent {
-  secondShadeColor!: string
+export class HoverLetterComponent implements OnDestroy {
+  secondShadeColor!: string;
+
+  constructor(private transService: ColorTransitionService) {}
 
   ngAfterViewInit() {
     this.hoverLetterAnimation();
   }
 
+  ngOnDestroy() {
+    // Detener aquí cualquier manipulación o limpieza necesaria
+    document.body.removeEventListener('mousemove', this.handleMouseMove);
+  }
+
   hoverLetterAnimation() {
-    document.body.addEventListener('mousemove', (evt) => {
-      const mouseX = evt.clientX;
-      const mouseY = evt.clientY;
+    document.body.addEventListener('mousemove', this.handleMouseMove);
+  }
 
-      gsap.to('.shape', {
-        x: mouseX,
-        y: mouseY,
-        stagger: -0.07,
-      });
+  handleMouseMove = (evt: MouseEvent) => {
+    const mouseX = evt.clientX;
+    const mouseY = evt.clientY;
 
-      var windowWidth = window.innerWidth;
-      if (mouseX > windowWidth / 2) {
-        this.secondShadeColor = 'var(--esmerald)';
-      } else {
-        this.secondShadeColor = 'var(--rose)';
-      }
+    gsap.to('.shape', {
+      x: mouseX,
+      y: mouseY,
+      stagger: -0.07,
     });
+
+    var windowWidth = window.innerWidth;
+    if (mouseX > windowWidth / 2) {
+      this.secondShadeColor = 'var(--esmerald)';
+    } else {
+      this.secondShadeColor = 'var(--rose)';
+    }
+  };
+
+  activateTransition(which: string, event: MouseEvent) {
+    this.transService.whichAnimationDo(which, event.clientX, event.clientY);
   }
 }

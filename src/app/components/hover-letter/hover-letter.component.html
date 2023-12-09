@@ -5,10 +5,10 @@
 </div>
 
 <div class="content-left">
-  <h1 routerLink="/vision">Visión</h1>
+  <h1 (click)="activateTransition('vision', $event)">Visión</h1>
 </div>
 <div class="content-right">
-  <h1 routerLink="/servicios">Servicios</h1>
+  <h1 (click)="activateTransition('services', $event)">Servicios</h1>
 </div>
 
 <div class="background-container">

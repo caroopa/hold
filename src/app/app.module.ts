@@ -15,6 +15,8 @@ import { HomeComponent } from './pages/home/home.component';
 import { VisionComponent } from './pages/vision/vision.component';
 import { ServiciosComponent } from './pages/servicios/servicios.component';
 import { HoverLetterComponent } from './components/hover-letter/hover-letter.component';
+import { ColorTransitionComponent } from './components/color-transition/color-transition.component';
+import { ColorTransitionService } from './services/color-transition.service';
 
 @NgModule({
   declarations: [
@@ -26,13 +28,14 @@ import { HoverLetterComponent } from './components/hover-letter/hover-letter.com
     VisionComponent,
     ServiciosComponent,
     HoverLetterComponent,
+    ColorTransitionComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule
   ],
-  providers: [],
+  providers: [ColorTransitionService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
