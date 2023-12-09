@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { ColorTransitionService } from 'src/app/services/color-transition.service';
 import anime from 'animejs/lib/anime.es.js';
 
@@ -8,39 +9,35 @@ import anime from 'animejs/lib/anime.es.js';
   styleUrls: ['./color-transition.component.scss'],
 })
 export class ColorTransitionComponent {
-  constructor(private transService: ColorTransitionService) {}
+  constructor(
+    private transService: ColorTransitionService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.transService.setTransition().subscribe((e) => {
-      this.whichAnimationDo(e.which, e.posX, e.posY);
+      this.colorTransitionAnimation(e.which, e.posX, e.posY);
     });
   }
 
-  whichAnimationDo(which: string, posX: number, posY: number) {
-    if (which == 'vision') {
-      this.colorTransitionAnimation('#3C6BB3', posX, posY);
-    } else {
-      this.colorTransitionAnimation('#FFD44C', posX, posY);
-    }
-  }
-
-  colorTransitionAnimation(nextColor: string, posX: number, posY: number) {
+  colorTransitionAnimation(which: string, posX: number, posY: number) {
     const c = document.getElementById('color_transition') as HTMLCanvasElement;
     const ctx = c.getContext('2d')!;
+    const bgColor = 'transparent';
     let cH = window.innerHeight;
     let cW = window.innerWidth;
-    const bgColor = 'transparent';
     let animations: any = [];
 
+    let nextColor: string;
+    if (which == 'vision') {
+      nextColor = '#3C6BB3';
+    } else {
+      nextColor = '#FFD44C';
+    }
     c.style.transition = 'none';
     c.style.opacity = '1';
 
     resizeCanvas();
-
-    const removeAnimation = (animation: any) => {
-      let index = animations.indexOf(animation);
-      if (index > -1) animations.splice(index, 1);
-    };
 
     const currentColor = '#B4B0AC';
     let targetR = Math.sqrt(
@@ -64,6 +61,7 @@ export class ColorTransitionComponent {
         c.style.transition = 'opacity 0.5s ease';
         c.style.opacity = '0';
         removeAnimation(fillAnimation);
+        redirect()
       },
     });
 
@@ -142,6 +140,16 @@ export class ColorTransitionComponent {
         });
       },
     });
+
+    function removeAnimation(animation: any) {
+      let index = animations.indexOf(animation);
+      if (index > -1) animations.splice(index, 1);
+    }
+
+    const redirect = () => {
+      animations = [];
+      this.router.navigate(['/' + which]);
+    }
 
     function resizeCanvas() {
       cW = window.innerWidth;
