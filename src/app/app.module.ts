@@ -17,6 +17,7 @@ import { ServiciosComponent } from './pages/servicios/servicios.component';
 import { HoverLetterComponent } from './components/hover-letter/hover-letter.component';
 import { ColorTransitionComponent } from './components/color-transition/color-transition.component';
 import { ColorTransitionService } from './services/color-transition.service';
+import { LinksComponent } from './components/links/links.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { ColorTransitionService } from './services/color-transition.service';
     ServiciosComponent,
     HoverLetterComponent,
     ColorTransitionComponent,
+    LinksComponent,
   ],
   imports: [
     BrowserModule,

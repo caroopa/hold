@@ -1,0 +1,27 @@
+.links {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 6rem;
+  font-size: 2rem;
+  font-weight: 700;
+  pointer-events: none;
+}
+
+.follow-title {
+  color: var(--primary-dark);
+  pointer-events: all;
+  cursor: pointer;
+}
+
+.hello-title {
+  color: var(--primary-light);
+  pointer-events: all;
+  cursor: pointer;
+}
