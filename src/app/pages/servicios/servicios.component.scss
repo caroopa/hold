@@ -2,4 +2,67 @@
   width: 100vw;
   height: 100vh;
   background-color: var(--yellow);
+  transition: 0.5s ease;
+}
+
+.services-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.services-content {
+  width: 70%;
+  height: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.services-content h1 {
+  font-size: 3rem;
+}
+
+.services-content p {
+  font-size: 2rem;
+  text-align: center;
+}
+
+.hidden {
+  opacity: 0;
+}
+
+.animateScroll {
+  transition: opacity 0.7s ease;
+}
+
+.markers {
+  position: fixed;
+  bottom: 4rem;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.current-marker {
+  width: 30px !important;
+  height: 6px;
+  background-color: var(--primary-light) !important;
+  cursor: default !important;
+}
+
+.marker {
+  width: 20px;
+  height: 6px;
+  background-color: rgba(255, 255, 255, 0.5);
+  transition: 0.5s ease;
+  cursor: pointer;
 }

@@ -1,3 +1,82 @@
 <main class="services-body">
-  <p>Servicios</p>
+  <div class="services-container">
+    <section class="services-content">
+      <h1>Signify Elegance</h1>
+      <br />
+      <p>
+        Lorem ipsum dolor sit amet consectetur. Egestas euismod nec sit sed
+        massa turpis in. Sit praesent arcu leo lectus pellentesque. Ornare elit
+        orci morbi volutpat. Ut fermentum lorem morbi quis risus amet urna. Urna
+        egestas lorem.
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur. Egestas euismod nec sit sed
+        massa turpis in. Sit praesent arcu leo lectus pellentesque. Ornare elit
+        orci morbi volutpat. Ut fermentum lorem morbi quis risus amet urna. Urna
+        egestas lorem.
+      </p>
+    </section>
+  </div>
+  <div class="services-container hidden">
+    <section class="services-content">
+      <h1>Hola qué tal</h1>
+      <br />
+      <p>
+        Lorem ipsum dolor sit amet consectetur. Egestas euismod nec sit sed
+        massa turpis in. Sit praesent arcu leo lectus pellentesque. Ornare elit
+        orci morbi volutpat. Ut fermentum lorem morbi quis risus amet urna. Urna
+        egestas lorem.
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur. Egestas euismod nec sit sed
+        massa turpis in. Sit praesent arcu leo lectus pellentesque. Ornare elit
+        orci morbi volutpat. Ut fermentum lorem morbi quis risus amet urna. Urna
+        egestas lorem.
+      </p>
+    </section>
+  </div>
+  <div class="services-container hidden">
+    <section class="services-content">
+      <h1>Buen día</h1>
+      <br />
+      <p>
+        Lorem ipsum dolor sit amet consectetur. Egestas euismod nec sit sed
+        massa turpis in. Sit praesent arcu leo lectus pellentesque. Ornare elit
+        orci morbi volutpat. Ut fermentum lorem morbi quis risus amet urna. Urna
+        egestas lorem.
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur. Egestas euismod nec sit sed
+        massa turpis in. Sit praesent arcu leo lectus pellentesque. Ornare elit
+        orci morbi volutpat. Ut fermentum lorem morbi quis risus amet urna. Urna
+        egestas lorem.
+      </p>
+    </section>
+  </div>
+  <div class="services-container hidden">
+    <section class="services-content">
+      <h1>Hasta luego</h1>
+      <br />
+      <p>
+        Lorem ipsum dolor sit amet consectetur. Egestas euismod nec sit sed
+        massa turpis in. Sit praesent arcu leo lectus pellentesque. Ornare elit
+        orci morbi volutpat. Ut fermentum lorem morbi quis risus amet urna. Urna
+        egestas lorem.
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur. Egestas euismod nec sit sed
+        massa turpis in. Sit praesent arcu leo lectus pellentesque. Ornare elit
+        orci morbi volutpat. Ut fermentum lorem morbi quis risus amet urna. Urna
+        egestas lorem.
+      </p>
+    </section>
+  </div>
+  <div class="markers">
+    <span
+      *ngFor="let i of markers; let index = index"
+      class="marker"
+      [ngClass]="currentClass(index)"
+      (click)="onClick(index)"
+    ></span>
+  </div>
 </main>
