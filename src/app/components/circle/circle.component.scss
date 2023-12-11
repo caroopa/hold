@@ -1,0 +1,43 @@
+.main-circle {
+  width: 40rem;
+  height: 40rem;
+  border-radius: 50%;
+  border: 3px solid var(--primary-dark);
+  position: relative;
+}
+
+.circle {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  border: 3px solid var(--primary-dark);
+  position: absolute;
+}
+
+.top-right,
+.top-left {
+  top: 5rem;
+}
+
+.bottom-right,
+.top-right {
+  right: 3.4rem;
+}
+
+.bottom-left,
+.top-left {
+  left: 3.4rem;
+}
+
+.bottom-right,
+.bottom-left {
+  bottom: 5rem;
+}
+
+.filled {
+  background-color: var(--primary-dark);
+}
+
+.other {
+  background-color: var(--yellow);
+}

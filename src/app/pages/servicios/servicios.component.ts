@@ -1,6 +1,7 @@
 import { Component, HostListener } from '@angular/core';
 import { ColorTransitionService } from './../../services/color-transition.service';
 import { ScrollService } from 'src/app/services/scroll.service';
+import { CircleService } from 'src/app/services/circle.service';
 
 @Component({
   selector: 'app-servicios',
@@ -17,7 +18,8 @@ export class ServiciosComponent {
 
   constructor(
     private transService: ColorTransitionService,
-    private scrollService: ScrollService
+    private scrollService: ScrollService,
+    private circleService: CircleService
   ) {}
 
   ngOnInit() {
@@ -110,6 +112,7 @@ export class ServiciosComponent {
       nextContainer.classList.remove('animateScroll');
 
       // this.isTransitioning = false;
+      this.circleService.setProperties(this.colors[nextIndex], nextIndex);
       this.index = nextIndex;
     };
 

@@ -18,6 +18,7 @@ import { HoverLetterComponent } from './components/hover-letter/hover-letter.com
 import { ColorTransitionComponent } from './components/color-transition/color-transition.component';
 import { ColorTransitionService } from './services/color-transition.service';
 import { LinksComponent } from './components/links/links.component';
+import { CircleComponent } from './components/circle/circle.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { LinksComponent } from './components/links/links.component';
     HoverLetterComponent,
     ColorTransitionComponent,
     LinksComponent,
+    CircleComponent,
   ],
   imports: [
     BrowserModule,
