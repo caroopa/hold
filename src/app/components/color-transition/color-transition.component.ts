@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ColorTransitionService } from 'src/app/services/color-transition.service';
+import { ScrollService } from 'src/app/services/scroll.service';
 import anime from 'animejs/lib/anime.es.js';
 
 @Component({
@@ -11,16 +12,23 @@ import anime from 'animejs/lib/anime.es.js';
 export class ColorTransitionComponent {
   constructor(
     private transService: ColorTransitionService,
+    private scrollService: ScrollService,
     private router: Router
   ) {}
 
   ngOnInit() {
     this.transService.setTransition().subscribe((e) => {
-      this.colorTransitionAnimation(e.which, e.posX, e.posY);
+      this.colorTransitionAnimation(e.color, e.posX, e.posY, e.zindex, e.page);
     });
   }
 
-  colorTransitionAnimation(which: string, posX: number, posY: number) {
+  colorTransitionAnimation(
+    nextColor: string,
+    posX: number,
+    posY: number,
+    zindex: number,
+    page: string | null
+  ) {
     const c = document.getElementById('color_transition') as HTMLCanvasElement;
     const ctx = c.getContext('2d')!;
     const bgColor = 'transparent';
@@ -28,12 +36,7 @@ export class ColorTransitionComponent {
     let cW = window.innerWidth;
     let animations: any = [];
 
-    let nextColor: string;
-    if (which == 'vision') {
-      nextColor = '#3C6BB3';
-    } else {
-      nextColor = '#FFD44C';
-    }
+    c.style.zIndex = zindex.toString();
     c.style.transition = 'none';
     c.style.opacity = '1';
 
@@ -58,10 +61,10 @@ export class ColorTransitionComponent {
       duration: Math.max(targetR / 2, minCoverDuration),
       easing: 'easeOutQuart',
       complete: function () {
-        c.style.transition = 'opacity 0.5s ease';
+        c.style.transition = 'opacity 0.2s ease';
         c.style.opacity = '0';
         removeAnimation(fillAnimation);
-        redirect()
+        handleCompleted();
       },
     });
 
@@ -81,7 +84,7 @@ export class ColorTransitionComponent {
       r: rippleSize,
       opacity: 0,
       easing: 'easeOutExpo',
-      duration: 900,
+      duration: 1500,
       complete: removeAnimation,
     });
 
@@ -146,10 +149,14 @@ export class ColorTransitionComponent {
       if (index > -1) animations.splice(index, 1);
     }
 
-    const redirect = () => {
-      animations = [];
-      this.router.navigate(['/' + which]);
-    }
+    const handleCompleted = () => {
+      if (page) {
+        animations = [];
+        this.router.navigate(['/' + page]);
+      } else {
+        this.scrollService.notifyAnimationEnd('Cambiate');
+      }
+    };
 
     function resizeCanvas() {
       cW = window.innerWidth;
@@ -157,7 +164,6 @@ export class ColorTransitionComponent {
       c.width = cW * devicePixelRatio;
       c.height = cH * devicePixelRatio;
       ctx.scale(devicePixelRatio, devicePixelRatio);
-      c.classList.toggle('hidden');
     }
   }
 }

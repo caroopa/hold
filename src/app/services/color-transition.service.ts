@@ -5,11 +5,23 @@ import { Subject } from 'rxjs';
   providedIn: 'root',
 })
 export class ColorTransitionService {
-  private activateTransition = new Subject<{which: string, posX: number, posY: number }>();
+  private activateTransition = new Subject<{
+    color: string;
+    posX: number;
+    posY: number;
+    zindex: number;
+    page: string | null;
+  }>();
 
   // Método para emitir eventos
-  whichAnimationDo(which: string, posX: number, posY: number) {
-    this.activateTransition.next({ which, posX, posY });
+  setProperties(
+    color: string,
+    posX: number,
+    posY: number,
+    zindex: number,
+    page: string | null
+  ) {
+    this.activateTransition.next({ color, posX, posY, zindex, page });
   }
 
   // Método para suscribirse a eventos

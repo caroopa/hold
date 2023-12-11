@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { ColorTransitionService } from './../../services/color-transition.service';
 import gsap from 'gsap';
 
@@ -17,7 +17,6 @@ export class HoverLetterComponent implements OnDestroy {
   }
 
   ngOnDestroy() {
-    // Detener aquí cualquier manipulación o limpieza necesaria
     document.body.removeEventListener('mousemove', this.handleMouseMove);
   }
 
@@ -43,7 +42,7 @@ export class HoverLetterComponent implements OnDestroy {
     }
   };
 
-  activateTransition(which: string, event: MouseEvent) {
-    this.transService.whichAnimationDo(which, event.clientX, event.clientY);
+  activateTransition(which: string, color: string, event: MouseEvent) {
+    this.transService.setProperties(color, event.clientX, event.clientY, 10, which);
   }
 }

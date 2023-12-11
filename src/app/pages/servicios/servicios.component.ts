@@ -1,4 +1,6 @@
 import { Component, HostListener } from '@angular/core';
+import { ColorTransitionService } from './../../services/color-transition.service';
+import { ScrollService } from 'src/app/services/scroll.service';
 
 @Component({
   selector: 'app-servicios',
@@ -11,7 +13,12 @@ export class ServiciosComponent {
   markers!: number[];
   isTransitioning!: boolean;
   body!: any;
-  colors = ['var(--yellow)', 'var(--rose)', 'var(--esmerald)', 'var(--orange)'];
+  colors = ['#FFD44C', '#E5B7D6', '#00A698', '#EC644E'];
+
+  constructor(
+    private transService: ColorTransitionService,
+    private scrollService: ScrollService
+  ) {}
 
   ngOnInit() {
     this.index = 0;
@@ -19,13 +26,17 @@ export class ServiciosComponent {
     this.markers = new Array(this.container.length);
     this.isTransitioning = false;
     this.body = document.querySelector('.services-body');
+
+    this.scrollService.animationEnd$.subscribe((componentName) => {
+      if (componentName === 'Cambiate') {
+        this.isTransitioning = false;
+      }
+    });
   }
 
   @HostListener('window:wheel', ['$event'])
   onWheel(e: WheelEvent) {
     if (!this.isTransitioning) {
-      console.log('qué onda');
-
       let nextIndex!: number;
 
       if (e.deltaY > 0) {
@@ -62,6 +73,14 @@ export class ServiciosComponent {
     currentMarker.classList.remove('current-marker');
     this.body.style.backgroundColor = this.colors[nextIndex];
 
+    this.transService.setProperties(
+      this.colors[nextIndex],
+      window.innerWidth / 2,
+      window.innerHeight / 2,
+      3,
+      null
+    );
+
     const onCurrentContainerTransitionEnd = () => {
       currentContainer.removeEventListener(
         'transitionend',
@@ -83,7 +102,6 @@ export class ServiciosComponent {
     );
 
     const onNextContainerTransitionEnd = () => {
-      console.log(nextContainer.innerHTML);
       nextContainer.removeEventListener(
         'transitionend',
         onNextContainerTransitionEnd
@@ -91,7 +109,7 @@ export class ServiciosComponent {
 
       nextContainer.classList.remove('animateScroll');
 
-      this.isTransitioning = false;
+      // this.isTransitioning = false;
       this.index = nextIndex;
     };
 
