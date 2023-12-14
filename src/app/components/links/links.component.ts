@@ -6,13 +6,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./links.component.scss'],
 })
 export class LinksComponent {
-  showFollow = false;
-  hideFollow = true;
+  showFollow: boolean | null = null;
   showHello = false;
 
   toggleFollowPopup() {
     this.showFollow = !this.showFollow;
-    this.hideFollow = !this.hideFollow;
   }
 
   helloPopup() {

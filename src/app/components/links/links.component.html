@@ -4,7 +4,7 @@
       class="follow-popup"
       [ngClass]="{
         'follow-appear': showFollow,
-        'follow-disappear': hideFollow,
+        'follow-disappear': !showFollow && showFollow != null,
         selectable: showFollow
       }"
     >
