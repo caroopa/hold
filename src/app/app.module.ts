@@ -19,6 +19,7 @@ import { ColorTransitionComponent } from './components/color-transition/color-tr
 import { ColorTransitionService } from './services/color-transition.service';
 import { LinksComponent } from './components/links/links.component';
 import { CircleComponent } from './components/circle/circle.component';
+import { ServiciosDescComponent } from './pages/servicios-desc/servicios-desc.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { CircleComponent } from './components/circle/circle.component';
     ColorTransitionComponent,
     LinksComponent,
     CircleComponent,
+    ServiciosDescComponent,
   ],
   imports: [
     BrowserModule,
