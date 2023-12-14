@@ -1,4 +1,21 @@
 <div class="links">
-  <p class="follow-title">Follow</p>
-  <p class="hello-title">Hello!</p>
+  <div class="follow">
+    <p
+      class="follow-popup"
+      [ngClass]="{
+        'follow-appear': showFollow,
+        'follow-disappear': hideFollow,
+        selectable: showFollow
+      }"
+    >
+      IG <span class="follow-separator">|</span> LN
+    </p>
+    <p class="follow-title selectable" (click)="toggleFollowPopup()">Follow</p>
+  </div>
+  <div class="hello">
+    <p class="hello-popup" [ngClass]="{ 'hello-alert': showHello }">
+      e-mail copiado
+    </p>
+    <p class="hello-title selectable" (click)="helloPopup()">Hello!</p>
+  </div>
 </div>

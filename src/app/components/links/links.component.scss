@@ -9,19 +9,111 @@
   justify-content: space-between;
   align-items: flex-end;
   padding: 6rem;
-  font-size: 2rem;
-  font-weight: 700;
   pointer-events: none;
 }
 
-.follow-title {
-  color: var(--primary-dark);
-  pointer-events: all;
-  cursor: pointer;
+.follow,
+.hello {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
+.follow {
+  align-items: center;
+}
+
+.hello {
+  align-items: flex-end;
+}
+
+.follow-title,
 .hello-title {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.follow-title,
+.follow-popup {
+  color: var(--primary-dark);
+}
+
+.hello-title,
+.hello-popup {
   color: var(--primary-light);
+}
+
+.follow-popup,
+.hello-popup {
+  transform: translateY(3rem);
+  opacity: 0;
+}
+
+.follow-popup {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.follow-separator {
+  font-weight: 500;
+  margin: 0 0.2rem;
+}
+
+.hello-popup {
+  font-size: 2rem;
+  font-weight: 500;
+}
+
+.follow-appear {
+  animation: follow-appear 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+@keyframes follow-appear {
+  0% {
+    transform: translateY(3rem);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.follow-disappear {
+  animation: follow-disappear 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+@keyframes follow-disappear {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(3rem);
+    opacity: 0;
+  }
+}
+
+.hello-alert {
+  animation: hello-alert 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+@keyframes hello-alert {
+  0% {
+    transform: translateY(3rem);
+    opacity: 0;
+  }
+  50% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+}
+
+.selectable {
   pointer-events: all;
   cursor: pointer;
 }
