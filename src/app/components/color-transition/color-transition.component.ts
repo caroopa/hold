@@ -61,8 +61,6 @@ export class ColorTransitionComponent {
       duration: Math.max(targetR / 2, minCoverDuration),
       easing: 'easeOutQuart',
       complete: function () {
-        c.style.transition = 'opacity 0.2s ease';
-        c.style.opacity = '0';
         removeAnimation(fillAnimation);
         handleCompleted();
       },
@@ -156,6 +154,8 @@ export class ColorTransitionComponent {
       } else {
         this.scrollService.notifyAnimationEnd('Cambiate');
       }
+      c.style.transition = 'opacity 0.3s ease';
+      c.style.opacity = '0';
     };
 
     function resizeCanvas() {

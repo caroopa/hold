@@ -10,6 +10,7 @@ import { CircleService } from 'src/app/services/circle.service';
 })
 export class ServiciosComponent {
   index!: number;
+  nextIndex!: number;
   container!: any;
   markers!: number[];
   isTransitioning!: boolean;
@@ -30,8 +31,8 @@ export class ServiciosComponent {
     this.body = document.querySelector('.services-body');
 
     this.scrollService.animationEnd$.subscribe((componentName) => {
-      if (componentName === 'Cambiate') {
-        this.isTransitioning = false;
+      if (componentName === 'Cambiate' && this.nextIndex < this.container.length) {
+        this.changeSection();
       }
     });
   }
@@ -39,100 +40,63 @@ export class ServiciosComponent {
   @HostListener('window:wheel', ['$event'])
   onWheel(e: WheelEvent) {
     if (!this.isTransitioning) {
-      let nextIndex!: number;
-
       if (e.deltaY > 0) {
-        nextIndex = this.index + 1;
+        this.nextIndex = this.index + 1;
       } else if (e.deltaY < 0) {
-        nextIndex = this.index - 1;
+        this.nextIndex = this.index - 1;
       }
-
-      if (nextIndex >= 0 && nextIndex <= this.container.length) {
-        this.changeSection(nextIndex);
+      if (this.nextIndex >= 0 && this.nextIndex < this.container.length) {
+        this.transService.setProperties(
+          this.colors[this.nextIndex],
+          window.innerWidth / 2,
+          window.innerHeight / 2,
+          3,
+          null
+        );
+      } else if (this.nextIndex == this.container.length) {
+        console.log("aaa");
+        
+        this.transService.setProperties(
+          this.colors[this.nextIndex],
+          window.innerWidth / 2,
+          window.innerHeight / 2,
+          3,
+          'servicios/desc'
+        );
       }
+      this.isTransitioning = true;
     }
   }
 
   onClick(index: number) {
     if (this.index != index) {
-      this.changeSection(index);
-    }
-  }
-
-  changeSection(nextIndex: number) {
-    const currentContainer = this.container[this.index] as HTMLElement;
-    const nextContainer = this.container[nextIndex] as HTMLElement;
-    const markers = document.querySelectorAll('.marker');
-    const currentMarker = document.querySelector(
-      '.current-marker'
-    ) as HTMLElement;
-
-    const nextMarker = markers[nextIndex] as HTMLElement;
-    this.isTransitioning = true;
-
-    currentContainer.classList.add('animateScroll');
-    currentContainer.style.opacity = '0';
-    currentMarker.classList.remove('current-marker');
-    this.body.style.backgroundColor = this.colors[nextIndex];
-
-    if (nextIndex == this.container.length) {
       this.transService.setProperties(
-        this.colors[nextIndex],
-        window.innerWidth / 2,
-        window.innerHeight / 2,
-        3,
-        'servicios/desc'
-      );
-    } else {
-      this.transService.setProperties(
-        this.colors[nextIndex],
+        this.colors[index],
         window.innerWidth / 2,
         window.innerHeight / 2,
         3,
         null
       );
-
-      const onCurrentContainerTransitionEnd = () => {
-        currentContainer.removeEventListener(
-          'transitionend',
-          onCurrentContainerTransitionEnd
-        );
-
-        currentContainer.classList.remove('animateScroll');
-        currentContainer.classList.add('hidden');
-
-        nextContainer.classList.remove('hidden');
-        nextContainer.classList.add('animateScroll');
-        nextContainer.style.opacity = '1';
-        nextMarker.classList.add('current-marker');
-      };
-
-      currentContainer.addEventListener(
-        'transitionend',
-        onCurrentContainerTransitionEnd
-      );
-
-      const onNextContainerTransitionEnd = () => {
-        nextContainer.removeEventListener(
-          'transitionend',
-          onNextContainerTransitionEnd
-        );
-
-        nextContainer.classList.remove('animateScroll');
-
-        // this.isTransitioning = false;
-        this.circleService.setProperties(this.colors[nextIndex], nextIndex);
-        this.index = nextIndex;
-      };
-
-      nextContainer.addEventListener(
-        'transitionend',
-        onNextContainerTransitionEnd
-      );
+      this.changeSection(index);
     }
   }
 
-  currentClass(N: number) {
-    return N === 0 ? 'current-marker' : '';
+  changeSection(i: number = this.nextIndex) {
+    const currentContainer = this.container[this.index] as HTMLElement;
+    const nextContainer = this.container[i] as HTMLElement;
+    currentContainer.classList.add('hiden');
+    nextContainer.classList.remove('hiden');
+
+    this.circleService.setProperties(this.colors[i], i);
+    this.isTransitioning = false;
+    this.index = i;
+  }
+
+  isCurrentIndex(i: number) {
+    return i == this.index;
+  }
+
+  backgroundColor() {
+    return this.colors[this.index];
   }
 }
