@@ -33,15 +33,6 @@ export class ServiciosComponent {
     this.isTransitioning = false;
     this.body = document.querySelector('.services-body');
 
-    this.scrollService.animationEnd$.subscribe((componentName) => {
-      if (
-        componentName === 'Cambiate' &&
-        this.nextIndex < this.container.length
-      ) {
-        this.changeSection();
-      }
-    });
-
     this.linksService.changeFollowColor('var(--primary-dark)');
     this.linksService.changeHelloColor('var(--primary-dark)');
     this.linksService.changeMenuColor('var(--primary-dark)');
@@ -55,10 +46,19 @@ export class ServiciosComponent {
   onWheel(e: WheelEvent) {
     if (!this.isTransitioning) {
       if (e.deltaY > 0) {
-        this.nextIndex = this.index + 1;
+        if (this.index + 1 <= this.container.length) {
+          this.nextIndex = this.index + 1;
+        } else {
+          return;
+        }
       } else if (e.deltaY < 0) {
-        this.nextIndex = this.index - 1;
+        if (this.index - 1 >= 0) {
+          this.nextIndex = this.index - 1;
+        } else {
+          return;
+        }
       }
+
       if (this.nextIndex >= 0 && this.nextIndex < this.container.length) {
         this.transService.setProperties(
           this.colors[this.nextIndex],
@@ -74,23 +74,32 @@ export class ServiciosComponent {
           'servicios/desc'
         );
       }
+
       this.isTransitioning = true;
+      this.scrollService.animationEnd$.subscribe((componentName) => {
+        if (
+          componentName === 'Cambiate' &&
+          this.nextIndex < this.container.length
+        ) {
+          this.changeSection();
+        }
+      });
     }
   }
 
   manualChange(index: number) {
     if (this.index != index) {
+      this.nextIndex = index;
+      console.log(this.nextIndex);
+
+      this.isTransitioning = true;
+
       this.transService.setProperties(
         this.colors[index],
         window.innerWidth / 2,
         window.innerHeight / 2,
         null
       );
-      this.scrollService.animationEnd$.subscribe((componentName) => {
-        if (componentName === 'Cambiate') {
-          this.changeSection(index);
-        }
-      });
     }
   }
 
