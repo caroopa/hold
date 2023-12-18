@@ -9,23 +9,27 @@ import { CircleService } from 'src/app/services/circle.service';
 export class CircleComponent {
   indexFilled = 0;
   otherColor = 'var(--yellow)';
+  linkColor = 'var(--primary-dark)';
 
-  constructor(private circleService: CircleService) {}
+  constructor(
+    private circleService: CircleService,
+  ) {}
 
   ngOnInit() {
     this.circleService.setTransition().subscribe((e) => {
-      this.moveCircles(e.color, e.index);
+      this.moveCircles(e.color, e.linkColor, e.index);
     });
   }
 
-  moveCircles(color: string, index: number) {
+  moveCircles(color: string, linkColor: string, index: number) {
     this.indexFilled = index;
+    this.linkColor = linkColor;
     this.otherColor = color;
   }
 
   filled(index: number): string {
     if (index == this.indexFilled) {
-      return 'var(--primary-dark)';
+      return this.linkColor;
     } else {
       return this.otherColor;
     }

@@ -9,7 +9,6 @@ export class ColorTransitionService {
     color: string;
     posX: number;
     posY: number;
-    zindex: number;
     page: string | null;
   }>();
 
@@ -18,10 +17,9 @@ export class ColorTransitionService {
     color: string,
     posX: number,
     posY: number,
-    zindex: number,
     page: string | null
   ) {
-    this.activateTransition.next({ color, posX, posY, zindex, page });
+    this.activateTransition.next({ color, posX, posY, page });
   }
 
   // Método para suscribirse a eventos

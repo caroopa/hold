@@ -43,6 +43,6 @@ export class HoverLetterComponent implements OnDestroy {
   };
 
   activateTransition(which: string, color: string, event: MouseEvent) {
-    this.transService.setProperties(color, event.clientX, event.clientY, 10, which);
+    this.transService.setProperties(color, event.clientX, event.clientY, which);
   }
 }

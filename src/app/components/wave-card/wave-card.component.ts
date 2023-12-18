@@ -11,6 +11,10 @@ export class WaveCardComponent {
     this.waveCardAnimation();
   }
 
+  ngOnDestroy() {
+    paper.project.clear();
+  }
+
   // @HostListener('window:resize', ['$event'])
   // onResize(): void {
   //   paper.project.clear();

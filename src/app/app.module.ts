@@ -41,7 +41,7 @@ import { ServiciosDescComponent } from './pages/servicios-desc/servicios-desc.co
     AppRoutingModule,
     BrowserAnimationsModule
   ],
-  providers: [ColorTransitionService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

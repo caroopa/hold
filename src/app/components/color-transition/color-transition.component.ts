@@ -18,7 +18,7 @@ export class ColorTransitionComponent {
 
   ngOnInit() {
     this.transService.setTransition().subscribe((e) => {
-      this.colorTransitionAnimation(e.color, e.posX, e.posY, e.zindex, e.page);
+      this.colorTransitionAnimation(e.color, e.posX, e.posY, e.page);
     });
   }
 
@@ -26,7 +26,6 @@ export class ColorTransitionComponent {
     nextColor: string,
     posX: number,
     posY: number,
-    zindex: number,
     page: string | null
   ) {
     const c = document.getElementById('color_transition') as HTMLCanvasElement;
@@ -36,7 +35,6 @@ export class ColorTransitionComponent {
     let cW = window.innerWidth;
     let animations: any = [];
 
-    c.style.zIndex = zindex.toString();
     c.style.transition = 'none';
     c.style.opacity = '1';
 

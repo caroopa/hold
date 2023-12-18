@@ -1,5 +1,9 @@
 <main class="service-desc-container">
-  <section class="service-desc-section yellow">
+  <section
+    class="service-desc-section yellow"
+    (mouseenter)="changeLeftLink('var(--primary-dark)')"
+    (mouseleave)="changeLeftLink('var(--primary-light)')"
+  >
     <h3>Comunicación</h3>
   </section>
   <section class="service-desc-section orange">

@@ -1,8 +1,20 @@
 <main class="circle-container">
-  <div class="main-circle">
-    <div class="circle top-right" [style.background-color]="filled(0)"></div>
-    <div class="circle bottom-right" [style.background-color]="filled(1)"></div>
-    <div class="circle bottom-left" [style.background-color]="filled(2)"></div>
-    <div class="circle top-left" [style.background-color]="filled(3)"></div>
+  <div class="main-circle" [style.border-color]="linkColor">
+    <div
+      class="circle top-right"
+      [ngStyle]="{ 'background-color': filled(0), 'border-color': linkColor }"
+    ></div>
+    <div
+      class="circle bottom-right"
+      [ngStyle]="{ 'background-color': filled(1), 'border-color': linkColor }"
+    ></div>
+    <div
+      class="circle bottom-left"
+      [ngStyle]="{ 'background-color': filled(2), 'border-color': linkColor }"
+    ></div>
+    <div
+      class="circle top-left"
+      [ngStyle]="{ 'background-color': filled(3), 'border-color': linkColor }"
+    ></div>
   </div>
 </main>

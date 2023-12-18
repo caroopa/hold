@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { LinksService } from 'src/app/services/links.service';
 
 @Component({
   selector: 'app-vision',
@@ -6,4 +7,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./vision.component.scss'],
 })
 export class VisionComponent {
+  constructor(private linksService: LinksService) {}
+
+  ngOnInit() {
+    this.linksService.changeFollowColor('var(--primary-light)');
+    this.linksService.changeHelloColor('var(--primary-light)');
+    this.linksService.changeMenuColor('var(--primary-light)');
+  }
 }

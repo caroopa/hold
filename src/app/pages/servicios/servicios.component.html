@@ -8,19 +8,19 @@
   <div class="services-container">
     <section
       class="services-content"
-      [ngClass]="{ hidden: !isCurrentIndex(0) }"
+      [ngClass]="{ hidden: !isCurrentIndex(1) }"
     ></section>
   </div>
   <div class="services-container">
     <section
       class="services-content"
-      [ngClass]="{ hidden: !isCurrentIndex(0) }"
+      [ngClass]="{ hidden: !isCurrentIndex(2) }"
     ></section>
   </div>
   <div class="services-container">
     <section
       class="services-content"
-      [ngClass]="{ hidden: !isCurrentIndex(0) }"
+      [ngClass]="{ hidden: !isCurrentIndex(3) }"
     ></section>
   </div>
   <div class="markers">
@@ -28,6 +28,9 @@
       *ngFor="let i of markers; let index = index"
       class="marker"
       [ngClass]="{ 'current-marker': isCurrentIndex(index) }"
+      [ngStyle]="
+        isCurrentIndex(index) ? { 'background-color': linksColor } : {}
+      "
       (click)="onClick(index)"
     ></span>
   </div>

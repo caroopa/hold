@@ -7,15 +7,32 @@
         'follow-disappear': !showFollow && showFollow != null,
         selectable: showFollow
       }"
+      [style.color]="followColor"
     >
       IG <span class="follow-separator">|</span> LN
     </p>
-    <p class="follow-title selectable" (click)="toggleFollowPopup()">Follow</p>
+    <p
+      class="follow-title selectable"
+      [style.color]="followColor"
+      (click)="toggleFollowPopup()"
+    >
+      Follow
+    </p>
   </div>
   <div class="hello">
-    <p class="hello-popup" [ngClass]="{ 'hello-alert': showHello }">
+    <p
+      class="hello-popup"
+      [ngClass]="{ 'hello-alert': showHello }"
+      [style.color]="helloColor"
+    >
       e-mail copiado
     </p>
-    <p class="hello-title selectable" (click)="helloPopup()">Hello!</p>
+    <p
+      class="hello-title selectable"
+      [style.color]="helloColor"
+      (click)="helloPopup()"
+    >
+      Hello!
+    </p>
   </div>
 </div>

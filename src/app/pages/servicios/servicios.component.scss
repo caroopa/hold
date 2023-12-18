@@ -43,24 +43,24 @@
 
 .markers {
   position: fixed;
-  bottom: 4rem;
+  bottom: 6.5rem;
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 0.5rem;
+  gap: 1rem;
 }
 
 .current-marker {
-  width: 30px !important;
+  width: 8rem !important;
   height: 6px;
-  background-color: var(--primary-light) !important;
   cursor: default !important;
 }
 
 .marker {
-  width: 20px;
-  height: 6px;
-  background-color: rgba(255, 255, 255, 0.5);
+  width: 4rem;
+  height: 1.5rem;
+  background-color: rgba(42, 42, 42, 0.3);
   cursor: pointer;
+  border-radius: 2px;
 }

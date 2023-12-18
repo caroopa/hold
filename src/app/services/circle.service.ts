@@ -7,12 +7,13 @@ import { Subject } from 'rxjs';
 export class CircleService {
   private changeSection = new Subject<{
     color: string;
+    linkColor: string;
     index: number;
   }>();
 
   // Método para emitir eventos
-  setProperties(color: string, index: number) {
-    this.changeSection.next({ color, index });
+  setProperties(color: string, linkColor: string, index: number) {
+    this.changeSection.next({ color, linkColor, index });
   }
 
   // Método para suscribirse a eventos

@@ -1,6 +1,7 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { Router, NavigationStart } from '@angular/router';
 import { Location } from '@angular/common';
+import { LinksService } from 'src/app/services/links.service';
 
 @Component({
   selector: 'app-menu',
@@ -9,17 +10,28 @@ import { Location } from '@angular/common';
   encapsulation: ViewEncapsulation.None,
 })
 export class MenuComponent {
+  spanColor!: string | null;
   rootURL!: string;
   animationElement!: AnimationElement;
   whatsapp: string = 'assets/img/whatsapp.svg';
 
-  constructor(private router: Router, private location: Location) {
+  constructor(
+    private router: Router,
+    private location: Location,
+    private linksService: LinksService
+  ) {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationStart) {
         this.rootURL = this.getRootURL(event.url);
       }
     });
     this.rootURL = this.location.path();
+  }
+
+  ngOnInit(): void {
+    this.linksService.menuColor$.subscribe((color) => {
+      this.spanColor = color;
+    });
   }
 
   navigate(root: string) {
