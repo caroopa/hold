@@ -41,3 +41,8 @@ h3,
 h4 {
   font-weight: normal;
 }
+
+.selectable {
+  pointer-events: all;
+  cursor: pointer;
+}

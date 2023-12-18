@@ -11,9 +11,7 @@ export class CircleComponent {
   otherColor = 'var(--yellow)';
   linkColor = 'var(--primary-dark)';
 
-  constructor(
-    private circleService: CircleService,
-  ) {}
+  constructor(private circleService: CircleService) {}
 
   ngOnInit() {
     this.circleService.setTransition().subscribe((e) => {
@@ -33,5 +31,13 @@ export class CircleComponent {
     } else {
       return this.otherColor;
     }
+  }
+
+  isCurrentIndex(index: number) {
+    return index == this.indexFilled;
+  }
+
+  onClick(index: number) {
+    this.circleService.setServiceSection(index);
   }
 }

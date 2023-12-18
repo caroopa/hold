@@ -45,6 +45,10 @@ export class ServiciosComponent {
     this.linksService.changeFollowColor('var(--primary-dark)');
     this.linksService.changeHelloColor('var(--primary-dark)');
     this.linksService.changeMenuColor('var(--primary-dark)');
+
+    this.circleService.changeServiceSection.subscribe((nextIndex) => {
+      this.manualChange(nextIndex);
+    });
   }
 
   @HostListener('window:wheel', ['$event'])
@@ -74,7 +78,7 @@ export class ServiciosComponent {
     }
   }
 
-  onClick(index: number) {
+  manualChange(index: number) {
     if (this.index != index) {
       this.transService.setProperties(
         this.colors[index],
@@ -82,7 +86,11 @@ export class ServiciosComponent {
         window.innerHeight / 2,
         null
       );
-      this.changeSection(index);
+      this.scrollService.animationEnd$.subscribe((componentName) => {
+        if (componentName === 'Cambiate') {
+          this.changeSection(index);
+        }
+      });
     }
   }
 

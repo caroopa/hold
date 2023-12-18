@@ -5,19 +5,27 @@ import { Subject } from 'rxjs';
   providedIn: 'root',
 })
 export class CircleService {
-  private changeSection = new Subject<{
+  // CIRCLES
+  private changeCircle = new Subject<{
     color: string;
     linkColor: string;
     index: number;
   }>();
 
-  // Método para emitir eventos
   setProperties(color: string, linkColor: string, index: number) {
-    this.changeSection.next({ color, linkColor, index });
+    this.changeCircle.next({ color, linkColor, index });
   }
 
-  // Método para suscribirse a eventos
   setTransition() {
-    return this.changeSection.asObservable();
+    return this.changeCircle.asObservable();
   }
+
+  // SECTIONS
+  private serviceSection = new Subject<number>();
+
+  setServiceSection(index: number) {
+    this.serviceSection.next(index);
+  }
+
+  changeServiceSection = this.serviceSection.asObservable();
 }

@@ -3,18 +3,26 @@
     <div
       class="circle top-right"
       [ngStyle]="{ 'background-color': filled(0), 'border-color': linkColor }"
+      [ngClass]="{ 'selectable': !isCurrentIndex(0) }"
+      (click)="onClick(0)"
     ></div>
     <div
       class="circle bottom-right"
       [ngStyle]="{ 'background-color': filled(1), 'border-color': linkColor }"
+      [ngClass]="{ 'selectable': !isCurrentIndex(1) }"
+      (click)="onClick(1)"
     ></div>
     <div
       class="circle bottom-left"
       [ngStyle]="{ 'background-color': filled(2), 'border-color': linkColor }"
+      [ngClass]="{ 'selectable': !isCurrentIndex(2) }"
+      (click)="onClick(2)"
     ></div>
     <div
       class="circle top-left"
       [ngStyle]="{ 'background-color': filled(3), 'border-color': linkColor }"
+      [ngClass]="{ 'selectable': !isCurrentIndex(3) }"
+      (click)="onClick(3)"
     ></div>
   </div>
 </main>
