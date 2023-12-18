@@ -31,7 +31,31 @@
 <div class="wave-card-right" id="right-card">
   <div class="card-right" id="right-card-content">
     <h1>Menú</h1>
-    <h2 class="vision-title" (click)="navigate('/vision')">Visión</h2>
-    <h2 class="servicios-title" (click)="navigate('/servicios')">Servicios</h2>
+    <div class="menu-element">
+      <div class="minus-container" [ngClass]="{ show: showMinusVision }">
+        <span class="minus"></span>
+      </div>
+      <h2
+        class="vision-title"
+        (click)="navigate('/vision')"
+        (mouseenter)="toggleMinusVision()"
+        (mouseleave)="toggleMinusVision()"
+      >
+        Visión
+      </h2>
+    </div>
+    <div class="menu-element">
+      <div class="minus-container" [ngClass]="{ show: showMinusServices }">
+        <span class="minus"></span>
+      </div>
+      <h2
+        class="servicios-title"
+        (click)="navigate('/servicios')"
+        (mouseenter)="toggleMinusServices()"
+        (mouseleave)="toggleMinusServices()"
+      >
+        Servicios
+      </h2>
+    </div>
   </div>
 </div>

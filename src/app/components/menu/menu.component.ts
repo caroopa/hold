@@ -13,7 +13,9 @@ export class MenuComponent {
   spanColor!: string | null;
   rootURL!: string;
   animationElement!: AnimationElement;
-  whatsapp: string = 'assets/img/whatsapp.svg';
+  whatsapp = 'assets/img/whatsapp.svg';
+  showMinusVision = false;
+  showMinusServices = false;
 
   constructor(
     private router: Router,
@@ -38,6 +40,16 @@ export class MenuComponent {
     this.router.navigate([root]);
     this.toggleMenu();
   }
+
+  toggleMinusVision() {
+    this.showMinusVision = !this.showMinusVision;
+  }
+
+  toggleMinusServices() {
+    this.showMinusServices = !this.showMinusServices;
+  }
+
+  // FOR ANIMATION
 
   private getRootURL(url: string): string {
     const parts = url.split('/');
