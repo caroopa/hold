@@ -8,7 +8,7 @@ import gsap from 'gsap';
   styleUrls: ['./hover-letter.component.scss'],
 })
 export class HoverLetterComponent implements OnDestroy {
-  secondShadeColor!: string;
+  shadeColor!: string;
 
   constructor(private transService: ColorTransitionService) {}
 
@@ -36,13 +36,13 @@ export class HoverLetterComponent implements OnDestroy {
 
     var windowWidth = window.innerWidth;
     if (mouseX > windowWidth / 2) {
-      this.secondShadeColor = 'var(--esmerald)';
+      this.shadeColor = 'var(--yellow)';
     } else {
-      this.secondShadeColor = 'var(--rose)';
+      this.shadeColor = 'var(--blue)';
     }
   };
 
-  activateTransition(which: string, color: string, event: MouseEvent) {
-    this.transService.setProperties(color, event.clientX, event.clientY, which);
+  activateTransition(which: string, color: string, particles: string, event: MouseEvent) {
+    this.transService.setProperties(color, particles, event.clientX, event.clientY, which);
   }
 }

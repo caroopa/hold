@@ -18,12 +18,13 @@ export class ColorTransitionComponent {
 
   ngOnInit() {
     this.transService.setTransition().subscribe((e) => {
-      this.colorTransitionAnimation(e.color, e.posX, e.posY, e.page);
+      this.colorTransitionAnimation(e.color, e.particles, e.posX, e.posY, e.page);
     });
   }
 
   colorTransitionAnimation(
     nextColor: string,
+    particlesColor: string,
     posX: number,
     posY: number,
     page: string | null
@@ -40,7 +41,6 @@ export class ColorTransitionComponent {
 
     resizeCanvas();
 
-    const currentColor = '#B4B0AC';
     let targetR = Math.sqrt(
       Math.pow(window.innerWidth, 2) + Math.pow(window.innerHeight, 2)
     );
@@ -68,10 +68,10 @@ export class ColorTransitionComponent {
       x: posX,
       y: posY,
       r: 0,
-      fill: currentColor,
+      fill: particlesColor,
       stroke: {
         width: 3,
-        color: currentColor,
+        color: particlesColor,
       },
       opacity: 1,
     });
@@ -89,7 +89,7 @@ export class ColorTransitionComponent {
       let particle = new Circle({
         x: posX,
         y: posY,
-        fill: currentColor,
+        fill: particlesColor,
         r: anime.random(24, 48),
       });
       particles.push(particle);

@@ -7,7 +7,7 @@ import { LinksService } from 'src/app/services/links.service';
   styleUrls: ['./servicios-desc.component.scss'],
 })
 export class ServiciosDescComponent {
-  colors = ['#FFD44C', '#EC644E', '#E5B7D6', '#00A698'];
+  colors = ['#FFD44C', '#FF6348', '#FFB5F9', '#00A698'];
 
   constructor(private linksService: LinksService) {}
 

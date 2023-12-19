@@ -24,26 +24,31 @@
   border-radius: 50%;
   border: 3px solid var(--primary-dark);
   position: absolute;
+  z-index: 2;
 }
 
-.top-right,
-.top-left {
-  top: 5rem;
+.top {
+  top: -1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
-.bottom-right,
-.top-right {
-  right: 3.4rem;
+.right {
+  right: -1.5rem;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
-.bottom-left,
-.top-left {
-  left: 3.4rem;
+.bottom {
+  bottom: -1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
-.bottom-right,
-.bottom-left {
-  bottom: 5rem;
+.left {
+  left: -1.5rem;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .filled {
@@ -52,4 +57,17 @@
 
 .other {
   background-color: var(--yellow);
+}
+
+@for $i from 1 through 32 {
+  $smallRadius: 3px;
+  .small-circle:nth-child(#{$i}) {
+    position: absolute;
+    width: $smallRadius * 2;
+    height: $smallRadius * 2;
+    opacity: 0;
+    border-radius: 50%;
+    background-color: #7C7774;
+    z-index: 1;
+  }
 }

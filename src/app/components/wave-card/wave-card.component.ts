@@ -41,7 +41,7 @@ export class WaveCardComponent {
     var black = new paper.Path.Rectangle({
       point: [middle, 0],
       size: [width, height],
-      fillColor: '#030202',
+      fillColor: '#050000',
     });
 
     var path = new paper.Path({

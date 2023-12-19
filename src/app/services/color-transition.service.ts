@@ -7,6 +7,7 @@ import { Subject } from 'rxjs';
 export class ColorTransitionService {
   private activateTransition = new Subject<{
     color: string;
+    particles: string;
     posX: number;
     posY: number;
     page: string | null;
@@ -15,11 +16,12 @@ export class ColorTransitionService {
   // Método para emitir eventos
   setProperties(
     color: string,
+    particles: string,
     posX: number,
     posY: number,
     page: string | null
   ) {
-    this.activateTransition.next({ color, posX, posY, page });
+    this.activateTransition.next({ color, particles, posX, posY, page });
   }
 
   // Método para suscribirse a eventos

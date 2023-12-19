@@ -16,8 +16,8 @@ export class ServiciosComponent {
   markers!: number[];
   isTransitioning!: boolean;
   body!: any;
-  colors = ['#FFD44C', '#EC644E', '#E5B7D6', '#00A698', '#030202'];
-  linksColor = 'var(--primary-dark)';
+  colors = ['#050000', '#FFFAF3', '#050000', '#FFFAF3', '#050000'];
+  linksColor = 'var(--primary-light)';
 
   constructor(
     private transService: ColorTransitionService,
@@ -33,9 +33,9 @@ export class ServiciosComponent {
     this.isTransitioning = false;
     this.body = document.querySelector('.services-body');
 
-    this.linksService.changeFollowColor('var(--primary-dark)');
-    this.linksService.changeHelloColor('var(--primary-dark)');
-    this.linksService.changeMenuColor('var(--primary-dark)');
+    this.linksService.changeFollowColor(this.linksColor);
+    this.linksService.changeHelloColor(this.linksColor);
+    this.linksService.changeMenuColor(this.linksColor);
 
     this.circleService.changeServiceSection.subscribe((nextIndex) => {
       this.manualChange(nextIndex);
@@ -60,19 +60,19 @@ export class ServiciosComponent {
       }
 
       if (this.nextIndex >= 0 && this.nextIndex < this.container.length) {
-        this.transService.setProperties(
-          this.colors[this.nextIndex],
-          window.innerWidth / 2,
-          window.innerHeight / 2,
-          null
-        );
+        // this.transService.setProperties(
+        //   this.colors[this.nextIndex],
+        //   window.innerWidth / 2,
+        //   window.innerHeight / 2,
+        //   null
+        // );
       } else if (this.nextIndex == this.container.length) {
-        this.transService.setProperties(
-          this.colors[this.nextIndex],
-          window.innerWidth / 2,
-          window.innerHeight / 2,
-          'servicios/desc'
-        );
+        // this.transService.setProperties(
+        //   this.colors[this.nextIndex],
+        //   window.innerWidth / 2,
+        //   window.innerHeight / 2,
+        //   'servicios/desc'
+        // );
       }
 
       this.isTransitioning = true;
@@ -94,20 +94,20 @@ export class ServiciosComponent {
 
       this.isTransitioning = true;
 
-      this.transService.setProperties(
-        this.colors[index],
-        window.innerWidth / 2,
-        window.innerHeight / 2,
-        null
-      );
+      // this.transService.setProperties(
+      //   this.colors[index],
+      //   window.innerWidth / 2,
+      //   window.innerHeight / 2,
+      //   null
+      // );
     }
   }
 
   changeSection(i: number = this.nextIndex) {
     if (i == 0 || i == 2) {
-      this.linksColor = 'var(--primary-dark)';
-    } else {
       this.linksColor = 'var(--primary-light)';
+    } else {
+      this.linksColor = 'var(--primary-dark)';
     }
     this.linksService.changeFollowColor(this.linksColor);
     this.linksService.changeHelloColor(this.linksColor);
