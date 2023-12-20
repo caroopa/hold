@@ -27,7 +27,10 @@
     <span
       *ngFor="let i of markers; let index = index"
       class="marker"
-      [ngClass]="{ 'current-marker': isCurrentIndex(index) }"
+      [ngClass]="{
+        'current-marker': isCurrentIndex(index),
+        selectable: !isTransitioning && !isCurrentIndex(index)
+      }"
       [ngStyle]="
         isCurrentIndex(index) ? { 'background-color': linksColor } : {}
       "

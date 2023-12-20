@@ -41,7 +41,7 @@ export class ServiciosComponent {
   }
 
   @HostListener('window:wheel', ['$event'])
-  onWheel(e: WheelEvent) {
+  onWheel(e: WheelEvent) {    
     if (!this.isTransitioning) {
       if (e.deltaY > 0) {
         if (this.index + 1 <= this.container.length) {
@@ -57,11 +57,12 @@ export class ServiciosComponent {
         }
       }
 
+      this.isTransitioning = true;
+      this.setColor(this.nextIndex);
+
       if (this.nextIndex >= 0 && this.nextIndex < this.container.length) {
-        this.circleService.setProperties(
-          opositeColor(this.linksColor),
-          this.nextIndex
-        );
+        this.circleService.setProperties(this.linksColor, this.nextIndex);
+        this.changeSection();
       } else if (this.nextIndex == this.container.length) {
         this.transService.setProperties(
           Color.Dark,
@@ -71,42 +72,37 @@ export class ServiciosComponent {
           'servicios/desc'
         );
       }
-
-      this.isTransitioning = true;
-      this.changeSection();
-
-      this.scrollService.animationEnd$.subscribe((componentName) => {
-        if (
-          componentName === 'Cambiate' &&
-          this.nextIndex < this.container.length
-        ) {
-          this.isTransitioning = false;
-        }
-      });
     }
   }
 
   manualChange(index: number) {
     if (this.index != index) {
       this.isTransitioning = true;
-      this.circleService.setProperties(
-        opositeColor(this.linksColor),
-        this.nextIndex
-      );
+      this.setColor(index);
+      this.circleService.setProperties(this.linksColor, index);
       this.nextIndex = index;
+      this.changeSection(index);
     }
   }
 
-  changeSection(i: number = this.nextIndex) {
+  setColor(i: number) {
     if (i == 0 || i == 2) {
       this.linksColor = Color.Light;
     } else {
       this.linksColor = Color.Dark;
     }
+  }
+
+  changeSection(i: number = this.nextIndex) {
     this.linksService.changeFollowColor(this.linksColor);
     this.linksService.changeHelloColor(this.linksColor);
     this.linksService.changeMenuColor(this.linksColor);
     this.index = i;
+    this.scrollService.animationEnd$.subscribe((componentName) => {
+      if (componentName === 'Change') {
+        this.isTransitioning = false;
+      }
+    });
   }
 
   isCurrentIndex(i: number) {

@@ -22,25 +22,11 @@ export class CircleComponent {
 
   ngOnInit() {
     this.circleService.setTransition().subscribe((e) => {
-      this.moveCircles(e.filled, e.m);
-      this.smallCirclesAnimation(e.m);
+      this.moveCircles(e.filled, e.m, this.smallCirclesAnimation(e.m));
     });
   }
 
-  moveCircles(filled: Color, m: number) {
-    this.filled = filled;
-    this.notFilled = opositeColor(filled);
-    this.stayColor = false;
-
-    setTimeout(() => {
-      this.indexFilled = m;
-      this.stayColor = true;
-    }, 700);
-
-    setTimeout(() => {
-      this.scrollService.notifyAnimationEnd('Cambiate');
-    }, 850);
-  }
+  // LOGIC
 
   isCurrentIndex(index: number) {
     return index == this.indexFilled;
@@ -61,7 +47,7 @@ export class CircleComponent {
   circleIndices: number[] = Array.from({ length: 20 }, (_, i) => i + 1);
 
   calculateTransform(index: number): string {
-    const angle = (index - 1) * (360 / this.circleIndices.length);
+    const angle = -90 - (index - 1) * (360 / this.circleIndices.length);
     const radius = 200;
     const translateX =
       Math.round(Math.cos(this.degreesToRadians(angle)) * radius) - 6;
@@ -71,51 +57,85 @@ export class CircleComponent {
       translateY + radius
     }px)`;
   }
-
+  
   private degreesToRadians(degrees: number): number {
     return degrees * (Math.PI / 180);
   }
+
+  // ANIMATIONS
 
   smallCirclesAnimation(nextIndex: number) {
     const smallCircles =
       document.querySelectorAll<HTMLElement>('.small-circle');
     const smallCirclesArray = Array.from(smallCircles);
 
-    const length = 4;
-    let indexes: number[]
+    const length = 4 * Math.abs(nextIndex - this.indexFilled);
+    let indexes: number[];
     let animatedCircles: HTMLElement[];
+    let scale: number;
+    let opacity: number;
 
     if (nextIndex > this.indexFilled) {
-      indexes = [11, 16, 1, 6];
-      const beginning = indexes[nextIndex]; 
-      animatedCircles = smallCirclesArray.slice(beginning, beginning + length);
-
-      animatedCircles.forEach((element, i) => {
-        anime({
-          targets: element,
-          opacity: 1,
-          scale: 2.5,
-          easing: 'easeInOutQuad',
-          duration: 150,
-          delay: 150 * i,
-        });
-      });
-    } else {
-      indexes = [5, 0, 15, 10];
-      const beginning = indexes[this.indexFilled];
+      indexes = [0, 5, 10, 15];
+      const from = indexes[this.indexFilled];
+      const to = indexes[nextIndex] - 1;
       smallCirclesArray.reverse();
-      animatedCircles = smallCirclesArray.slice(beginning, beginning + length);
-      
-      animatedCircles.forEach((element, i) => {
-        anime({
-          targets: element,
-          opacity: 0,
-          scale: 1,
-          easing: 'easeInOutQuad',
-          duration: 150,
-          delay: 150 * i,
-        });
-      });
+      animatedCircles = smallCirclesArray.slice(from, to);
+      scale = 2.5;
+      opacity = 1;
+    } else {
+      indexes = [1, 16, 11, 6];
+      const from = indexes[this.indexFilled];
+      const to = indexes[nextIndex] - 1 == 0 ? 20 : indexes[nextIndex] - 1;
+      animatedCircles = smallCirclesArray.slice(from, to);
+      scale = 1;
+      opacity = 0;
     }
+
+    const animations = animatedCircles.map((element, i) => {
+      return anime({
+        targets: element,
+        opacity: opacity,
+        scale: scale,
+        easing: 'easeInOutQuad',
+        duration: 150,
+        delay: 150 * i,
+      });
+    });
+
+    const totalDuration = animations.reduce((acc, animation) => {
+      return Math.max(acc, animation.duration + animation.delay);
+    }, 0);
+    console.log(totalDuration);
+    
+    return totalDuration;
+  }
+
+  moveCircles(filled: Color, m: number, duration: number) {
+    this.filled = filled;
+    this.notFilled = opositeColor(filled);
+    this.stayColor = false;
+
+    function time(duration: number): number | null {
+      switch (duration) {
+        case 1050:
+          return 700;
+        case 2550:
+          return 1630;
+        case 4050:
+          return 2470;
+        default:
+          return null;
+      }
+    }
+
+    setTimeout(() => {
+      this.indexFilled = m;
+      this.stayColor = true;
+    }, time(duration)!);
+
+    setTimeout(() => {
+      this.scrollService.notifyAnimationEnd('Change');
+    }, time(duration)! + 350);
   }
 }
