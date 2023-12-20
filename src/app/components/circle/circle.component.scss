@@ -14,7 +14,7 @@
   width: 40rem;
   height: 40rem;
   border-radius: 50%;
-  border: 3px solid var(--primary-dark);
+  border: 3px solid;
   position: relative;
 }
 
@@ -22,7 +22,7 @@
   width: 3rem;
   height: 3rem;
   border-radius: 50%;
-  border: 3px solid var(--primary-dark);
+  border: 3px solid;
   position: absolute;
   z-index: 2;
 }
@@ -51,23 +51,16 @@
   transform: translateY(-50%);
 }
 
-.filled {
-  background-color: var(--primary-dark);
+.small-circle {
+  position: absolute;
+  width: 3px * 2;
+  height: 3px * 2;
+  opacity: 0;
+  border-radius: 50%;
+  background-color: #7c7774;
+  z-index: 1;
 }
 
-.other {
-  background-color: var(--yellow);
-}
-
-@for $i from 1 through 32 {
-  $smallRadius: 3px;
-  .small-circle:nth-child(#{$i}) {
-    position: absolute;
-    width: $smallRadius * 2;
-    height: $smallRadius * 2;
-    opacity: 0;
-    border-radius: 50%;
-    background-color: #7C7774;
-    z-index: 1;
-  }
+.filled-transition {
+  transition: background-color 0.2s ease;
 }

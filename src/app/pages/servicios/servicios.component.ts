@@ -3,6 +3,7 @@ import { ColorTransitionService } from './../../services/color-transition.servic
 import { ScrollService } from 'src/app/services/scroll.service';
 import { CircleService } from 'src/app/services/circle.service';
 import { LinksService } from 'src/app/services/links.service';
+import { Color, opositeColor } from 'src/app/utils/color';
 
 @Component({
   selector: 'app-servicios',
@@ -15,9 +16,7 @@ export class ServiciosComponent {
   container!: any;
   markers!: number[];
   isTransitioning!: boolean;
-  body!: any;
-  colors = ['#050000', '#FFFAF3', '#050000', '#FFFAF3', '#050000'];
-  linksColor = 'var(--primary-light)';
+  linksColor: Color = Color.Light;
 
   constructor(
     private transService: ColorTransitionService,
@@ -31,7 +30,6 @@ export class ServiciosComponent {
     this.container = document.querySelectorAll('.services-container');
     this.markers = new Array(this.container.length);
     this.isTransitioning = false;
-    this.body = document.querySelector('.services-body');
 
     this.linksService.changeFollowColor(this.linksColor);
     this.linksService.changeHelloColor(this.linksColor);
@@ -60,28 +58,29 @@ export class ServiciosComponent {
       }
 
       if (this.nextIndex >= 0 && this.nextIndex < this.container.length) {
-        // this.transService.setProperties(
-        //   this.colors[this.nextIndex],
-        //   window.innerWidth / 2,
-        //   window.innerHeight / 2,
-        //   null
-        // );
+        this.circleService.setProperties(
+          opositeColor(this.linksColor),
+          this.nextIndex
+        );
       } else if (this.nextIndex == this.container.length) {
-        // this.transService.setProperties(
-        //   this.colors[this.nextIndex],
-        //   window.innerWidth / 2,
-        //   window.innerHeight / 2,
-        //   'servicios/desc'
-        // );
+        this.transService.setProperties(
+          Color.Dark,
+          '#FFD44C',
+          window.innerWidth / 2,
+          window.innerHeight / 2,
+          'servicios/desc'
+        );
       }
 
       this.isTransitioning = true;
+      this.changeSection();
+
       this.scrollService.animationEnd$.subscribe((componentName) => {
         if (
           componentName === 'Cambiate' &&
           this.nextIndex < this.container.length
         ) {
-          this.changeSection();
+          this.isTransitioning = false;
         }
       });
     }
@@ -89,32 +88,24 @@ export class ServiciosComponent {
 
   manualChange(index: number) {
     if (this.index != index) {
-      this.nextIndex = index;
-      console.log(this.nextIndex);
-
       this.isTransitioning = true;
-
-      // this.transService.setProperties(
-      //   this.colors[index],
-      //   window.innerWidth / 2,
-      //   window.innerHeight / 2,
-      //   null
-      // );
+      this.circleService.setProperties(
+        opositeColor(this.linksColor),
+        this.nextIndex
+      );
+      this.nextIndex = index;
     }
   }
 
   changeSection(i: number = this.nextIndex) {
     if (i == 0 || i == 2) {
-      this.linksColor = 'var(--primary-light)';
+      this.linksColor = Color.Light;
     } else {
-      this.linksColor = 'var(--primary-dark)';
+      this.linksColor = Color.Dark;
     }
     this.linksService.changeFollowColor(this.linksColor);
     this.linksService.changeHelloColor(this.linksColor);
     this.linksService.changeMenuColor(this.linksColor);
-
-    this.circleService.setProperties(this.colors[i], this.linksColor, i);
-    this.isTransitioning = false;
     this.index = i;
   }
 
@@ -123,6 +114,6 @@ export class ServiciosComponent {
   }
 
   backgroundColor() {
-    return this.colors[this.index];
+    return opositeColor(this.linksColor);
   }
 }

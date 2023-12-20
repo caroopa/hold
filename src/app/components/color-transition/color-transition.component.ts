@@ -18,7 +18,13 @@ export class ColorTransitionComponent {
 
   ngOnInit() {
     this.transService.setTransition().subscribe((e) => {
-      this.colorTransitionAnimation(e.color, e.particles, e.posX, e.posY, e.page);
+      this.colorTransitionAnimation(
+        e.color,
+        e.particles,
+        e.posX,
+        e.posY,
+        e.page
+      );
     });
   }
 
@@ -146,12 +152,8 @@ export class ColorTransitionComponent {
     }
 
     const handleCompleted = () => {
-      if (page) {
-        animations = [];
-        this.router.navigate(['/' + page]);
-      } else {
-        this.scrollService.notifyAnimationEnd('Cambiate');
-      }
+      animations = [];
+      this.router.navigate(['/' + page]);
       c.style.transition = 'opacity 0.3s ease';
       c.style.opacity = '0';
     };

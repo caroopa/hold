@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { CircleService } from 'src/app/services/circle.service';
+import { ScrollService } from 'src/app/services/scroll.service';
+import { Color, opositeColor } from 'src/app/utils/color';
 import anime from 'animejs/lib/anime.es.js';
 
 @Component({
@@ -9,38 +11,47 @@ import anime from 'animejs/lib/anime.es.js';
 })
 export class CircleComponent {
   indexFilled = 0;
-  otherColor = 'var(--primary-dark)';
-  linkColor = 'var(--primary-light)';
+  filled = Color.Light;
+  notFilled = Color.Dark;
+  stayColor = true;
 
-  constructor(private circleService: CircleService) {}
+  constructor(
+    private circleService: CircleService,
+    private scrollService: ScrollService
+  ) {}
 
   ngOnInit() {
     this.circleService.setTransition().subscribe((e) => {
-      this.moveCircles(e.color, e.linkColor, e.index);
+      this.moveCircles(e.filled, e.m);
+      this.smallCirclesAnimation(e.m);
     });
   }
 
-  ngAfterViewInit() {
-    // Llama a smallCirclesAnimation después de que la vista se haya inicializado
-    this.smallCirclesAnimation(0);
-  }
+  moveCircles(filled: Color, m: number) {
+    this.filled = filled;
+    this.notFilled = opositeColor(filled);
+    this.stayColor = false;
 
-  moveCircles(color: string, linkColor: string, index: number) {
-    this.indexFilled = index;
-    this.linkColor = linkColor;
-    this.otherColor = color;
-  }
+    setTimeout(() => {
+      this.indexFilled = m;
+      this.stayColor = true;
+    }, 700);
 
-  filled(index: number): string {
-    if (index == this.indexFilled) {
-      return this.linkColor;
-    } else {
-      return this.otherColor;
-    }
+    setTimeout(() => {
+      this.scrollService.notifyAnimationEnd('Cambiate');
+    }, 850);
   }
 
   isCurrentIndex(index: number) {
     return index == this.indexFilled;
+  }
+
+  filledColor(index: number): string {
+    if (this.isCurrentIndex(index) && this.stayColor) {
+      return this.filled;
+    } else {
+      return this.notFilled;
+    }
   }
 
   onClick(index: number) {
@@ -53,9 +64,9 @@ export class CircleComponent {
     const angle = (index - 1) * (360 / this.circleIndices.length);
     const radius = 200;
     const translateX =
-      Math.round(Math.cos(this.degreesToRadians(angle)) * radius) - 3;
+      Math.round(Math.cos(this.degreesToRadians(angle)) * radius) - 6;
     const translateY =
-      Math.round(Math.sin(this.degreesToRadians(angle)) * radius) - 3;
+      Math.round(Math.sin(this.degreesToRadians(angle)) * radius) - 6;
     return `translate(-50%, -50%) translate(${translateX + radius}px, ${
       translateY + radius
     }px)`;
@@ -65,28 +76,46 @@ export class CircleComponent {
     return degrees * (Math.PI / 180);
   }
 
-  smallCirclesAnimation(index: number) {
+  smallCirclesAnimation(nextIndex: number) {
     const smallCircles =
       document.querySelectorAll<HTMLElement>('.small-circle');
     const smallCirclesArray = Array.from(smallCircles);
 
     const length = 4;
-    const beginnings = [0, 5, 10, 15];
-    const beginning = beginnings[index];    
-    const animatedCircles = smallCirclesArray.slice(
-      beginning,
-      beginning + length
-    );
+    let indexes: number[]
+    let animatedCircles: HTMLElement[];
 
-    animatedCircles.forEach((element, i) => {
-      anime({
-        targets: element,
-        opacity: 1,
-        scale: 2.5,
-        easing: 'easeInOutQuad',
-        duration: 150,
-        delay: 150 * i,
+    if (nextIndex > this.indexFilled) {
+      indexes = [11, 16, 1, 6];
+      const beginning = indexes[nextIndex]; 
+      animatedCircles = smallCirclesArray.slice(beginning, beginning + length);
+
+      animatedCircles.forEach((element, i) => {
+        anime({
+          targets: element,
+          opacity: 1,
+          scale: 2.5,
+          easing: 'easeInOutQuad',
+          duration: 150,
+          delay: 150 * i,
+        });
       });
-    });
+    } else {
+      indexes = [5, 0, 15, 10];
+      const beginning = indexes[this.indexFilled];
+      smallCirclesArray.reverse();
+      animatedCircles = smallCirclesArray.slice(beginning, beginning + length);
+      
+      animatedCircles.forEach((element, i) => {
+        anime({
+          targets: element,
+          opacity: 0,
+          scale: 1,
+          easing: 'easeInOutQuad',
+          duration: 150,
+          delay: 150 * i,
+        });
+      });
+    }
   }
 }

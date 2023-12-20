@@ -1,30 +1,42 @@
 <main class="circle-container">
-  <div class="main-circle" [style.border-color]="linkColor">
+  <div class="main-circle" [style.border-color]="filled">
     <div
       class="circle top"
-      [ngStyle]="{ 'background-color': filled(0), 'border-color': linkColor }"
-      [ngClass]="{ selectable: !isCurrentIndex(0) }"
+      [ngStyle]="{ 'background-color': filledColor(0), 'border-color': filled }"
+      [ngClass]="{
+        selectable: !isCurrentIndex(0),
+        'filled-transition': isCurrentIndex(0)
+      }"
       (click)="onClick(0)"
     ></div>
     <div
       class="circle right"
-      [ngStyle]="{ 'background-color': filled(1), 'border-color': linkColor }"
-      [ngClass]="{ selectable: !isCurrentIndex(1) }"
+      [ngStyle]="{ 'background-color': filledColor(1), 'border-color': filled }"
+      [ngClass]="{
+        selectable: !isCurrentIndex(1),
+        'filled-transition': isCurrentIndex(1)
+      }"
       (click)="onClick(1)"
     ></div>
     <div
       class="circle bottom"
-      [ngStyle]="{ 'background-color': filled(2), 'border-color': linkColor }"
-      [ngClass]="{ selectable: !isCurrentIndex(2) }"
+      [ngStyle]="{ 'background-color': filledColor(2), 'border-color': filled }"
+      [ngClass]="{
+        selectable: !isCurrentIndex(2),
+        'filled-transition': isCurrentIndex(2)
+      }"
       (click)="onClick(2)"
     ></div>
     <div
       class="circle left"
-      [ngStyle]="{ 'background-color': filled(3), 'border-color': linkColor }"
-      [ngClass]="{ selectable: !isCurrentIndex(3) }"
+      [ngStyle]="{ 'background-color': filledColor(3), 'border-color': filled }"
+      [ngClass]="{
+        selectable: !isCurrentIndex(3),
+        'filled-transition': isCurrentIndex(3)
+      }"
       (click)="onClick(3)"
     ></div>
-    
+
     <div
       *ngFor="let index of circleIndices"
       class="small-circle"
