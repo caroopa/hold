@@ -1,5 +1,5 @@
 <main class="circle-container">
-  <div class="main-circle" [style.border-color]="filled">
+  <div class="main-circle">
     <div
       class="circle top"
       [ngStyle]="{ 'background-color': filledColor(0), 'border-color': filled }"
@@ -36,11 +36,20 @@
       }"
       (click)="onClick(3)"
     ></div>
-
-    <div
-      *ngFor="let index of circleIndices"
-      class="small-circle"
-      [style.transform]="calculateTransform(index)"
-    ></div>
   </div>
+
+  <svg viewBox="0 0 400 401" class="morph">
+    <g>
+      <path
+        id="outer"
+        d="M400 200.461C400 310.914 310.397 400.461 200 400.461C89.6026 400.461 0 310.914 0 200.461C0 90.0069 75.827 0.460697 200 0.460663C324.173 0.460628 400 90.0069 400 200.461Z"
+        [style.fill]="outerColor()"
+      ></path>
+      <path
+        id="inner"
+        d="M298.009 299.054C241.203 355.864 145.841 343.547 89.0562 286.737C32.2508 229.948 55.393 193.121 82.3684 120.406C110.323 45.0804 224.728 54.2564 289.261 102.094C369.413 161.515 354.814 242.244 298.009 299.054Z"
+        [style.fill]="innerColor()"
+      ></path>
+    </g>
+  </svg>
 </main>

@@ -13,7 +13,6 @@ export class CircleComponent {
   indexFilled = 0;
   filled = Color.Light;
   notFilled = Color.Dark;
-  stayColor = true;
 
   constructor(
     private circleService: CircleService,
@@ -22,18 +21,17 @@ export class CircleComponent {
 
   ngOnInit() {
     this.circleService.setTransition().subscribe((e) => {
-      this.moveCircles(e.filled, e.m, this.smallCirclesAnimation(e.m));
+      this.change(e.filled, e.m);
     });
+    this.morphing();
   }
-
-  // LOGIC
 
   isCurrentIndex(index: number) {
     return index == this.indexFilled;
   }
 
   filledColor(index: number): string {
-    if (this.isCurrentIndex(index) && this.stayColor) {
+    if (this.isCurrentIndex(index)) {
       return this.filled;
     } else {
       return this.notFilled;
@@ -44,98 +42,63 @@ export class CircleComponent {
     this.circleService.setServiceSection(index);
   }
 
-  circleIndices: number[] = Array.from({ length: 20 }, (_, i) => i + 1);
-
-  calculateTransform(index: number): string {
-    const angle = -90 - (index - 1) * (360 / this.circleIndices.length);
-    const radius = 200;
-    const translateX =
-      Math.round(Math.cos(this.degreesToRadians(angle)) * radius) - 6;
-    const translateY =
-      Math.round(Math.sin(this.degreesToRadians(angle)) * radius) - 6;
-    return `translate(-50%, -50%) translate(${translateX + radius}px, ${
-      translateY + radius
-    }px)`;
-  }
-  
-  private degreesToRadians(degrees: number): number {
-    return degrees * (Math.PI / 180);
-  }
-
-  // ANIMATIONS
-
-  smallCirclesAnimation(nextIndex: number) {
-    const smallCircles =
-      document.querySelectorAll<HTMLElement>('.small-circle');
-    const smallCirclesArray = Array.from(smallCircles);
-
-    const length = 4 * Math.abs(nextIndex - this.indexFilled);
-    let indexes: number[];
-    let animatedCircles: HTMLElement[];
-    let scale: number;
-    let opacity: number;
-
-    if (nextIndex > this.indexFilled) {
-      indexes = [0, 5, 10, 15];
-      const from = indexes[this.indexFilled];
-      const to = indexes[nextIndex] - 1;
-      smallCirclesArray.reverse();
-      animatedCircles = smallCirclesArray.slice(from, to);
-      scale = 2.5;
-      opacity = 1;
-    } else {
-      indexes = [1, 16, 11, 6];
-      const from = indexes[this.indexFilled];
-      const to = indexes[nextIndex] - 1 == 0 ? 20 : indexes[nextIndex] - 1;
-      animatedCircles = smallCirclesArray.slice(from, to);
-      scale = 1;
-      opacity = 0;
-    }
-
-    const animations = animatedCircles.map((element, i) => {
-      return anime({
-        targets: element,
-        opacity: opacity,
-        scale: scale,
-        easing: 'easeInOutQuad',
-        duration: 150,
-        delay: 150 * i,
-      });
-    });
-
-    const totalDuration = animations.reduce((acc, animation) => {
-      return Math.max(acc, animation.duration + animation.delay);
-    }, 0);
-    console.log(totalDuration);
-    
-    return totalDuration;
-  }
-
-  moveCircles(filled: Color, m: number, duration: number) {
+  change(filled: Color, i: number) {
     this.filled = filled;
     this.notFilled = opositeColor(filled);
-    this.stayColor = false;
-
-    function time(duration: number): number | null {
-      switch (duration) {
-        case 1050:
-          return 700;
-        case 2550:
-          return 1630;
-        case 4050:
-          return 2470;
-        default:
-          return null;
-      }
-    }
-
-    setTimeout(() => {
-      this.indexFilled = m;
-      this.stayColor = true;
-    }, time(duration)!);
+    this.indexFilled = i;
 
     setTimeout(() => {
       this.scrollService.notifyAnimationEnd('Change');
-    }, time(duration)! + 350);
+    }, 700);
+  }
+
+  morphing() {
+    const outerMorphPath =
+      'M393 203.604C402.5 313.355 279.5 398.5 196.5 392.855C157 398.855 -1.52588e-05 320.855 -1.52588e-05 203.604C-1.52588e-05 95.2005 47.5 -31.1445 196.5 7.31618C300.5 40.8555 372.5 100.355 393 203.604Z';
+    const innerMorphPath =
+      'M255.562 333.721C213.062 398.221 118.893 301.774 126.892 281.721C101.393 178.221 44.062 156.721 83.3925 126.721C217.562 77.7206 215 38 278.5 63.5C358.651 122.92 300.732 219.721 255.562 333.721Z';
+    const duration = 2500;
+
+    const timelineOuter = anime.timeline({
+      duration: duration,
+      loop: true,
+      direction: 'alternate',
+      targets: '#outer',
+      easing: 'linear',
+    });
+    timelineOuter.add({
+      d: [{ value: outerMorphPath }],
+    });
+
+    const timelineInner = anime.timeline({
+      duration: duration,
+      loop: true,
+      direction: 'alternate',
+      targets: '#inner',
+      easing: 'linear',
+    });
+    timelineInner.add({
+      d: [{ value: innerMorphPath }],
+    });
+  }
+
+  outerColor() {
+    if (this.indexFilled == 0 || this.indexFilled == 2) {
+      return Color.Light;
+    } else if (this.indexFilled == 1) {
+      return '#FF6348';
+    } else {
+      return '#00A698';
+    }
+  }
+
+  innerColor() {
+    if (this.indexFilled == 1 || this.indexFilled == 3) {
+      return Color.Dark;
+    } else if (this.indexFilled == 0) {
+      return '#FFD44A';
+    } else {
+      return '#FFB5F9';
+    }
   }
 }
