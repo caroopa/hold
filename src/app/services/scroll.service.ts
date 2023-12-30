@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ScrollService {
-  private isTransitioningSubject = new Subject<boolean>();
+  private isTransitioningSubject = new BehaviorSubject<boolean>(false);
 
   isTransitioningSubject$ = this.isTransitioningSubject.asObservable();
 

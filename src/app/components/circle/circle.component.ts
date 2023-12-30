@@ -3,6 +3,7 @@ import { CircleService } from 'src/app/services/circle.service';
 import { ScrollService } from 'src/app/services/scroll.service';
 import { Color, opositeColor } from 'src/app/utils/color';
 import anime from 'animejs/lib/anime.es.js';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-circle',
@@ -13,6 +14,9 @@ export class CircleComponent {
   indexFilled = 0;
   filled = Color.Light;
   notFilled = Color.Dark;
+  isTransitioning!: boolean;
+  scrollSubscription!: Subscription;
+  circleSubscription!: Subscription;
 
   constructor(
     private circleService: CircleService,
@@ -20,10 +24,23 @@ export class CircleComponent {
   ) {}
 
   ngOnInit() {
-    this.circleService.setTransition().subscribe((e) => {
+    this.circleSubscription = this.circleService.setTransition().subscribe((e) => {
       this.change(e.filled, e.m);
     });
+    this.scrollSubscription =
+      this.scrollService.isTransitioningSubject$.subscribe((state) => {
+        this.isTransitioning = state;
+      });
     this.morphing();
+  }
+
+  ngOnDestroy() {
+    if (this.scrollSubscription) {
+      this.scrollSubscription.unsubscribe();
+    }
+    if (this.circleSubscription) {
+      this.circleSubscription.unsubscribe();
+    }
   }
 
   isCurrentIndex(index: number) {
@@ -43,13 +60,15 @@ export class CircleComponent {
   }
 
   change(filled: Color, i: number) {
-    this.filled = filled;
-    this.notFilled = opositeColor(filled);
-    this.indexFilled = i;
+    if (this.isTransitioning) {
+      this.filled = filled;
+      this.notFilled = opositeColor(filled);
+      this.indexFilled = i;
 
-    setTimeout(() => {
-      this.scrollService.notifyIsNotTransitioning();
-    }, 700);
+      setTimeout(() => {
+        this.scrollService.notifyIsNotTransitioning();
+      }, 700);
+    }
   }
 
   morphing() {

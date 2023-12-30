@@ -5,6 +5,7 @@ import { CircleService } from 'src/app/services/circle.service';
 import { LinksService } from 'src/app/services/links.service';
 import { MenuService } from 'src/app/services/menu.service';
 import { Color, opositeColor } from 'src/app/utils/color';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-servicios',
@@ -18,6 +19,8 @@ export class ServiciosComponent {
   markers!: number[];
   isTransitioning!: boolean;
   linksColor: Color = Color.Light;
+  scrollSubscription!: Subscription;
+  circleSubscription!: Subscription;
 
   constructor(
     private transService: ColorTransitionService,
@@ -31,23 +34,35 @@ export class ServiciosComponent {
     this.index = 0;
     this.container = document.querySelectorAll('.services-container');
     this.markers = new Array(this.container.length);
-    this.isTransitioning = false;
 
     this.linksService.changeLeftColor(this.linksColor);
     this.linksService.changeRightColor(this.linksColor);
+    this.menuService.changeWallColor(Color.Dark);
 
-    this.circleService.changeServiceSection.subscribe((nextIndex) => {
-      this.manualChange(nextIndex);
-    });
+    this.circleSubscription = this.circleService.changeServiceSection.subscribe(
+      (nextIndex) => {
+        this.manualChange(nextIndex);
+      }
+    );
 
-    this.scrollService.isTransitioningSubject$.subscribe((state) => {
-      this.isTransitioning = state;
-    });
+    this.scrollSubscription =
+      this.scrollService.isTransitioningSubject$.subscribe((state) => {
+        this.isTransitioning = state;
+      });
+  }
+
+  ngOnDestroy() {
+    if (this.scrollSubscription) {
+      this.scrollSubscription.unsubscribe();
+    }
+    if (this.circleSubscription) {
+      this.circleSubscription.unsubscribe();
+    }
   }
 
   @HostListener('window:wheel', ['$event'])
   onWheel(e: WheelEvent) {
-    if (!this.isTransitioning) {
+    if (!this.isTransitioning && this.isTransitioning != undefined) {
       if (e.deltaY > 0) {
         if (this.index + 1 <= this.container.length) {
           this.nextIndex = this.index + 1;
@@ -62,7 +77,7 @@ export class ServiciosComponent {
         }
       }
 
-      this.isTransitioning = true;
+      this.scrollService.notifyIsTransitioning();
       this.setColor(this.nextIndex);
 
       if (this.nextIndex >= 0 && this.nextIndex < this.container.length) {
@@ -83,7 +98,7 @@ export class ServiciosComponent {
 
   manualChange(index: number) {
     if (this.index != index) {
-      this.isTransitioning = true;
+      this.scrollService.notifyIsTransitioning();
       this.setColor(index);
       this.circleService.setProperties(this.linksColor, index);
       this.nextIndex = index;

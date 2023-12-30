@@ -21,6 +21,7 @@ export class MenuComponent {
   whatsapp = 'assets/img/whatsapp.svg';
   showMinusVision = false;
   showMinusServices = false;
+  colorDark = Color.Dark;
 
   constructor(
     private router: Router,
@@ -43,8 +44,9 @@ export class MenuComponent {
     });
   }
 
-  navigate(root: string) {
-    this.router.navigate([root]);
+  goTo(page: string, color: string) {
+    this.router.navigate([page]);
+    this.menuService.changeWallColor(color);
     this.toggleMenu();
   }
 
@@ -123,19 +125,24 @@ export class MenuComponent {
       !leftCard.classList.contains('animateEnter') &&
       !rightCard.classList.contains('animateEnter')
     ) {
-      this.scrollService.notifyIsTransitioning();
       if (this.rootURL == '') {
         this.lastLeftColor = opositeColor(this.spanColor);
         this.lastRightColor = this.spanColor;
-      } else if (this.rootURL == 'vision' || this.rootURL == 'servicios') {
+      } else if (this.rootURL == 'vision') {
+        this.lastLeftColor = this.spanColor;
+        this.lastRightColor = this.spanColor;
+      } else if (this.rootURL == 'servicios') {
+        this.scrollService.notifyIsTransitioning();
         this.lastLeftColor = this.spanColor;
         this.lastRightColor = this.spanColor;
       }
       this.animationElement.animationIn();
     } else {
-      setTimeout(() => {
-        this.scrollService.notifyIsNotTransitioning();
-      }, 2000);
+      if (this.rootURL == 'servicios') {
+        setTimeout(() => {
+          this.scrollService.notifyIsNotTransitioning();
+        }, 2000);
+      }
       this.animationElement.animationOut(
         this.lastLeftColor,
         this.lastRightColor

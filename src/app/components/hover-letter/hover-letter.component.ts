@@ -50,8 +50,7 @@ export class HoverLetterComponent implements OnDestroy {
     which: string,
     color: string,
     particles: string,
-    event: MouseEvent,
-    wallColor: string
+    event: MouseEvent
   ) {
     this.transService.setProperties(
       color,
@@ -60,6 +59,5 @@ export class HoverLetterComponent implements OnDestroy {
       event.clientY,
       which
     );
-    this.menuService.changeWallColor(wallColor);
   }
 }
