@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ColorTransitionService } from 'src/app/services/color-transition.service';
-import { ScrollService } from 'src/app/services/scroll.service';
+// import { ScrollService } from 'src/app/services/scroll.service';
 import anime from 'animejs/lib/anime.es.js';
 
 @Component({
@@ -12,7 +12,7 @@ import anime from 'animejs/lib/anime.es.js';
 export class ColorTransitionComponent {
   constructor(
     private transService: ColorTransitionService,
-    private scrollService: ScrollService,
+    // private scrollService: ScrollService,
     private router: Router
   ) {}
 
@@ -133,7 +133,7 @@ export class ColorTransitionComponent {
       ctx.globalAlpha = 1;
     };
 
-    const animate = anime({
+    anime({
       duration: Infinity,
       update: function () {
         ctx.fillStyle = bgColor;

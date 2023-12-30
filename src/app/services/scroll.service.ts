@@ -5,11 +5,15 @@ import { Subject } from 'rxjs';
   providedIn: 'root',
 })
 export class ScrollService {
-  private animationEndSubject = new Subject<string>();
+  private isTransitioningSubject = new Subject<boolean>();
 
-  animationEnd$ = this.animationEndSubject.asObservable();
+  isTransitioningSubject$ = this.isTransitioningSubject.asObservable();
 
-  notifyAnimationEnd(componentName: string) {
-    this.animationEndSubject.next(componentName);
+  notifyIsNotTransitioning() {
+    this.isTransitioningSubject.next(false);
+  }
+
+  notifyIsTransitioning() {
+    this.isTransitioningSubject.next(true);
   }
 }

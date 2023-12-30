@@ -1,8 +1,8 @@
 <main class="service-desc-container">
   <section
     class="service-desc-section yellow"
-    (mouseenter)="changeLeftLink('var(--primary-dark)')"
-    (mouseleave)="changeLeftLink('var(--primary-light)')"
+    (mouseenter)="changeLeftLink(colorDark)"
+    (mouseleave)="changeLeftLink(colorLight)"
   >
     <h3>Comunicación</h3>
   </section>
@@ -12,7 +12,11 @@
   <section class="service-desc-section rose">
     <h3>Campañas</h3>
   </section>
-  <section class="service-desc-section esmerald">
+  <section
+    class="service-desc-section esmerald"
+    (mouseenter)="changeRightLink(colorLight)"
+    (mouseleave)="changeRightLink(colorDark)"
+  >
     <h3>Eventos</h3>
   </section>
 </main>

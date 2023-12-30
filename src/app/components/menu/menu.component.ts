@@ -2,6 +2,8 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { Router, NavigationStart } from '@angular/router';
 import { Location } from '@angular/common';
 import { LinksService } from 'src/app/services/links.service';
+import { Color } from 'src/app/utils/color';
+import { ScrollService } from 'src/app/services/scroll.service';
 
 @Component({
   selector: 'app-menu',
@@ -10,7 +12,8 @@ import { LinksService } from 'src/app/services/links.service';
   encapsulation: ViewEncapsulation.None,
 })
 export class MenuComponent {
-  spanColor!: string | null;
+  spanColor!: Color;
+  lastColor!: Color;
   rootURL!: string;
   animationElement!: AnimationElement;
   whatsapp = 'assets/img/whatsapp.svg';
@@ -20,7 +23,8 @@ export class MenuComponent {
   constructor(
     private router: Router,
     private location: Location,
-    private linksService: LinksService
+    private linksService: LinksService,
+    private scrollService: ScrollService
   ) {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationStart) {
@@ -31,7 +35,7 @@ export class MenuComponent {
   }
 
   ngOnInit(): void {
-    this.linksService.menuColor$.subscribe((color) => {
+    this.linksService.rightColor$.subscribe((color) => {
       this.spanColor = color;
     });
   }
@@ -49,8 +53,6 @@ export class MenuComponent {
     this.showMinusServices = !this.showMinusServices;
   }
 
-  // FOR ANIMATION
-
   private getRootURL(url: string): string {
     const parts = url.split('/');
     return parts[1];
@@ -64,18 +66,33 @@ export class MenuComponent {
     rightContent: HTMLElement
   ): AnimationElement {
     if (this.rootURL == '') {
-      return new Home(leftCard, rightCard, icon, leftContent, rightContent);
+      return new Home(
+        leftCard,
+        rightCard,
+        icon,
+        leftContent,
+        rightContent,
+        this.linksService
+      );
     } else if (this.rootURL == 'vision' || this.rootURL == 'servicios') {
       return new FullScreen(
         leftCard,
         rightCard,
         icon,
         leftContent,
-        rightContent
+        rightContent,
+        this.linksService
       );
     } else {
       // CAMBIAR
-      return new Nothing(leftCard, rightCard, icon, leftContent, rightContent);
+      return new Nothing(
+        leftCard,
+        rightCard,
+        icon,
+        leftContent,
+        rightContent,
+        this.linksService
+      );
     }
   }
 
@@ -97,8 +114,23 @@ export class MenuComponent {
       leftContent,
       rightContent
     );
-    this.animationElement.whichAnimationDo();
+
+    if (
+      !leftCard.classList.contains('animateEnter') &&
+      !rightCard.classList.contains('animateEnter')
+    ) {
+      this.scrollService.notifyIsTransitioning();
+      this.lastColor = this.spanColor;
+      this.animationElement.animationIn();
+    } else {
+      setTimeout(() => {
+        this.scrollService.notifyIsNotTransitioning();
+      }, 2000);
+      this.animationElement.animationOut(this.lastColor);
+    }
   }
+
+  handleScroll = () => {};
 }
 
 abstract class AnimationElement {
@@ -107,7 +139,8 @@ abstract class AnimationElement {
     public rightCard: HTMLElement,
     public icon: HTMLElement,
     public leftContent: HTMLElement,
-    public rightContent: HTMLElement
+    public rightContent: HTMLElement,
+    public linksService: LinksService
   ) {}
 
   animationIn(): void {
@@ -121,35 +154,28 @@ abstract class AnimationElement {
 
     this.leftCard.addEventListener('animationend', () => {
       if (this.leftCard.classList.contains('animateEnter')) {
+        this.linksService.changeLeftColor(Color.Dark);
         this.leftContent.style.opacity = '1';
       }
     });
 
     this.rightCard.addEventListener('animationend', () => {
       if (this.rightCard.classList.contains('animateEnter')) {
+        this.linksService.changeRightColor(Color.Light);
         this.rightContent.style.opacity = '1';
       }
     });
   }
 
-  animationOut() {
+  animationOut(lastColor: Color) {
     this.leftCard.style.pointerEvents = 'none';
     this.rightCard.style.pointerEvents = 'none';
+    this.linksService.changeLeftColor(lastColor);
+    this.linksService.changeRightColor(lastColor);
     this.animationOutSpecific();
   }
 
   abstract animationOutSpecific(): void;
-
-  whichAnimationDo(): void {
-    if (
-      !this.leftCard.classList.contains('animateEnter') &&
-      !this.rightCard.classList.contains('animateEnter')
-    ) {
-      this.animationIn();
-    } else {
-      this.animationOut();
-    }
-  }
 }
 
 class Home extends AnimationElement {
@@ -158,9 +184,10 @@ class Home extends AnimationElement {
     rightCard: HTMLElement,
     icon: HTMLElement,
     leftContent: HTMLElement,
-    rightContent: HTMLElement
+    rightContent: HTMLElement,
+    linksService: LinksService
   ) {
-    super(leftCard, rightCard, icon, leftContent, rightContent);
+    super(leftCard, rightCard, icon, leftContent, rightContent, linksService);
   }
 
   animationOutSpecific(): void {
@@ -216,9 +243,10 @@ class FullScreen extends AnimationElement {
     rightCard: HTMLElement,
     icon: HTMLElement,
     leftContent: HTMLElement,
-    rightContent: HTMLElement
+    rightContent: HTMLElement,
+    linksService: LinksService
   ) {
-    super(leftCard, rightCard, icon, leftContent, rightContent);
+    super(leftCard, rightCard, icon, leftContent, rightContent, linksService);
   }
 
   animationOutSpecific(): void {
@@ -278,9 +306,10 @@ class Nothing extends AnimationElement {
     rightCard: HTMLElement,
     icon: HTMLElement,
     leftContent: HTMLElement,
-    rightContent: HTMLElement
+    rightContent: HTMLElement,
+    linksService: LinksService
   ) {
-    super(leftCard, rightCard, icon, leftContent, rightContent);
+    super(leftCard, rightCard, icon, leftContent, rightContent, linksService);
   }
 
   animationOutSpecific(): void {

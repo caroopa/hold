@@ -48,7 +48,7 @@ export class CircleComponent {
     this.indexFilled = i;
 
     setTimeout(() => {
-      this.scrollService.notifyAnimationEnd('Change');
+      this.scrollService.notifyIsNotTransitioning();
     }, 700);
   }
 

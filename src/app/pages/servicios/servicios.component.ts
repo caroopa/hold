@@ -31,12 +31,15 @@ export class ServiciosComponent {
     this.markers = new Array(this.container.length);
     this.isTransitioning = false;
 
-    this.linksService.changeFollowColor(this.linksColor);
-    this.linksService.changeHelloColor(this.linksColor);
-    this.linksService.changeMenuColor(this.linksColor);
+    this.linksService.changeLeftColor(this.linksColor);
+    this.linksService.changeRightColor(this.linksColor);
 
     this.circleService.changeServiceSection.subscribe((nextIndex) => {
       this.manualChange(nextIndex);
+    });
+
+    this.scrollService.isTransitioningSubject$.subscribe((state) => {
+        this.isTransitioning = state;
     });
   }
 
@@ -94,15 +97,9 @@ export class ServiciosComponent {
   }
 
   changeSection(i: number = this.nextIndex) {
-    this.linksService.changeFollowColor(this.linksColor);
-    this.linksService.changeHelloColor(this.linksColor);
-    this.linksService.changeMenuColor(this.linksColor);
+    this.linksService.changeLeftColor(this.linksColor);
+    this.linksService.changeRightColor(this.linksColor);
     this.index = i;
-    this.scrollService.animationEnd$.subscribe((componentName) => {
-      if (componentName === 'Change') {
-        this.isTransitioning = false;
-      }
-    });
   }
 
   isCurrentIndex(i: number) {

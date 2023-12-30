@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { LinksService } from './../../services/links.service';
+import { Color } from 'src/app/utils/color';
 
 @Component({
   selector: 'app-links',
@@ -7,8 +8,8 @@ import { LinksService } from './../../services/links.service';
   styleUrls: ['./links.component.scss'],
 })
 export class LinksComponent {
-  followColor!: string;
-  helloColor!: string;
+  leftColor!: Color;
+  rightColor!: Color;
 
   showFollow: boolean | null = null;
   showHello = false;
@@ -16,11 +17,11 @@ export class LinksComponent {
   constructor(private linksService: LinksService) {}
 
   ngOnInit() {
-    this.linksService.followColor$.subscribe((color) => {
-      this.followColor = color;
+    this.linksService.leftColor$.subscribe((color) => {
+      this.leftColor = color;
     });
-    this.linksService.helloColor$.subscribe((color) => {
-      this.helloColor = color;
+    this.linksService.rightColor$.subscribe((color) => {
+      this.rightColor = color;
     });
   }
 

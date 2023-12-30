@@ -1,28 +1,22 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { Color } from '../utils/color';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LinksService {
-  private followColorSubject = new BehaviorSubject<string>('');
-  public followColor$ = this.followColorSubject.asObservable();
+  private leftColorSubject = new BehaviorSubject<Color>(Color.Dark);
+  public leftColor$ = this.leftColorSubject.asObservable();
 
-  private helloColorSubject = new BehaviorSubject<string>('');
-  public helloColor$ = this.helloColorSubject.asObservable();
+  private rightColorSubject = new BehaviorSubject<Color>(Color.Dark);
+  public rightColor$ = this.rightColorSubject.asObservable();
 
-  private menuColorSubject = new BehaviorSubject<string>('');
-  public menuColor$ = this.menuColorSubject.asObservable();
-
-  changeFollowColor(color: string): void {
-    this.followColorSubject.next(color);
+  changeLeftColor(color: Color): void {
+    this.leftColorSubject.next(color);
   }
 
-  changeHelloColor(color: string): void {
-    this.helloColorSubject.next(color);
-  }
-
-  changeMenuColor(color: string): void {
-    this.menuColorSubject.next(color);
+  changeRightColor(color: Color): void {
+    this.rightColorSubject.next(color);
   }
 }
