@@ -1,6 +1,6 @@
 import { Component, OnDestroy } from '@angular/core';
 import { ColorTransitionService } from 'src/app/services/color-transition.service';
-import { MenuService } from 'src/app/services/menu.service';
+import { ScrollService } from 'src/app/services/scroll.service';
 import gsap from 'gsap';
 
 @Component({
@@ -13,7 +13,7 @@ export class HoverLetterComponent implements OnDestroy {
 
   constructor(
     private transService: ColorTransitionService,
-    private menuService: MenuService
+    private scrollService: ScrollService
   ) {}
 
   ngAfterViewInit() {
@@ -59,5 +59,6 @@ export class HoverLetterComponent implements OnDestroy {
       event.clientY,
       which
     );
+    this.scrollService.notifyIsTransitioning();
   }
 }

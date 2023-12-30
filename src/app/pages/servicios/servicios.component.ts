@@ -90,7 +90,7 @@ export class ServiciosComponent {
           '#FFD44C',
           window.innerWidth / 2,
           window.innerHeight / 2,
-          'servicios/desc'
+          '/servicios/desc'
         );
       }
     }

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ColorTransitionService } from 'src/app/services/color-transition.service';
-// import { ScrollService } from 'src/app/services/scroll.service';
+import { ScrollService } from 'src/app/services/scroll.service';
 import anime from 'animejs/lib/anime.es.js';
 
 @Component({
@@ -12,7 +12,7 @@ import anime from 'animejs/lib/anime.es.js';
 export class ColorTransitionComponent {
   constructor(
     private transService: ColorTransitionService,
-    // private scrollService: ScrollService,
+    private scrollService: ScrollService,
     private router: Router
   ) {}
 
@@ -153,7 +153,10 @@ export class ColorTransitionComponent {
 
     const handleCompleted = () => {
       animations = [];
-      this.router.navigate(['/' + page]);
+      this.router.navigate([page]);
+      if (page == "/servicios") {
+        this.scrollService.notifyIsNotTransitioning();
+      }
       c.style.transition = 'opacity 0.3s ease';
       c.style.opacity = '0';
     };

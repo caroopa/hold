@@ -7,12 +7,31 @@ import * as paper from 'paper';
   styleUrls: ['./wave-card.component.scss'],
 })
 export class WaveCardComponent {
+  isFollowingMouse!: boolean;
+  isMouseInside!: boolean;
+  onFrameWaveCardAnimation!: any;
+  onMouseMoveWaveCardAnimation!: any;
+
   ngAfterViewInit() {
+    this.isFollowingMouse = true;
+    this.isMouseInside = false;
     this.waveCardAnimation();
   }
 
   ngOnDestroy() {
-    paper.project.clear();
+    // Detener la animación y limpiar recursos
+    this.isFollowingMouse = false;
+
+    // Eliminar Paper.js project y limpiar eventos
+    if (paper.project) {
+      paper.project.clear();
+    }
+
+    // Eliminar los eventos de mousemove y onframe
+    if (paper.view) {
+      paper.view.off('frame', this.onFrameWaveCardAnimation);
+      paper.view.off('mousemove', this.onMouseMoveWaveCardAnimation);
+    }
   }
 
   // @HostListener('window:resize', ['$event'])
@@ -20,6 +39,13 @@ export class WaveCardComponent {
   //   paper.project.clear();
   //   this.waveCardAnimation();
   // }
+
+  @HostListener('document:mouseleave', ['$event'])
+  onMouseLeave() {
+    console.log('afuera');
+
+    this.isFollowingMouse = false;
+  }
 
   waveCardAnimation() {
     const canvas = document.getElementById(
@@ -56,40 +82,44 @@ export class WaveCardComponent {
     path.add([middle, height]);
     path.smooth({ type: 'continuous' });
 
-    var isFollowingMouse = true;
-    var isMouseInside = false;
     const targetPos = new paper.Point(middle, height / 2);
     const speed = 10;
 
     // ------- ONFRAME -------
 
-    function onFrameWaveCardAnimation() {
-      if (!isFollowingMouse) {
+    this.onFrameWaveCardAnimation = () => {
+      if (!this.isFollowingMouse) {
+        console.log('siiiiiiiii');
+
         const distance = targetPos.subtract(path.segments[1].point);
         if (distance.length > 1) {
           path.segments[1].point.x += distance.x / speed;
         } else {
-          isFollowingMouse = true;
+          this.isFollowingMouse = true;
         }
         reanimate();
       }
-    }
+    };
 
     // ------- MOUSEMOVE -------
 
-    function onMouseMoveWaveCardAnimation(event: any) {
+    this.onMouseMoveWaveCardAnimation = (event: any) => {
+      console.log(event.point);
+
       const mousePos = event.point;
       var isLeft;
-      if (!isMouseInside && mousePos.x < width && mousePos.x > 0) {
-        isMouseInside = true;
+      if (!this.isMouseInside && mousePos.x < width && mousePos.x > 0) {
+        console.log('aaaa');
+
+        this.isMouseInside = true;
         isLeft = mousePos.x < middle;
       }
 
       const isWaveInside =
         path.segments[1].point.x < width && path.segments[1].point.x > 0;
 
-      if (isFollowingMouse && isMouseInside) {
-        isMouseInside = true;
+      if (this.isFollowingMouse && this.isMouseInside) {
+        this.isMouseInside = true;
 
         if (isWaveInside) {
           if (isLeft) {
@@ -100,12 +130,12 @@ export class WaveCardComponent {
               (mousePos.x - path.segments[1].point.x) / 10;
           }
         } else {
-          isFollowingMouse = false;
-          isMouseInside = false;
+          this.isFollowingMouse = false;
+          this.isMouseInside = false;
         }
         reanimate();
       }
-    }
+    };
 
     // ------- REANIMATE -------
 
@@ -124,10 +154,10 @@ export class WaveCardComponent {
     // ------- MOUSELEAVE -------
 
     canvas.addEventListener('mouseleave', () => {
-      isFollowingMouse = false;
+      this.isFollowingMouse = false;
     });
 
-    paper.view.onMouseMove = onMouseMoveWaveCardAnimation;
-    paper.view.onFrame = onFrameWaveCardAnimation;
+    paper.view.onMouseMove = this.onMouseMoveWaveCardAnimation;
+    paper.view.onFrame = this.onFrameWaveCardAnimation;
   }
 }
