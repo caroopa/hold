@@ -1,8 +1,9 @@
 import { Component, HostListener } from '@angular/core';
-import { ColorTransitionService } from './../../services/color-transition.service';
+import { ColorTransitionService } from 'src/app/services/color-transition.service';
 import { ScrollService } from 'src/app/services/scroll.service';
 import { CircleService } from 'src/app/services/circle.service';
 import { LinksService } from 'src/app/services/links.service';
+import { MenuService } from 'src/app/services/menu.service';
 import { Color, opositeColor } from 'src/app/utils/color';
 
 @Component({
@@ -22,7 +23,8 @@ export class ServiciosComponent {
     private transService: ColorTransitionService,
     private scrollService: ScrollService,
     private circleService: CircleService,
-    private linksService: LinksService
+    private linksService: LinksService,
+    private menuService: MenuService
   ) {}
 
   ngOnInit() {
@@ -39,12 +41,12 @@ export class ServiciosComponent {
     });
 
     this.scrollService.isTransitioningSubject$.subscribe((state) => {
-        this.isTransitioning = state;
+      this.isTransitioning = state;
     });
   }
 
   @HostListener('window:wheel', ['$event'])
-  onWheel(e: WheelEvent) {    
+  onWheel(e: WheelEvent) {
     if (!this.isTransitioning) {
       if (e.deltaY > 0) {
         if (this.index + 1 <= this.container.length) {
@@ -67,6 +69,7 @@ export class ServiciosComponent {
         this.circleService.setProperties(this.linksColor, this.nextIndex);
         this.changeSection();
       } else if (this.nextIndex == this.container.length) {
+        this.menuService.changeWallColor(Color.Dark);
         this.transService.setProperties(
           Color.Dark,
           '#FFD44C',
@@ -99,6 +102,7 @@ export class ServiciosComponent {
   changeSection(i: number = this.nextIndex) {
     this.linksService.changeLeftColor(this.linksColor);
     this.linksService.changeRightColor(this.linksColor);
+    this.menuService.changeWallColor(this.backgroundColor());
     this.index = i;
   }
 

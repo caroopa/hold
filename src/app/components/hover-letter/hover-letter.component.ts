@@ -1,5 +1,6 @@
 import { Component, OnDestroy } from '@angular/core';
-import { ColorTransitionService } from './../../services/color-transition.service';
+import { ColorTransitionService } from 'src/app/services/color-transition.service';
+import { MenuService } from 'src/app/services/menu.service';
 import gsap from 'gsap';
 
 @Component({
@@ -10,7 +11,10 @@ import gsap from 'gsap';
 export class HoverLetterComponent implements OnDestroy {
   shadeColor!: string;
 
-  constructor(private transService: ColorTransitionService) {}
+  constructor(
+    private transService: ColorTransitionService,
+    private menuService: MenuService
+  ) {}
 
   ngAfterViewInit() {
     this.hoverLetterAnimation();
@@ -42,7 +46,20 @@ export class HoverLetterComponent implements OnDestroy {
     }
   };
 
-  activateTransition(which: string, color: string, particles: string, event: MouseEvent) {
-    this.transService.setProperties(color, particles, event.clientX, event.clientY, which);
+  changePage(
+    which: string,
+    color: string,
+    particles: string,
+    event: MouseEvent,
+    wallColor: string
+  ) {
+    this.transService.setProperties(
+      color,
+      particles,
+      event.clientX,
+      event.clientY,
+      which
+    );
+    this.menuService.changeWallColor(wallColor);
   }
 }

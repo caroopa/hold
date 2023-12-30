@@ -2,8 +2,9 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { Router, NavigationStart } from '@angular/router';
 import { Location } from '@angular/common';
 import { LinksService } from 'src/app/services/links.service';
-import { Color, opositeColor } from 'src/app/utils/color';
 import { ScrollService } from 'src/app/services/scroll.service';
+import { MenuService } from 'src/app/services/menu.service';
+import { Color, opositeColor } from 'src/app/utils/color';
 
 @Component({
   selector: 'app-menu',
@@ -25,7 +26,8 @@ export class MenuComponent {
     private router: Router,
     private location: Location,
     private linksService: LinksService,
-    private scrollService: ScrollService
+    private scrollService: ScrollService,
+    private menuService: MenuService
   ) {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationStart) {
@@ -82,7 +84,8 @@ export class MenuComponent {
         icon,
         leftContent,
         rightContent,
-        this.linksService
+        this.linksService,
+        this.menuService
       );
     } else {
       // CAMBIAR
@@ -254,10 +257,16 @@ class FullScreen extends AnimationElement {
     icon: HTMLElement,
     leftContent: HTMLElement,
     rightContent: HTMLElement,
-    linksService: LinksService
+    linksService: LinksService,
+    public menuService: MenuService
   ) {
     super(leftCard, rightCard, icon, leftContent, rightContent, linksService);
+    menuService.wallColor$.subscribe((color) => {
+      this.wallColor = color;
+    });
   }
+
+  wallColor!: string;
 
   animationOutSpecific(): void {
     this.icon.classList.toggle('open');
@@ -265,14 +274,14 @@ class FullScreen extends AnimationElement {
     const leftMenuCard = document.createElement('div');
     leftMenuCard.classList.add('fullscreen');
     leftMenuCard.style.right = '50%';
-    leftMenuCard.style.backgroundColor = '#82A0D8';
+    leftMenuCard.style.backgroundColor = this.wallColor;
     leftMenuCard.classList.add('animateEnter');
     this.leftCard.appendChild(leftMenuCard);
 
     const rightMenuCard = document.createElement('div');
     rightMenuCard.classList.add('fullscreen');
     rightMenuCard.style.left = '50%';
-    rightMenuCard.style.backgroundColor = '#82A0D8';
+    rightMenuCard.style.backgroundColor = this.wallColor;
     rightMenuCard.classList.add('animateEnter');
     this.rightCard.appendChild(rightMenuCard);
 
