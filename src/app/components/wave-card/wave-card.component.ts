@@ -42,8 +42,6 @@ export class WaveCardComponent {
 
   @HostListener('document:mouseleave', ['$event'])
   onMouseLeave() {
-    console.log('afuera');
-
     this.isFollowingMouse = false;
   }
 
@@ -89,8 +87,6 @@ export class WaveCardComponent {
 
     this.onFrameWaveCardAnimation = () => {
       if (!this.isFollowingMouse) {
-        console.log('siiiiiiiii');
-
         const distance = targetPos.subtract(path.segments[1].point);
         if (distance.length > 1) {
           path.segments[1].point.x += distance.x / speed;
@@ -104,13 +100,9 @@ export class WaveCardComponent {
     // ------- MOUSEMOVE -------
 
     this.onMouseMoveWaveCardAnimation = (event: any) => {
-      console.log(event.point);
-
       const mousePos = event.point;
       var isLeft;
       if (!this.isMouseInside && mousePos.x < width && mousePos.x > 0) {
-        console.log('aaaa');
-
         this.isMouseInside = true;
         isLeft = mousePos.x < middle;
       }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import { ColorTransitionService } from 'src/app/services/color-transition.service';
 import { ScrollService } from 'src/app/services/scroll.service';
@@ -13,7 +13,8 @@ export class ColorTransitionComponent {
   constructor(
     private transService: ColorTransitionService,
     private scrollService: ScrollService,
-    private router: Router
+    private router: Router,
+    private zone: NgZone
   ) {}
 
   ngOnInit() {
@@ -153,8 +154,10 @@ export class ColorTransitionComponent {
 
     const handleCompleted = () => {
       animations = [];
-      this.router.navigate([page]);
-      if (page == "/servicios") {
+      this.zone.run(() => {
+        this.router.navigate([page]);
+      });
+      if (page == '/servicios') {
         this.scrollService.notifyIsNotTransitioning();
       }
       c.style.transition = 'opacity 0.3s ease';
