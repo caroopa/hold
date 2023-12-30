@@ -2,7 +2,7 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { Router, NavigationStart } from '@angular/router';
 import { Location } from '@angular/common';
 import { LinksService } from 'src/app/services/links.service';
-import { Color } from 'src/app/utils/color';
+import { Color, opositeColor } from 'src/app/utils/color';
 import { ScrollService } from 'src/app/services/scroll.service';
 
 @Component({
@@ -13,7 +13,8 @@ import { ScrollService } from 'src/app/services/scroll.service';
 })
 export class MenuComponent {
   spanColor!: Color;
-  lastColor!: Color;
+  lastLeftColor!: Color;
+  lastRightColor!: Color;
   rootURL!: string;
   animationElement!: AnimationElement;
   whatsapp = 'assets/img/whatsapp.svg';
@@ -120,13 +121,22 @@ export class MenuComponent {
       !rightCard.classList.contains('animateEnter')
     ) {
       this.scrollService.notifyIsTransitioning();
-      this.lastColor = this.spanColor;
+      if (this.rootURL == '') {
+        this.lastLeftColor = opositeColor(this.spanColor);
+        this.lastRightColor = this.spanColor;
+      } else if (this.rootURL == 'vision' || this.rootURL == 'servicios') {
+        this.lastLeftColor = this.spanColor;
+        this.lastRightColor = this.spanColor;
+      }
       this.animationElement.animationIn();
     } else {
       setTimeout(() => {
         this.scrollService.notifyIsNotTransitioning();
       }, 2000);
-      this.animationElement.animationOut(this.lastColor);
+      this.animationElement.animationOut(
+        this.lastLeftColor,
+        this.lastRightColor
+      );
     }
   }
 
@@ -167,11 +177,11 @@ abstract class AnimationElement {
     });
   }
 
-  animationOut(lastColor: Color) {
+  animationOut(lastLeftColor: Color, lastRightColor: Color) {
     this.leftCard.style.pointerEvents = 'none';
     this.rightCard.style.pointerEvents = 'none';
-    this.linksService.changeLeftColor(lastColor);
-    this.linksService.changeRightColor(lastColor);
+    this.linksService.changeLeftColor(lastLeftColor);
+    this.linksService.changeRightColor(lastRightColor);
     this.animationOutSpecific();
   }
 
