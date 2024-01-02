@@ -4,7 +4,7 @@ import { Subject } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class ColorTransitionService {
+export class TransitionService {
   private activateTransition = new Subject<{
     color: string;
     particles: string;

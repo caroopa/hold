@@ -1,5 +1,5 @@
 import { Component, HostListener } from '@angular/core';
-import { ColorTransitionService } from 'src/app/services/color-transition.service';
+import { TransitionService } from 'src/app/services/transition.service';
 import { ScrollService } from 'src/app/services/scroll.service';
 import { CircleService } from 'src/app/services/circle.service';
 import { LinksService } from 'src/app/services/links.service';
@@ -15,15 +15,14 @@ import { Subscription } from 'rxjs';
 export class ServiciosComponent {
   index!: number;
   nextIndex!: number;
-  container!: any;
-  markers!: number[];
   isTransitioning!: boolean;
   linksColor: Color = Color.Light;
   scrollSubscription!: Subscription;
   circleSubscription!: Subscription;
+  lenght = 4;
 
   constructor(
-    private transService: ColorTransitionService,
+    private transService: TransitionService,
     private scrollService: ScrollService,
     private circleService: CircleService,
     private linksService: LinksService,
@@ -32,8 +31,6 @@ export class ServiciosComponent {
 
   ngOnInit() {
     this.index = 0;
-    this.container = document.querySelectorAll('.services-container');
-    this.markers = new Array(this.container.length);
 
     this.linksService.changeLeftColor(this.linksColor);
     this.linksService.changeRightColor(this.linksColor);
@@ -64,7 +61,7 @@ export class ServiciosComponent {
   onWheel(e: WheelEvent) {
     if (!this.isTransitioning && this.isTransitioning != undefined) {
       if (e.deltaY > 0) {
-        if (this.index + 1 <= this.container.length) {
+        if (this.index + 1 <= this.lenght) {
           this.nextIndex = this.index + 1;
         } else {
           return;
@@ -80,10 +77,10 @@ export class ServiciosComponent {
       this.scrollService.notifyIsTransitioning();
       this.setColor(this.nextIndex);
 
-      if (this.nextIndex >= 0 && this.nextIndex < this.container.length) {
+      if (this.nextIndex >= 0 && this.nextIndex < this.lenght) {
         this.circleService.setProperties(this.linksColor, this.nextIndex);
         this.changeSection();
-      } else if (this.nextIndex == this.container.length) {
+      } else if (this.nextIndex == this.lenght) {
         this.menuService.changeWallColor(Color.Dark);
         this.transService.setProperties(
           Color.Dark,
@@ -127,5 +124,59 @@ export class ServiciosComponent {
 
   backgroundColor() {
     return opositeColor(this.linksColor);
+  }
+
+  markers(): number[] {
+    return Array.from({ length: 4 }, (_, index) => index);
+  }
+
+  servicesContent = [
+    {
+      title: 'Data Comunicación',
+      listElements: [
+        'Comunicación Institucional',
+        'Comunicación Corporativa',
+        'Relaciones Públicas',
+        'Estrategias de Contenidos y MKT',
+      ],
+      descBold: 'Análisis',
+      desc: 'del estado de tu negocio',
+    },
+    {
+      title: 'Diseño gráfico y audiovisual',
+      listElements: [
+        'Identidad visual',
+        'Identidad corporativa',
+        'Marca. Branding',
+        'Editorial',
+      ],
+      descBold: 'Desarrollos creativos',
+      desc: 'e innovadores',
+    },
+    {
+      title: 'Campañas Publicitarias',
+      listElements: [
+        'Soluciones integrales on-line',
+        'Asesoramiento y planificación para nuevas oportunidades de negocio',
+        'Reportes de rendimiento de campañas',
+      ],
+      descBold: 'Estrategias creativas',
+      desc: 'de marketing',
+    },
+    {
+      title: 'Producción de Eventos',
+      listElements: [
+        'Eventos corporativos',
+        ' Eventos masivos y/o privados',
+        'Relaciones Públicas',
+      ],
+      descBold: 'Visibilización',
+      desc: 'de marca',
+    },
+  ];
+
+  serviceColor(i: number) {
+    const colors = ['#FFD44A', '#FF6348', '#FFB5F9', '#00A698'];
+    return colors[i];
   }
 }

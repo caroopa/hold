@@ -1,17 +1,17 @@
 import { Component, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
-import { ColorTransitionService } from 'src/app/services/color-transition.service';
+import { TransitionService } from 'src/app/services/transition.service';
 import { ScrollService } from 'src/app/services/scroll.service';
 import anime from 'animejs/lib/anime.es.js';
 
 @Component({
-  selector: 'app-color-transition',
-  templateUrl: './color-transition.component.html',
-  styleUrls: ['./color-transition.component.scss'],
+  selector: 'app-transition',
+  templateUrl: './transition.component.html',
+  styleUrls: ['./transition.component.scss'],
 })
 export class ColorTransitionComponent {
   constructor(
-    private transService: ColorTransitionService,
+    private transService: TransitionService,
     private scrollService: ScrollService,
     private router: Router,
     private zone: NgZone

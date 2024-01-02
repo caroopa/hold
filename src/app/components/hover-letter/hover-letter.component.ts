@@ -1,5 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
-import { ColorTransitionService } from 'src/app/services/color-transition.service';
+import { TransitionService } from 'src/app/services/transition.service';
 import { ScrollService } from 'src/app/services/scroll.service';
 import gsap from 'gsap';
 
@@ -12,7 +12,7 @@ export class HoverLetterComponent implements OnDestroy {
   shadeColor!: string;
 
   constructor(
-    private transService: ColorTransitionService,
+    private transService: TransitionService,
     private scrollService: ScrollService
   ) {}
 
