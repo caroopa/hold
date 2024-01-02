@@ -1,20 +1,20 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700;800;900&display=swap");
+@import url("https://fonts.cdnfonts.com/css/futura-std-4");
 
 :root {
   --primary-dark: #050000;
-  --primary-light: #FFFAF3;
-  --rose: #FFB5F9;
-  --esmerald: #00A698;
-  --yellow: #FFD44C;
-  --blue: #2974ED;
-  --orange: #FF6348;
+  --primary-light: #fffaf3;
+  --rose: #ffb5f9;
+  --esmerald: #00a698;
+  --yellow: #ffd44c;
+  --blue: #2974ed;
+  --orange: #ff6348;
 }
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
+  font-family: "Futura Std", sans-serif;
 }
 
 html,
