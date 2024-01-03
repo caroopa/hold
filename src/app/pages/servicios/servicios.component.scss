@@ -3,8 +3,7 @@
 .services-body {
   width: 100vw;
   height: 100vh;
-  transition: background-color 0.5s ease;
-  background-color: var(--primary-dark);
+  transition: background-color 1s ease;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -20,6 +19,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  pointer-events: none;
 }
 
 .services-content {
@@ -56,7 +56,6 @@
 .marker {
   width: 4rem;
   height: 1.5rem;
-  background-color: rgba(42, 42, 42, 0.3);
   border-radius: 2px;
 }
 
@@ -78,14 +77,29 @@
   text-align: right;
 }
 
-.services-titles h1 {
-  font-size: 5rem;
+.title {
+  font-size: 4.5rem;
   font-weight: 750;
+}
+
+.subtitle {
+  display: flex;
+  justify-content: flex-end;
 }
 
 .services-titles h2 {
   font-size: 3rem;
   font-weight: 400;
+}
+
+.pre-number {
+  opacity: 0;
+}
+
+.number {
+  font-size: 3rem;
+  font-weight: 400;
+  opacity: 0;
 }
 
 .services-services {
@@ -96,18 +110,23 @@
 .services-services li {
   font-size: 2rem;
   font-weight: 500;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
 }
 
 .services-desc {
   position: absolute;
   left: 0;
   bottom: 16.6rem;
-  font-size: 4rem;
   font-weight: 500;
   display: inline-block;
   width: 100%;
   text-align: center;
+  height: 5.5rem;
+  overflow: hidden;
+}
+
+.services-desc-h1 {
+  font-size: 4rem;
 }
 
 .services-desc span {

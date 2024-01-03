@@ -6,6 +6,7 @@ import { LinksService } from 'src/app/services/links.service';
 import { MenuService } from 'src/app/services/menu.service';
 import { Color, opositeColor } from 'src/app/utils/color';
 import { Subscription } from 'rxjs';
+import anime from 'animejs/lib/anime.es.js';
 
 @Component({
   selector: 'app-servicios',
@@ -20,6 +21,8 @@ export class ServiciosComponent {
   scrollSubscription!: Subscription;
   circleSubscription!: Subscription;
   lenght = 4;
+  titles!: NodeListOf<HTMLElement>;
+  numbers!: NodeListOf<HTMLElement>;
 
   constructor(
     private transService: TransitionService,
@@ -45,6 +48,25 @@ export class ServiciosComponent {
     this.scrollSubscription =
       this.scrollService.isTransitioningSubject$.subscribe((state) => {
         this.isTransitioning = state;
+      });
+  }
+
+  ngAfterViewInit() {
+    this.titles = document.querySelectorAll<HTMLElement>('.title');
+    this.numbers = document.querySelectorAll<HTMLElement>('.number');
+
+    anime
+      .timeline({
+        loop: true,
+        easing: 'easeInOutQuint',
+        direction: 'alternate',
+        duration: 1500,
+        delay: 1000,
+        endDelay: 1000,
+      })
+      .add({
+        targets: '.services-desc-h1',
+        translateY: -55,
       });
   }
 
@@ -76,6 +98,23 @@ export class ServiciosComponent {
 
       this.scrollService.notifyIsTransitioning();
       this.setColor(this.nextIndex);
+      const currentTitle = this.titles[this.index];
+      const currentNumber = this.numbers[this.index];
+
+      anime({
+        targets: currentTitle,
+        translateX: [0, -30],
+        opacity: [1, 0],
+        easing: 'easeInExpo',
+        duration: 600,
+      });
+      anime({
+        targets: currentNumber,
+        translateY: [0, -30],
+        opacity: [1, 0],
+        easing: 'easeInExpo',
+        duration: 600,
+      });
 
       if (this.nextIndex >= 0 && this.nextIndex < this.lenght) {
         this.circleService.setProperties(this.linksColor, this.nextIndex);
@@ -95,6 +134,21 @@ export class ServiciosComponent {
 
   manualChange(index: number) {
     if (this.index != index) {
+      const currentTitle = this.titles[this.index];
+      const currentNumber = this.numbers[this.index];
+
+      anime
+        .timeline({ easing: 'easeInExpo', duration: 600 })
+        .add({
+          targets: currentTitle,
+          translateX: [0, -30],
+          opacity: [1, 0],
+        })
+        .add({
+          targets: currentNumber,
+          translateY: [0, -100],
+        });
+
       this.scrollService.notifyIsTransitioning();
       this.setColor(index);
       this.circleService.setProperties(this.linksColor, index);
@@ -116,6 +170,25 @@ export class ServiciosComponent {
     this.linksService.changeRightColor(this.linksColor);
     this.menuService.changeWallColor(this.backgroundColor());
     this.index = i;
+    const currentTitle = this.titles[i];
+    const currentNumber = this.numbers[i];
+
+    anime({
+      targets: currentTitle,
+      translateX: [40, 0],
+      opacity: [0, 1],
+      easing: 'easeOutExpo',
+      duration: 600,
+      delay: 600,
+    });
+    anime({
+      targets: currentNumber,
+      translateY: [30, 0],
+      opacity: [0, 1],
+      easing: 'easeOutExpo',
+      duration: 600,
+      delay: 600,
+    });
   }
 
   isCurrentIndex(i: number) {
@@ -126,8 +199,16 @@ export class ServiciosComponent {
     return opositeColor(this.linksColor);
   }
 
-  markers(): number[] {
+  markers() {
     return Array.from({ length: 4 }, (_, index) => index);
+  }
+
+  markerColor() {
+    if (this.index == 1 || this.index == 3) {
+      return '#B4AFAB';
+    } else {
+      return '#504B49';
+    }
   }
 
   servicesContent = [
@@ -139,8 +220,16 @@ export class ServiciosComponent {
         'Relaciones Públicas',
         'Estrategias de Contenidos y MKT',
       ],
-      descBold: 'Análisis',
-      desc: 'del estado de tu negocio',
+      descElements: [
+        {
+          descBold: 'Análisis',
+          desc: 'del estado de tu negocio',
+        },
+        {
+          descBold: 'Control y medición',
+          desc: 'de resultado',
+        },
+      ],
     },
     {
       title: 'Diseño gráfico y audiovisual',
@@ -150,8 +239,16 @@ export class ServiciosComponent {
         'Marca. Branding',
         'Editorial',
       ],
-      descBold: 'Desarrollos creativos',
-      desc: 'e innovadores',
+      descElements: [
+        {
+          descBold: 'Desarrollos creativos',
+          desc: 'e innovadores',
+        },
+        {
+          descBold: 'Conversión',
+          desc: 'de marca',
+        },
+      ],
     },
     {
       title: 'Campañas Publicitarias',
@@ -160,8 +257,16 @@ export class ServiciosComponent {
         'Asesoramiento y planificación para nuevas oportunidades de negocio',
         'Reportes de rendimiento de campañas',
       ],
-      descBold: 'Estrategias creativas',
-      desc: 'de marketing',
+      descElements: [
+        {
+          descBold: 'Estrategias creativas',
+          desc: 'de marketing',
+        },
+        {
+          descBold: 'Posicionamiento',
+          desc: 'de marca',
+        },
+      ],
     },
     {
       title: 'Producción de Eventos',
@@ -170,13 +275,29 @@ export class ServiciosComponent {
         ' Eventos masivos y/o privados',
         'Relaciones Públicas',
       ],
-      descBold: 'Visibilización',
-      desc: 'de marca',
+      descElements: [
+        {
+          descBold: 'Visibilización',
+          desc: 'de marca',
+        },
+        {
+          descBold: 'Crecimiento',
+          desc: 'de tu negocio',
+        },
+      ],
     },
   ];
 
   serviceColor(i: number) {
     const colors = ['#FFD44A', '#FF6348', '#FFB5F9', '#00A698'];
     return colors[i];
+  }
+
+  serviceOpacity(i: number) {
+    if (this.isCurrentIndex(i)) {
+      return 1;
+    } else {
+      return 0;
+    }
   }
 }

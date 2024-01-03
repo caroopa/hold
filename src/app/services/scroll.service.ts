@@ -10,14 +10,10 @@ export class ScrollService {
   isTransitioningSubject$ = this.isTransitioningSubject.asObservable();
 
   notifyIsNotTransitioning() {
-    console.log("no trancionando");
-    
     this.isTransitioningSubject.next(false);
   }
 
   notifyIsTransitioning() {
-    console.log("trancionando");
-
     this.isTransitioningSubject.next(true);
   }
 }

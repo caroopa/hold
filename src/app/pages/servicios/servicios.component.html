@@ -1,31 +1,60 @@
 <main class="services-body" [style.background-color]="backgroundColor()">
   <div
     class="services-container"
+    [ngStyle]="{ color: linksColor }"
     *ngFor="let service of servicesContent; let i = index"
   >
-    <section
-      class="services-content"
-      [ngClass]="{ hidden: !isCurrentIndex(i) }"
-      [ngStyle]="{ color: linksColor }"
-    >
-      <div class="services-main-info">
-        <div class="services-titles">
-          <h1 [ngStyle]="{ color: serviceColor(i) }">{{ service.title }}</h1>
+    <div class="services-main-info">
+      <div class="services-titles">
+        <h1
+          class="title"
+          [ngStyle]="{
+            color: serviceColor(i),
+            opacity: index == 0 && i == 0 ? 1 : 0
+          }"
+        >
+          {{ service.title }}
+        </h1>
+
+        <div class="subtitle">
           <h2>
             Servicio
-            <span [ngStyle]="{ color: serviceColor(i) }">▬ 0{{ i + 1 }}</span>
+            <span
+              class="pre-number"
+              [ngStyle]="{
+                color: serviceColor(i),
+                opacity: isCurrentIndex(i) ? 1 : 0
+              }"
+            >
+              ▬ 0</span
+            >
           </h2>
+          <p
+            class="number"
+            [ngStyle]="{
+              color: serviceColor(i),
+              opacity: index == 0 && i == 0 ? 1 : 0
+            }"
+          >
+            {{ i + 1 }}
+          </p>
         </div>
-        <div class="separator"></div>
-        <ul class="services-services">
-          <li *ngFor="let element of service.listElements">{{ element }}</li>
-        </ul>
       </div>
-      <h1 class="services-desc">
-        <span>{{ service.descBold }}</span> {{ service.desc }}
+
+      <div class="separator"></div>
+
+      <ul class="services-services" [ngClass]="{ hidden: !isCurrentIndex(i) }">
+        <li *ngFor="let element of service.listElements">{{ element }}</li>
+      </ul>
+    </div>
+
+    <div class="services-desc" [ngClass]="{ hidden: !isCurrentIndex(i) }">
+      <h1 *ngFor="let element of service.descElements" class="services-desc-h1">
+        <span>{{ element.descBold }}</span> {{ element.desc }}
       </h1>
-    </section>
+    </div>
   </div>
+
   <div class="markers">
     <span
       *ngFor="let i of markers(); let index = index"
@@ -34,9 +63,9 @@
         'current-marker': isCurrentIndex(index),
         selectable: !isTransitioning && !isCurrentIndex(index)
       }"
-      [ngStyle]="
-        isCurrentIndex(index) ? { 'background-color': linksColor } : {}
-      "
+      [ngStyle]="{
+        'background-color': isCurrentIndex(index) ? linksColor : markerColor()
+      }"
       (click)="manualChange(index)"
     ></span>
   </div>

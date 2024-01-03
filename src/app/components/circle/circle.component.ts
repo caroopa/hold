@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { CircleService } from 'src/app/services/circle.service';
 import { ScrollService } from 'src/app/services/scroll.service';
 import { Color, opositeColor } from 'src/app/utils/color';
-import anime from 'animejs/lib/anime.es.js';
 import { Subscription } from 'rxjs';
+import anime from 'animejs/lib/anime.es.js';
 
 @Component({
   selector: 'app-circle',
@@ -67,7 +67,7 @@ export class CircleComponent {
 
       setTimeout(() => {
         this.scrollService.notifyIsNotTransitioning();
-      }, 700);
+      }, 1500);
     }
   }
 
