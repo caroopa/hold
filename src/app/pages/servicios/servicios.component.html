@@ -41,11 +41,12 @@
         </div>
       </div>
 
-      <div
-        *ngIf="isCurrentIndex(i)"
-        [innerHTML]="service.logo | safeHtml"
-        class="services-logo"
-      ></div>
+      <div class="services-logo">
+        <div
+          *ngIf="isCurrentIndex(i)"
+          [innerHTML]="service.logo | safeHtml"
+        ></div>
+      </div>
 
       <ul class="services-services" [ngClass]="{ hidden: !isCurrentIndex(i) }">
         <li *ngFor="let element of service.listElements">{{ element }}</li>

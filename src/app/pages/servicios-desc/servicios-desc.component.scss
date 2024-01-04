@@ -11,8 +11,10 @@
   width: 25%;
   height: 100%;
   display: flex;
-  justify-content: center;
-  align-items: flex-end;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 5.8rem;
   transition: all 0.5s ease;
 }
 
