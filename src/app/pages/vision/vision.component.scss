@@ -52,15 +52,15 @@
   width: 75em;
   height: 10em;
   background-color: #fff9f3;
-  position: relative;
   overflow: hidden;
+  padding: 1rem;
 }
 
 .valores-animation h1 {
   color: var(--blue);
   font-size: 6em;
   font-weight: 750;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
 }
 
 .vision-bottom h4 {
@@ -68,24 +68,4 @@
   font-weight: 750;
   text-transform: uppercase;
   letter-spacing: 0.8rem;
-}
-
-.roller {
-  position: absolute;
-  top: 1rem;
-  left: 50%;
-  transform: translateX(-50%);
-  animation: slide 6s infinite;
-}
-
-@keyframes slide {
-  0% {
-    top: 0;
-  }
-  30% {
-    top: -5rem;
-  }
-  60% {
-    top: -11rem;
-  }
 }

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { LinksService } from 'src/app/services/links.service';
 import { MenuService } from 'src/app/services/menu.service';
 import { Color } from 'src/app/utils/color';
+import anime from 'animejs/lib/anime.es.js';
 
 @Component({
   selector: 'app-vision',
@@ -18,5 +19,24 @@ export class VisionComponent {
     this.linksService.changeLeftColor(Color.Light);
     this.linksService.changeRightColor(Color.Light);
     this.menuService.changeWallColor('#2974ED');
+  }
+
+  ngAfterViewInit() {
+    anime({
+      targets: '.roller',
+      // keyframes: [
+      //   { translateY: -80 },
+      //   { translateY: -160 },
+      //   { translateY: 0 },
+      // ],
+      translateY: [
+        { value: -80, duration: 1000, delay: 1500 },
+        { value: -160, duration: 1000, delay: 1500 },
+        { value: 0, duration: 1000, delay: 1500 }
+      ],
+      duration: 4000,
+      easing: 'easeOutElastic(1, .5)',
+      loop: true,
+    });
   }
 }
