@@ -6,7 +6,6 @@ import { LinksService } from 'src/app/services/links.service';
 import { MenuService } from 'src/app/services/menu.service';
 import { Color, opositeColor } from 'src/app/utils/color';
 import { Subscription } from 'rxjs';
-import { SafeHtmlPipe } from 'src/app/utils/safe-html.pipe';
 import anime from 'animejs/lib/anime.es.js';
 
 @Component({
@@ -40,16 +39,19 @@ export class ServiciosComponent {
     this.linksService.changeRightColor(this.linksColor);
     this.menuService.changeWallColor(Color.Dark);
 
-    this.circleSubscription = this.circleService.changeServiceSection.subscribe(
-      (nextIndex) => {
-        this.manualChange(nextIndex);
-      }
-    );
+    // this.circleSubscription = this.circleService.changeServiceSection.subscribe(
+    //   (nextIndex) => {
+    //     this.manualChange(nextIndex);
+    //   }
+    // );
 
     this.scrollSubscription =
       this.scrollService.isTransitioningSubject$.subscribe((state) => {
         this.isTransitioning = state;
       });
+
+    console.log(this.isTransitioning);
+    
   }
 
   ngAfterViewInit() {
