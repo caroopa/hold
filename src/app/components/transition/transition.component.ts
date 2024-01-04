@@ -52,7 +52,7 @@ export class ColorTransitionComponent {
       Math.pow(window.innerWidth, 2) + Math.pow(window.innerHeight, 2)
     );
     let rippleSize = Math.min(200, cW * 0.4);
-    let minCoverDuration = 750;
+    let minCoverDuration = 700;
 
     const pageFill = new Circle({
       x: posX,

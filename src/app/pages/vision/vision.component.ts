@@ -24,14 +24,9 @@ export class VisionComponent {
   ngAfterViewInit() {
     anime({
       targets: '.roller',
-      // keyframes: [
-      //   { translateY: -80 },
-      //   { translateY: -160 },
-      //   { translateY: 0 },
-      // ],
       translateY: [
-        { value: -80, duration: 1000, delay: 1500 },
-        { value: -160, duration: 1000, delay: 1500 },
+        { value: -83, duration: 1000, delay: 1500 },
+        { value: -166, duration: 1000, delay: 1500 },
         { value: 0, duration: 1000, delay: 1500 }
       ],
       duration: 4000,
