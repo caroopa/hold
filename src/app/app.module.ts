@@ -19,6 +19,7 @@ import { ColorTransitionComponent } from './components/transition/transition.com
 import { LinksComponent } from './components/links/links.component';
 import { CircleComponent } from './components/circle/circle.component';
 import { ServiciosDescComponent } from './pages/servicios-desc/servicios-desc.component';
+import { SafeHtmlPipe } from './utils/safe-html.pipe';
 
 @NgModule({
   declarations: [
@@ -34,13 +35,10 @@ import { ServiciosDescComponent } from './pages/servicios-desc/servicios-desc.co
     LinksComponent,
     CircleComponent,
     ServiciosDescComponent,
+    SafeHtmlPipe,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule
-  ],
+  imports: [BrowserModule, AppRoutingModule, BrowserAnimationsModule],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
