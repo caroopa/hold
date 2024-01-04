@@ -125,7 +125,7 @@ export class MenuComponent {
       !leftCard.classList.contains('animateEnter') &&
       !rightCard.classList.contains('animateEnter')
     ) {
-      this.scrollService.notifyIsTransitioning();
+      // this.scrollService.notifyIsTransitioning();
       if (this.rootURL == '') {
         this.lastLeftColor = opositeColor(this.spanColor);
         this.lastRightColor = this.spanColor;

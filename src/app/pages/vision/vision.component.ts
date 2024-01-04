@@ -26,7 +26,7 @@ export class VisionComponent {
       targets: '.roller',
       translateY: [
         { value: -83, duration: 1000, delay: 1500 },
-        { value: -166, duration: 1000, delay: 1500 },
+        { value: -168, duration: 1000, delay: 1500 },
         { value: 0, duration: 1000, delay: 1500 }
       ],
       duration: 4000,

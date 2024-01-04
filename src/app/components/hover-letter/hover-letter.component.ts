@@ -59,6 +59,6 @@ export class HoverLetterComponent implements OnDestroy {
       event.clientY,
       which
     );
-    this.scrollService.notifyIsTransitioning();
+    // this.scrollService.notifyIsTransitioning();
   }
 }

@@ -39,11 +39,11 @@ export class ServiciosComponent {
     this.linksService.changeRightColor(this.linksColor);
     this.menuService.changeWallColor(Color.Dark);
 
-    // this.circleSubscription = this.circleService.changeServiceSection.subscribe(
-    //   (nextIndex) => {
-    //     this.manualChange(nextIndex);
-    //   }
-    // );
+    this.circleSubscription = this.circleService.changeServiceSection.subscribe(
+      (nextIndex) => {
+        this.manualChange(nextIndex);
+      }
+    );
 
     this.scrollSubscription =
       this.scrollService.isTransitioningSubject$.subscribe((state) => {

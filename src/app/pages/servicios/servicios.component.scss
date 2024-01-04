@@ -39,24 +39,24 @@
 // MARKERS
 
 .markers {
-  margin-bottom: 6.5rem;
+  margin-bottom: 6.5em;
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 1rem;
+  gap: 1em;
   pointer-events: none;
 }
 
 .current-marker {
-  width: 8rem !important;
+  width: 8em !important;
   height: 6px;
   cursor: default !important;
 }
 
 .marker {
-  width: 4rem;
-  height: 1.5rem;
+  width: 4em;
+  height: 1.5em;
   border-radius: 2px;
 }
 
@@ -66,12 +66,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 2rem;
+  gap: 2em;
   width: 100%;
 }
 
 .services-main-info > * {
-  width: 38rem;
+  width: 38em;
 }
 
 .services-titles {
@@ -79,7 +79,7 @@
 }
 
 .title {
-  font-size: 4.5rem;
+  font-size: 4.5em;
   font-weight: 700;
 }
 
@@ -89,7 +89,7 @@
 }
 
 .subtitle h2 {
-  font-size: 3rem;
+  font-size: 3em;
   font-weight: 400;
 }
 
@@ -99,7 +99,8 @@
 }
 
 .number {
-  font-size: 3rem;
+  margin-left: 1rem;
+  font-size: 3em;
   font-weight: 700;
   opacity: 0;
 }
@@ -110,25 +111,25 @@
 }
 
 .services-services li {
-  font-size: 2rem;
+  font-size: 2em;
   font-weight: 400;
-  margin-bottom: 2rem;
+  margin-bottom: 2em;
 }
 
 .services-desc {
   position: absolute;
   left: 0;
-  bottom: 16.6rem;
+  bottom: 15%;
   font-weight: 500;
   display: inline-block;
   width: 100%;
   text-align: center;
-  height: 5.5rem;
+  height: 5.5em;
   overflow: hidden;
 }
 
 .services-desc-h1 {
-  font-size: 4rem;
+  font-size: 4em;
 }
 
 .services-desc span {
@@ -136,9 +137,15 @@
 }
 
 .services-logo {
-  width: 50rem !important;
+  width: 50em !important;
   max-width: none !important;
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
+// @media screen and (max-width: 1280px) {
+//   .services-body {
+//     font-size: 0.75rem;
+//   }
+// }
