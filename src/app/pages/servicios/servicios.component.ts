@@ -55,6 +55,7 @@ export class ServiciosComponent {
     this.titles = document.querySelectorAll<HTMLElement>('.title');
     this.numbers = document.querySelectorAll<HTMLElement>('.number');
 
+    // HACER FUNCIÓN
     anime
       .timeline({
         loop: true,
@@ -101,6 +102,7 @@ export class ServiciosComponent {
       const currentTitle = this.titles[this.index];
       const currentNumber = this.numbers[this.index];
 
+      // HACER FUNCIÓN
       anime({
         targets: currentTitle,
         translateX: [0, -30],
@@ -137,17 +139,21 @@ export class ServiciosComponent {
       const currentTitle = this.titles[this.index];
       const currentNumber = this.numbers[this.index];
 
-      anime
-        .timeline({ easing: 'easeInExpo', duration: 600 })
-        .add({
-          targets: currentTitle,
-          translateX: [0, -30],
-          opacity: [1, 0],
-        })
-        .add({
-          targets: currentNumber,
-          translateY: [0, -100],
-        });
+      // HACER FUNCIÓN
+      anime({
+        targets: currentTitle,
+        translateX: [0, -30],
+        opacity: [1, 0],
+        easing: 'easeInExpo',
+        duration: 600,
+      });
+      anime({
+        targets: currentNumber,
+        translateY: [0, -30],
+        opacity: [1, 0],
+        easing: 'easeInExpo',
+        duration: 600,
+      });
 
       this.scrollService.notifyIsTransitioning();
       this.setColor(index);
@@ -173,6 +179,7 @@ export class ServiciosComponent {
     const currentTitle = this.titles[i];
     const currentNumber = this.numbers[i];
 
+    // HACER FUNCIÓN
     anime({
       targets: currentTitle,
       translateX: [40, 0],
