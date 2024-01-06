@@ -1,4 +1,8 @@
-<div class="menu-btn" (click)="toggleMenu()">
+<div
+  class="menu-btn"
+  (click)="toggleMenu()"
+  [ngClass]="{ selectable: !isTransitioning }"
+>
   <div id="menu-btn-icon">
     <span [style.backgroundColor]="spanColor"></span>
     <span [style.backgroundColor]="spanColor"></span>

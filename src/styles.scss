@@ -41,8 +41,8 @@ h4 {
 }
 
 .selectable {
-  pointer-events: all;
-  cursor: pointer;
+  pointer-events: all !important;
+  cursor: pointer !important;
 }
 
 // FONTS

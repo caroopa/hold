@@ -22,6 +22,8 @@ export class MenuComponent {
   showMinusVision = false;
   showMinusServices = false;
   colorDark = Color.Dark;
+  menuOpened!: boolean;
+  isTransitioning = false;
 
   constructor(
     private router: Router,
@@ -29,18 +31,26 @@ export class MenuComponent {
     private linksService: LinksService,
     private scrollService: ScrollService,
     private menuService: MenuService
-  ) {
+  ) {}
+
+  ngOnInit() {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationStart) {
-        this.rootURL = this.getRootURL(event.url);
+        this.rootURL = event.url;
       }
     });
     this.rootURL = this.location.path();
-  }
 
-  ngOnInit(): void {
     this.linksService.rightColor$.subscribe((color) => {
       this.spanColor = color;
+    });
+
+    this.menuService.getMenuState().subscribe((state) => {
+      this.menuOpened = state;
+    });
+
+    this.menuService.closeMenu$.subscribe(() => {
+      this.toggleMenu();
     });
   }
 
@@ -58,11 +68,6 @@ export class MenuComponent {
     this.showMinusServices = !this.showMinusServices;
   }
 
-  private getRootURL(url: string): string {
-    const parts = url.split('/');
-    return parts[1];
-  }
-
   elementByURL(
     leftCard: HTMLElement,
     rightCard: HTMLElement,
@@ -70,16 +75,9 @@ export class MenuComponent {
     leftContent: HTMLElement,
     rightContent: HTMLElement
   ): AnimationElement {
-    if (this.rootURL == '') {
-      return new Home(
-        leftCard,
-        rightCard,
-        icon,
-        leftContent,
-        rightContent,
-        this.linksService
-      );
-    } else if (this.rootURL == 'vision' || this.rootURL == 'servicios') {
+    console.log(this.rootURL);
+
+    if (this.rootURL == '/vision' || this.rootURL == '/servicios') {
       return new FullScreen(
         leftCard,
         rightCard,
@@ -90,8 +88,7 @@ export class MenuComponent {
         this.menuService
       );
     } else {
-      // CAMBIAR
-      return new Nothing(
+      return new Home(
         leftCard,
         rightCard,
         icon,
@@ -121,32 +118,35 @@ export class MenuComponent {
       rightContent
     );
 
-    if (
-      !leftCard.classList.contains('animateEnter') &&
-      !rightCard.classList.contains('animateEnter')
-    ) {
-      // this.scrollService.notifyIsTransitioning();
-      if (this.rootURL == '') {
+    this.isTransitioning = true;
+    setTimeout(() => {
+      this.isTransitioning = false;
+    }, 1800);
+
+    if (!this.menuOpened) {
+      this.scrollService.notifyIsTransitioning();
+
+      if (this.rootURL == '/vision' || this.rootURL == '/servicios') {
+        this.lastLeftColor = this.spanColor;
+        this.lastRightColor = this.spanColor;
+      } else {
         this.lastLeftColor = opositeColor(this.spanColor);
         this.lastRightColor = this.spanColor;
-      } else if (this.rootURL == 'vision') {
-        this.lastLeftColor = this.spanColor;
-        this.lastRightColor = this.spanColor;
-      } else if (this.rootURL == 'servicios') {
-        this.lastLeftColor = this.spanColor;
-        this.lastRightColor = this.spanColor;
       }
+      
+      this.menuService.setMenuState(true);
       this.animationElement.animationIn();
     } else {
-      if (this.rootURL == 'servicios') {
-        setTimeout(() => {
-          this.scrollService.notifyIsNotTransitioning();
-        }, 2000);
-      }
+      setTimeout(() => {
+        this.scrollService.notifyIsNotTransitioning();
+      }, 2000);
+
       this.animationElement.animationOut(
         this.lastLeftColor,
         this.lastRightColor
       );
+
+      this.menuService.setMenuState(false);
     }
   }
 
@@ -323,22 +323,5 @@ class FullScreen extends AnimationElement {
         this.rightCard.removeChild(rightMenuCard);
       }
     });
-  }
-}
-
-class Nothing extends AnimationElement {
-  constructor(
-    leftCard: HTMLElement,
-    rightCard: HTMLElement,
-    icon: HTMLElement,
-    leftContent: HTMLElement,
-    rightContent: HTMLElement,
-    linksService: LinksService
-  ) {
-    super(leftCard, rightCard, icon, leftContent, rightContent, linksService);
-  }
-
-  animationOutSpecific(): void {
-    return;
   }
 }

@@ -8,6 +8,7 @@
   top: 11%;
   right: 4.5%;
   z-index: 5;
+  pointer-events: none;
 }
 
 #menu-btn-icon {
@@ -16,7 +17,6 @@
   position: relative;
   transform: rotate(0deg);
   transition: transform 0.5s ease-in-out;
-  cursor: pointer;
 }
 
 :root {
