@@ -67,7 +67,7 @@ export class CircleComponent {
 
       setTimeout(() => {
         this.scrollService.notifyIsNotTransitioning();
-      }, 1300);
+      }, 2100);
     }
   }
 

@@ -84,7 +84,7 @@ export class ServiciosComponent {
 
   @HostListener('window:wheel', ['$event'])
   onWheel(e: WheelEvent) {
-    if (!this.isTransitioning && e.deltaMode == 0) {
+    if (!this.isTransitioning) {
       if (e.deltaY > 0) {
         if (this.index + 1 <= this.lenght) {
           this.nextIndex = this.index + 1;
@@ -110,14 +110,14 @@ export class ServiciosComponent {
         translateX: [0, -30],
         opacity: [1, 0],
         easing: 'easeInExpo',
-        duration: 600,
+        duration: 850,
       });
       anime({
         targets: currentNumber,
         translateY: [0, -30],
         opacity: [1, 0],
         easing: 'easeInExpo',
-        duration: 600,
+        duration: 850,
       });
 
       if (this.nextIndex >= 0 && this.nextIndex < this.lenght) {
@@ -147,14 +147,14 @@ export class ServiciosComponent {
         translateX: [0, -30],
         opacity: [1, 0],
         easing: 'easeInExpo',
-        duration: 600,
+        duration: 850,
       });
       anime({
         targets: currentNumber,
         translateY: [0, -30],
         opacity: [1, 0],
         easing: 'easeInExpo',
-        duration: 600,
+        duration: 850,
       });
 
       this.scrollService.notifyIsTransitioning();
@@ -187,16 +187,16 @@ export class ServiciosComponent {
       translateX: [40, 0],
       opacity: [0, 1],
       easing: 'easeOutExpo',
-      duration: 600,
-      delay: 600,
+      duration: 850,
+      delay: 850,
     });
     anime({
       targets: currentNumber,
       translateY: [30, 0],
       opacity: [0, 1],
       easing: 'easeOutExpo',
-      duration: 600,
-      delay: 600,
+      duration: 850,
+      delay: 850,
     });
   }
 
