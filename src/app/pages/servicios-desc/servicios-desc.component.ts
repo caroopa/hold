@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { LinksService } from 'src/app/services/links.service';
 import { Color } from 'src/app/utils/color';
+import anime from 'animejs/lib/anime.es.js';
 
 @Component({
   selector: 'app-servicios-desc',
@@ -26,6 +27,32 @@ export class ServiciosDescComponent {
   constructor(private linksService: LinksService) {}
 
   ngOnInit() {
+    anime
+      .timeline({
+        easing: 'easeInOutSine',
+        direction: 'alternate',
+        loop: true,
+      })
+      .add({
+        targets: '#arrowLine',
+        strokeDashoffset: [anime.setDashoffset, 0],
+        duration: 1500,
+      })
+      .add({
+        targets: '#arrow',
+        strokeDashoffset: [anime.setDashoffset, 0],
+        duration: 500,
+      });
+
+    anime({
+      targets: '#idea',
+      strokeDashoffset: [anime.setDashoffset, 0],
+      duration: 1500,
+      easing: 'easeInOutSine',
+      direction: 'alternate',
+      loop: true,
+    })
+
     this.linksService.changeLeftColor(Color.Light);
     this.linksService.changeRightColor(Color.Dark);
   }
