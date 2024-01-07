@@ -23,6 +23,7 @@ export class ServiciosComponent {
   lenght = 4;
   titles!: NodeListOf<HTMLElement>;
   numbers!: NodeListOf<HTMLElement>;
+  wheelHandler!: any;
 
   constructor(
     private transService: TransitionService,
@@ -48,10 +49,13 @@ export class ServiciosComponent {
     this.scrollSubscription =
       this.scrollService.isTransitioningSubject$.subscribe((state) => {
         this.isTransitioning = state;
+        if (!this.isTransitioning) {
+          window.addEventListener('wheel', this.wheelHandler);
+        }
       });
 
-    console.log(this.isTransitioning);
-    
+    this.wheelHandler = (e: WheelEvent) => this.onWheel(e);
+    window.addEventListener('wheel', this.wheelHandler);
   }
 
   ngAfterViewInit() {
@@ -83,8 +87,9 @@ export class ServiciosComponent {
     }
   }
 
-  @HostListener('window:wheel', ['$event'])
   onWheel(e: WheelEvent) {
+    console.log('aaa');
+
     if (!this.isTransitioning && this.isTransitioning != undefined) {
       if (e.deltaY > 0) {
         if (this.index + 1 <= this.lenght) {
@@ -101,6 +106,7 @@ export class ServiciosComponent {
       }
 
       this.scrollService.notifyIsTransitioning();
+      window.removeEventListener('wheel', this.wheelHandler);
       this.setColor(this.nextIndex);
       const currentTitle = this.titles[this.index];
       const currentNumber = this.numbers[this.index];
