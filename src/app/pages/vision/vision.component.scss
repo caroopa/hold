@@ -5,7 +5,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 0.8rem; /* MODIFICAR */
+  font-size: 0.8rem;
 }
 
 .vision-container {
@@ -20,6 +20,8 @@
   max-width: 96em;
 }
 
+// TOP
+
 .vision-top h3 {
   font-size: 3em;
   font-weight: 400;
@@ -29,11 +31,49 @@
 .vision-top p {
   font-size: 6em;
   font-weight: 500;
+  text-align: center;
 }
 
-.vision-top span {
+.vision-top strong {
   font-weight: 700;
 }
+
+.up-container,
+.down-container {
+  overflow: hidden;
+  position: relative;
+  width: 100rem;
+}
+
+.up-container p,
+.down-container p {
+  position: absolute;
+  width: 100%;
+}
+
+.up-container {
+  height: 20em;
+}
+
+.up {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.down-container {
+  height: 10em;
+}
+
+.up-container p {
+  top: 3em;
+}
+
+.down-container p {
+  bottom: 1.5em;
+}
+
+// BOTTOM
 
 .vision-bottom {
   display: flex;
@@ -48,7 +88,7 @@
   font-weight: 400;
 }
 
-.valores-animation {
+.bottom-animation {
   width: 75em;
   height: 10em;
   background-color: #fff9f3;
@@ -56,7 +96,7 @@
   padding: 1rem;
 }
 
-.valores-animation h1 {
+.bottom-animation h1 {
   color: var(--blue);
   font-size: 6em;
   font-weight: 700;

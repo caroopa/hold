@@ -75,7 +75,6 @@ export class MenuComponent {
     leftContent: HTMLElement,
     rightContent: HTMLElement
   ): AnimationElement {
-    console.log(this.rootURL);
 
     if (this.rootURL == '/vision' || this.rootURL == '/servicios') {
       return new FullScreen(

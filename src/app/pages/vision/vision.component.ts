@@ -27,11 +27,28 @@ export class VisionComponent {
       translateY: [
         { value: -83, duration: 1000, delay: 1500 },
         { value: -168, duration: 1000, delay: 1500 },
-        { value: 0, duration: 1000, delay: 1500 }
+        { value: 0, duration: 1000, delay: 1500 },
       ],
       duration: 4000,
       easing: 'easeOutElastic(1, .5)',
       loop: true,
     });
+
+    anime
+      .timeline({
+        easing: 'easeInOutSine',
+      })
+      .add({
+        targets: '.up',
+        translateY: [
+          { value: -60, duration: 500 },
+          { value: -120, duration: 500, delay: 100 },
+        ],
+      })
+      .add({
+        targets: '.down',
+        translateY: 60,
+        duration: 500,
+      });
   }
 }

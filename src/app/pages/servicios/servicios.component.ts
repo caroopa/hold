@@ -49,8 +49,6 @@ export class ServiciosComponent {
       this.scrollService.isTransitioningSubject$.subscribe((state) => {
         this.isTransitioning = state;
       });
-
-    console.log(this.isTransitioning);
   }
 
   ngAfterViewInit() {
